@@ -6,10 +6,13 @@ class Dashboard extends  React.Component {
         super(props);
         this.state = {
             userEvents: [],
+            isEditing : false,
             showModal: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.renderModal= this.renderModal.bind(this);
+        this.allowEdit = this.allowEdit.bind(this);
+        this.showForm = this.showForm.bind(this);
     }
 
 
@@ -18,6 +21,29 @@ class Dashboard extends  React.Component {
         this.state.showModal === false?
         this.setState({showModal: true })
         :this.setState({showModal: false})
+    }
+
+    allowEdit(e) {
+        console.log(e.target);
+        this.setState({
+            isEditing: true
+        })
+    }
+
+    showForm(eventName) {
+        if (this.state.isEditing) {
+            return (
+            <form className="editEventDescription" onSubmit={this.edit}>
+                <input type="text" defaultValue={this.state.eventDescription} />
+                <input type="text" defaultValue={this.state.eventTitle} />
+                <button>Save</button>
+            </form>
+            )
+        } else {
+            return (<React.Fragment>
+                <p>{eventName}</p>
+            </React.Fragment>)
+        }
     }
 
     renderModal() {
@@ -45,9 +71,11 @@ class Dashboard extends  React.Component {
                             return (
                                 event.isHost === true?
                                     <div className="event" key={event.key}>
-                                        <p>{`${event.eventName} - Host`}</p>
+                                        {/* <p>{event.eventName}</p> */}
+                                        <p>Host</p>
+                                        <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
+                                        {this.showForm(event.eventName)}
                                         <button>Add to Registry</button>
-                                        <button>What are guests bringing?</button>
                                     </div>
                                 : 
                                     (event.isHost === false?
