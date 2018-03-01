@@ -11,11 +11,13 @@ class Data extends React.Component {
             search: "",
             categories:"",
             searchResults:[],
-            imageResults:{}
+            imageResults:{},
+            pageNumber:1
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCategory = this.handleCategory.bind(this);
+        this.moreResults = this.moreResults.bind(this);
     }
     handleChange(e) {
         this.setState({
@@ -25,15 +27,10 @@ class Data extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const searchInput = this.state.search;
-        this.componentDidMount(searchInput);
-    }
-    handleCategory(e) {
-        // console.log(e.target.value);
         this.setState({
-            [e.target.name]:e.target.value
+            categories: searchInput
         })
-    }
-    componentDidMount(searchInput) {
+
         axios({
             method: 'GET',
             url: 'http://proxy.hackeryou.com',
@@ -47,8 +44,50 @@ class Data extends React.Component {
                     api_key: `${variables.apiKey}`,
                     tags: searchInput,
                     keywords: searchInput,
+                    category: searchInput,
+                    limit: 9,
+                    page: this.state.pageNumber
+                },
+                proxyHeaders: {
+                    'header_params': 'value'
+                },
+                xmlToJSON: false
+            }
+        }).then(({ data }) => {
+            this.setState({
+                searchResults: data.results
+            })
+        });
+    }
+    handleCategory(e) {
+        // console.log(e.target.value);
+        this.setState({
+            [e.target.name]:e.target.value
+        })
+    }
+    moreResults() {
+        this.setState({
+            pageNumber: this.state.pageNumber + 1
+        })
+    }
+    
+    componentDidMount() {
+        axios({
+            method: 'GET',
+            url: 'http://proxy.hackeryou.com',
+            dataResponse: 'json',
+            paramsSerializer: function (params) {
+                return Qs.stringify(params, { arrayFormat: 'brackets' })
+            },
+            params: {
+                reqUrl: `${variables.apiURL}/listings/active`,
+                params: {
+                    api_key: `${variables.apiKey}`,
+                    tags: this.state.search,
+                    keywords: this.state.search,
                     category: this.state.categories,
-                    limit:9
+                    limit:9,
+                    page: this.state.pageNumber
                 },
                 proxyHeaders: {
                     'header_params': 'value'
@@ -59,9 +98,9 @@ class Data extends React.Component {
             this.setState({
                 searchResults:data.results
             })
-
         });
     }
+
     render() {
         return (
             <section>
@@ -103,6 +142,7 @@ class Data extends React.Component {
                         return <ProductCard data={value} key={value.listing_id}/>
                     })}
                 </div>
+                <button onClick={this.moreResults}>More Results</button>
             </section>
         )
     }
