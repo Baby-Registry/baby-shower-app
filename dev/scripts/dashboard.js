@@ -1,36 +1,70 @@
 import React from 'react';
+import RegistryInfo from './registryInfo';
 
 class Dashboard extends  React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userEvents: []
+            userEvents: [],
+            showModal: false
+        }
+        this.handleClick = this.handleClick.bind(this);
+        this.renderModal= this.renderModal.bind(this);
+    }
+
+
+    handleClick(event) {
+        event.preventDefault();
+        this.state.showModal === false?
+        this.setState({showModal: true })
+        :this.setState({showModal: false})
+    }
+
+    renderModal() {
+        if(this.state.showModal === true) {
+            return(
+                <RegistryInfo handleClick={this.handleClick}/>
+            )
         }
     }
+
 
     render() {
         return(
             <main>
+                {this.renderModal()}
                 <h1>Events Dashboard</h1>
                 <div className="dashboardControls">
-                    <button>Host a New Event</button>
+                    <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
                     <button>Join an Event</button>
                 </div>
                 <section>
 {/** iterate through array of user's events and for each event render a div container**/}
-                    {
-                        this.state.userEvents.map((event) => {
-                        return (
-                            event.isHost === true?
-                                <div className="event" key={event.key}>
-                                    <p>{`${event.eventName} - Host`}</p>
-                                </div>
-                            :
-                                <div className="event" key={event.key}>
-                                    <p>{`${event.eventName} - Attandee`}</p>
-                                </div>
+                    {   this.state.userEvents.length > 0?
+                            (this.state.userEvents.map((event) => {
+                            return (
+                                event.isHost === true?
+                                    <div className="event" key={event.key}>
+                                        <p>{`${event.eventName} - Host`}</p>
+                                        <button>Add to Registry</button>
+                                        <button>What are guests bringing?</button>
+                                    </div>
+                                : 
+                                    (event.isHost === false?
+                                        <div className="event" key={event.key}>
+                                            <p>{`${event.eventName} - Attandee`}</p>
+                                            <button>See Registry</button>
+                                        </div>
+                                    :   
+                                        <div key='error'>
+                                            <p>isHost property has invalid value</p>
+                                        </div>
+                                    )
+                                )
+                            })
                         )
-                        })
+                        :
+                            <div>NO EVENTS</div>
                     }
                 </section>
             </main>
