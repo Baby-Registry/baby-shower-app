@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import SignIn from './logIn';
 import SignUp from './signUp';
 import SignOut from './signOut';
+import Dashboard from './dashboard';
 import { 
   BrowserRouter as Router, 
   Route, Link } from 'react-router-dom';
@@ -130,7 +131,8 @@ class App extends React.Component {
         loginPassword: '',
         loggedIn: false,
         createEmail: '',
-        createPassword: ''  
+        createPassword: '',
+        user: {}
       }
       this.handleChange = this.handleChange.bind(this);
       this.signIn = this.signIn.bind(this);
@@ -149,8 +151,8 @@ class App extends React.Component {
       const email = this.state.loginEmail;
       const password = this.state.loginPassword;
       firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((success) => {
-          console.log(`Logged in as ${success.email}`);
+        .then((res) => {
+          console.log(`Logged in as ${res.email}`);
         }), (error) => {
           console.log(error);
       }
@@ -169,7 +171,7 @@ class App extends React.Component {
     }
 
     signOut() {
-      firebase.auth().signOut().then(function(success) {
+      firebase.auth().signOut().then(function(res) {
         console.log('Signed out!')
       }, function(error) {
         console.log(error);
@@ -185,7 +187,11 @@ class App extends React.Component {
               <SignIn signIn={this.signIn} signInStatus={this.state.loggedIn} handleChange={this.handleChange} />
               <SignUp createUser={this.createUser} handleChange={this.handleChange} />
             </section>
-            : <SignOut signOut={this.signOut} />
+            : 
+            <section>
+              <SignOut signOut={this.signOut} />
+              <Dashboard user={this.state.user} />
+            </section>
             }
        
         </div>
@@ -193,11 +199,17 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            this.setState({loggedIn: true});
+      firebase.auth().onAuthStateChanged((res) => {
+        if (res) {
+            this.setState({
+              loggedIn: true,
+              user: res
+            });
           } else {
-            this.setState({loggedIn: false});
+            this.setState({
+              loggedIn: false,
+              user: res
+            });
           }
       })
     }
