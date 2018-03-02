@@ -42,19 +42,11 @@ class Dashboard extends  React.Component {
                     {   this.state.userEvents.length > 0?
                             (this.state.userEvents.map((event) => {
                             return (
-                                event.isHost === true?
-                                    <EventCard key={event.key} eventName={event.eventName} eventId={event.key}/>
-                                : 
-                                    (event.isHost === false?
-                                        <div className="event" key={event.key}>
-                                            <p>{`${event.eventName} - Attandee`}</p>
-                                            <button>See Registry</button>
-                                        </div>
-                                    :   
-                                        <div key='error'>
-                                            <p>isHost property has invalid value</p>
-                                        </div>
-                                    )
+
+
+
+                                <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
+
                                 )
                             })
                         )
