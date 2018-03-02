@@ -59,6 +59,7 @@ class Dashboard extends  React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.user);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         console.log(`/users/${this.props.user.uid}/events`);
         dbref.on('value', (snapshot) => {

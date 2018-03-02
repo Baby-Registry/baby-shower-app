@@ -29,8 +29,12 @@ class App extends React.Component {
       super();
       this.state = {
         loggedIn: false,
-        user: {}
+        user: {},
+        loginEmail: '',
+        loginPassword: ''
       }
+      this.LogInUser = this.LogInUser.bind(this);
+      this.handleChange = this.handleChange.bind(this);
     }
 
     render() {
@@ -39,7 +43,7 @@ class App extends React.Component {
           <div>
             <Header />
             {/* these are here temporarily */}
-            <LogIn />
+            <LogIn signIn={this.LogInUser} handleChange={this.handleChange}/>
             {/* <SignUp /> */}
             <SignOut user={this.state.user}/>
             <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
@@ -51,8 +55,27 @@ class App extends React.Component {
       )
     }
 
+  LogInUser(event) {
+    event.preventDefault();
+    const email = this.state.loginEmail;
+    const password = this.state.loginPassword;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log(`Logged in as ${res.email}`);
+      }), (error) => {
+        console.log(error);
+      }
+  }
+
+  handleChange(event, field) {
+    const newState = Object.assign({}, this.state);
+    newState[field] = event.target.value;
+    this.setState(newState);
+  }
+  
     componentDidMount() {
       firebase.auth().onAuthStateChanged((res) => {
+        console.log(res);
         if (res) {
             this.setState({
               loggedIn: true,

@@ -6,7 +6,9 @@ class SignOut extends React.Component {
 
         this.state = {
             user: this.props.user,
+            loggedIn: false,
         }
+        this.signOutUser = this.signOutUser.bind(this);
     }
 
     signOutUser() {
