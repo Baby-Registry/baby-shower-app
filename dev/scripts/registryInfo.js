@@ -7,6 +7,7 @@ class RegistryInfo extends React.Component {
             eventName: '',
             eventDate: '',
             eventLocation: '',
+            hostName: '',
             isHost: false
         }
         this.handleChange = this.handleChange.bind(this);
@@ -38,12 +39,8 @@ class RegistryInfo extends React.Component {
     }
 
     createUserEvent(userid) {
-        const event = {
-            eventName: this.state.eventName,
-            eventDate: this.state.eventDate,
-            eventLocation: this.state.eventLocation
-        }
         const userevent ={
+            hostName: this.state.hostName,
             eventName: this.state.eventName,
             isHost: true
         }
@@ -52,6 +49,7 @@ class RegistryInfo extends React.Component {
         dbref.push(userevent);
 
         this.setState({
+            hostName: '',
             eventName: '',
             isHost: false
         });
@@ -64,6 +62,7 @@ class RegistryInfo extends React.Component {
                 <button onSubmit={(event) => this.props.handleClick(event)}>Close</button>
                 <h1>New Event</h1>
                 <form onSubmit={(event) => this.createEvent(event)}>
+                    <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Date" onChange={(event) => this.handleChange(event, "eventDate")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
