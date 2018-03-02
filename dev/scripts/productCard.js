@@ -25,9 +25,8 @@ class ProductCard extends React.Component {
             },
             xmlToJSON: false
             }}).then(({ data }) => {
-                // console.log(data.results[0]);
                 this.setState({
-                    imageURL:data.results[0].url_fullxfull
+                    imageURL:data.results[0].url_570xN
                 })
             })
         }
@@ -40,6 +39,7 @@ class ProductCard extends React.Component {
                 <h3>{`Price: ${this.props.data.currency_code} ${this.props.data.price}`}</h3>
                 <h3>{`Quantity: ${this.props.data.quantity} remaining`}</h3>
                 <a href={`${this.props.data.url}`}>Link to Item</a>
+                <button onClick={() => this.props.add(this.props.data)}>Add me!</button>
             </div>
         )
     }
