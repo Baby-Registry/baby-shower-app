@@ -23,7 +23,7 @@ class Dashboard extends  React.Component {
     renderModal() {
         if(this.state.showModal === true) {
             return(
-                <RegistryInfo handleClick={this.handleClick}/>
+                <RegistryInfo handleClick={this.handleClick} user={this.props.user} />
             )
         }
     }

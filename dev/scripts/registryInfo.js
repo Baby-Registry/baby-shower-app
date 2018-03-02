@@ -6,8 +6,12 @@ class RegistryInfo extends React.Component {
         this.state = {
             eventName: '',
             eventDate: '',
-            eventLocation: ''
+            eventLocation: '',
+            isHost: false
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.createEvent= this.createEvent.bind(this);
+        this.createUserEvent= this.createUserEvent.bind(this);
     }
 
     handleChange(event, field) {
@@ -30,6 +34,28 @@ class RegistryInfo extends React.Component {
             eventDate: '',
             eventLocation: ''
         });
+        this.createUserEvent(this.props.user.uid);
+    }
+
+    createUserEvent(userid) {
+        const event = {
+            eventName: this.state.eventName,
+            eventDate: this.state.eventDate,
+            eventLocation: this.state.eventLocation
+        }
+        const userevent ={
+            eventName: this.state.eventName,
+            isHost: true
+        }
+
+        const dbref = firebase.database().ref(`/Users/${userid}/events`);
+        dbref.push(userevent);
+
+        this.setState({
+            eventName: '',
+            isHost: false
+        });
+            
     }
 
     render() {
