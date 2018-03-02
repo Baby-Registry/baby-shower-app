@@ -1,4 +1,5 @@
 import React from 'react';
+import EventCard from './eventCard';
 import RegistryInfo from './registryInfo';
 
 class Dashboard extends  React.Component {
@@ -6,15 +7,11 @@ class Dashboard extends  React.Component {
         super(props);
         this.state = {
             userEvents: [],
-            isEditing : false,
             showModal: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.renderModal= this.renderModal.bind(this);
-        this.allowEdit = this.allowEdit.bind(this);
-        this.showForm = this.showForm.bind(this);
     }
-
 
     handleClick(event) {
         event.preventDefault();
@@ -23,37 +20,13 @@ class Dashboard extends  React.Component {
         :this.setState({showModal: false})
     }
 
-    allowEdit(e) {
-        console.log(e.target);
-        this.setState({
-            isEditing: true
-        })
-    }
-
-    showForm(eventName) {
-        if (this.state.isEditing) {
-            return (
-            <form className="editEventDescription" onSubmit={this.edit}>
-                <input type="text" defaultValue={this.state.eventDescription} />
-                <input type="text" defaultValue={this.state.eventTitle} />
-                <button>Save</button>
-            </form>
-            )
-        } else {
-            return (<React.Fragment>
-                <p>{eventName}</p>
-            </React.Fragment>)
-        }
-    }
-
     renderModal() {
         if(this.state.showModal === true) {
             return(
-                <RegistryInfo handleClick={this.handleClick}/>
+                <RegistryInfo handleClick={this.handleClick} user={this.props.user} />
             )
         }
     }
-
 
     render() {
         return(
@@ -70,13 +43,7 @@ class Dashboard extends  React.Component {
                             (this.state.userEvents.map((event) => {
                             return (
                                 event.isHost === true?
-                                    <div className="event" key={event.key}>
-                                        {/* <p>{event.eventName}</p> */}
-                                        <p>Host</p>
-                                        <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
-                                        {this.showForm(event.eventName)}
-                                        <button>Add to Registry</button>
-                                    </div>
+                                    <EventCard key={event.key} eventName={event.eventName} />
                                 : 
                                     (event.isHost === false?
                                         <div className="event" key={event.key}>
