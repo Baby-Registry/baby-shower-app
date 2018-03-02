@@ -26,6 +26,7 @@ class Data extends React.Component {
         this.lessResults = this.lessResults.bind(this);
         this.addtoRegistry = this.addtoRegistry.bind(this);
         this.removefromRegistry = this.removefromRegistry.bind(this);
+        this.saveRegistry = this.saveRegistry.bind(this);
     }
 
     handleChange(e) {
@@ -114,11 +115,6 @@ class Data extends React.Component {
 
     removefromRegistry (index) {
         const removeItemArray = Array.from(this.state.selectionArray);
-        // console.log(index);
-        // removeItemArray.splice(index, 1);
-        // this.setState({
-        //     selectionArray:removeItemArray
-        // })
         const filteredremoveArray = removeItemArray.filter((value) => {
             return value.listing_id !== index;
         })
@@ -127,6 +123,10 @@ class Data extends React.Component {
         })
     }
     
+    saveRegistry () {
+        console.log("sup");
+    }
+
     componentDidMount() {
         axios({
             method: 'GET',
@@ -207,7 +207,7 @@ class Data extends React.Component {
                 <div>
                     {this.state.selectionArray.map((value) => {
                         return (
-                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry}/>
+                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} save={this.saveRegistry}/>
                         )
                     })}
                 </div>
