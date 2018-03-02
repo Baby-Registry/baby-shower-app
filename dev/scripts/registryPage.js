@@ -3,6 +3,7 @@ import axios from "axios";
 import variables from "./config.js";
 import Qs from 'qs';
 import ProductCard from "./productCard.js";
+import RegistryList from "./registryList.js";
 
 class RegistryPage extends React.Component {
     constructor() {
@@ -12,12 +13,20 @@ class RegistryPage extends React.Component {
             categories:"",
             searchResults:[],
             imageResults:{},
-            pageNumber:1
+            pageNumber:1,
+            listingaddButton:false,
+            selectionArray:[]
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCategory = this.handleCategory.bind(this);
         this.moreResults = this.moreResults.bind(this);
+        this.dataCall = this.dataCall.bind(this);
+        this.lessResults = this.lessResults.bind(this);
+        this.addtoRegistry = this.addtoRegistry.bind(this);
+        this.removefromRegistry = this.removefromRegistry.bind(this);
+        this.saveRegistry = this.saveRegistry.bind(this);
     }
 
     handleChange(e) {
@@ -32,7 +41,7 @@ class RegistryPage extends React.Component {
         const searchCategories = this.state.categories;
         const searchPageNumber = this.state.pageNumber;
 
-        this.componentDidMount(searchResults, searchCategories, searchPageNumber);
+        this.dataCall(searchResults, searchCategories, searchPageNumber);
     }
 
     handleCategory(e) {
@@ -41,16 +50,31 @@ class RegistryPage extends React.Component {
         })
     }
 
+    lessResults () {
+        this.setState({
+            pageNumber: this.state.pageNumber - 1
+        });
+
+        const searchResults = this.state.search;
+        const searchCategories = this.state.categories;
+        const searchPageNumber = this.state.pageNumber;
+
+        this.dataCall(searchResults, searchCategories, searchPageNumber);
+    }
+
     moreResults() {
         this.setState({
             pageNumber: this.state.pageNumber + 1
         });
 
-        this.componentDidMount(this.state.search, this.state.categories, this.state.pageNumber);
+        const searchResults = this.state.search;
+        const searchCategories = this.state.categories;
+        const searchPageNumber = this.state.pageNumber;
+
+        this.dataCall(searchResults, searchCategories, searchPageNumber);
     }
-    
-    componentDidMount(results, categories, pageNumber) {
-        console.log(results, categories, pageNumber);
+
+    dataCall(results, categories, pageNumber) {
         axios({
             method: 'GET',
             url: 'http://proxy.hackeryou.com',
@@ -64,9 +88,58 @@ class RegistryPage extends React.Component {
                     api_key: `${variables.apiKey}`,
                     tags: results,
                     keywords: results,
-                    categories:categories,
-                    limit: 9,
+                    categories: categories,
+                    limit: 5,
                     page: pageNumber
+                },
+                proxyHeaders: {
+                    'header_params': 'value'
+                },
+                xmlToJSON: false
+            }
+        }).then(({ data }) => {
+            this.setState({
+                searchResults: data.results
+            })
+        });
+    }
+
+    addtoRegistry (id) {
+        const selectedItem = id;
+        const cumulselectionArray = Array.from(this.state.selectionArray);
+        cumulselectionArray.push(selectedItem);
+        this.setState({
+            selectionArray:cumulselectionArray
+        })
+    }
+
+    removefromRegistry (index) {
+        const removeItemArray = Array.from(this.state.selectionArray);
+        const filteredremoveArray = removeItemArray.filter((value) => {
+            return value.listing_id !== index;
+        })
+        this.setState({
+            selectionArray:filteredremoveArray
+        })
+    }
+    
+    saveRegistry () {
+        console.log("sup");
+    }
+
+    componentDidMount() {
+        axios({
+            method: 'GET',
+            url: 'http://proxy.hackeryou.com',
+            dataResponse: 'json',
+            paramsSerializer: function (params) {
+                return Qs.stringify(params, { arrayFormat: 'brackets' })
+            },
+            params: {
+                reqUrl: `${variables.apiURL}/listings/active`,
+                params: {
+                    api_key: `${variables.apiKey}`,
+                    limit: 5
                 },
                 proxyHeaders: {
                     'header_params': 'value'
@@ -117,11 +190,27 @@ class RegistryPage extends React.Component {
                     <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
                 </form>
                 <div>
+                    {this.state.pageNumber >= 2
+                        ?
+                        <div>
+                            <button onClick={this.lessResults}>Back</button>
+                            <button onClick={this.moreResults}>Next</button>
+                        </div>
+                        :
+                        <button onClick={this.moreResults}>Next</button>}
+                </div>
+                <div>
                     {this.state.searchResults.map((value) => {
-                        return <ProductCard data={value} key={value.listing_id}/>
+                        return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
                     })}
                 </div>
-                <button onClick={this.moreResults}>More Results</button>
+                <div>
+                    {this.state.selectionArray.map((value) => {
+                        return (
+                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} save={this.saveRegistry}/>
+                        )
+                    })}
+                </div>
             </section>
         )
     }
