@@ -43,7 +43,7 @@ class Dashboard extends  React.Component {
                             (this.state.userEvents.map((event) => {
                             return (
                                 event.isHost === true?
-                                    <EventCard key={event.key} eventName={event.eventName} />
+                                    <EventCard key={event.key} eventName={event.eventName} eventId={event.key}/>
                                 : 
                                     (event.isHost === false?
                                         <div className="event" key={event.key}>

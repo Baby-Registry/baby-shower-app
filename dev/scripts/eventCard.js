@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+    BrowserRouter as Router,
+    Route, Link
+} from 'react-router-dom';
 
 class EventCard extends React.Component {
     constructor(props) {
@@ -36,12 +40,16 @@ class EventCard extends React.Component {
 
     render() {
         return(
-            <div className="event">
-                <p>Host</p>
-                <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
-                {this.showForm(this.props.eventName)}
-                <button>Add to Registry</button>
-            </div>
+                <div className="event">
+                    <p>Host</p>
+                    <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
+                    {this.showForm(this.props.eventName)}
+                    {/* eventually add /:eventid */}
+                    <Link to={`/dashboard/${this.props.eventId}`}>
+                        <button>Add to Registry</button>
+                    </Link>                
+                </div>
+
         )
     }
 }

@@ -5,10 +5,18 @@ class SignOut extends React.Component {
         super(props);
     }
 
+    signOutUser() {
+      firebase.auth().signOut().then(function(res) {
+        console.log('Signed out!')
+      }, function(error) {
+        console.log(error);
+      });
+    }
+
     render() {
         return(
             <div className='signOut'>
-              <button className="signOutButton" onClick={this.props.signOut}>Sign Out</button>
+              <button className="signOutButton" onClick={this.signOutUser}>Sign Out</button>
             </div>
         )
     }

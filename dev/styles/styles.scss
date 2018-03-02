@@ -1,3 +1,63 @@
 @import 'partials/_variables';
 @import 'partials/_setup';
 @import 'partials/_general';
+
+//---------------------
+// All Section
+//---------------------
+.wrapper {
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: pink;
+}
+
+//---------------------
+// Modal
+//---------------------
+.modal {
+    // the gray overlay part of the modal
+    width: 100vw;
+    height: 100vh;
+    background: rgba(lightgray, 0.8);
+    position: absolute;
+
+    > * {
+        // make the child(form) centered on the screen
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%);
+    }
+}
+
+
+//---------------------
+// EventCard
+//---------------------
+
+.eventCard {
+   border: 1px solid black;
+   padding: 20px;
+}
+
+.hostBadge {
+   display: inline-block;
+
+   border: 1px solid black;
+   background: pink;
+   padding: 5px 10px;
+}
+
+
+//---------------------
+// Button
+//---------------------
+
+.btn {
+   display: inline-block;
+
+   border: 1px solid black;
+   background: pink;
+   padding: 15px 20px;
+}
