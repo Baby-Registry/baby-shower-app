@@ -5,7 +5,7 @@ import Qs from 'qs';
 import ProductCard from "./productCard.js";
 import RegistryList from "./registryList.js";
 
-class Data extends React.Component {
+class RegistryPage extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -216,4 +216,4 @@ class Data extends React.Component {
     }
 }
 
-export default Data;
+export default RegistryPage;

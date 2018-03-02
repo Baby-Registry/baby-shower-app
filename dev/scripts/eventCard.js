@@ -1,13 +1,19 @@
 import React from 'react';
+import {
+    BrowserRouter as Router,
+    Route, Link
+} from 'react-router-dom';
 
 class EventCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isEditing: false
+            isEditing: false,
+            updatedName: ''
         }
         this.allowEdit = this.allowEdit.bind(this);
         this.showForm = this.showForm.bind(this);
+        this.updateData = this.updateData.bind(this);
     }
 
     allowEdit(e) {
@@ -17,14 +23,32 @@ class EventCard extends React.Component {
         })
     }
 
+    handleChange(event, field) {
+        const newState = Object.assign({}, this.state);
+        newState[field] = event.target.value;
+        this.setState(newState);
+    }
+
+    updateData(event) {
+        const updatedEvent = {
+            eventName: this.state.updatedName,
+            hostName: this.props.hostName,
+            isHost: this.props.isHost
+        }
+        const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events/${this.props.eventId}`);
+        dbref.set(updatedEvent);
+        this.setState({
+            isEditing: false
+        })
+    }
+
     showForm(eventName) {
         if (this.state.isEditing) {
             return (
-            <form className="editEventDescription" onSubmit={this.edit}>
-                <input type="text" defaultValue={this.state.eventDescription} />
-                <input type="text" defaultValue={this.state.eventTitle} />
-                <button>Save</button>
-            </form>
+                <form onSubmit={(event) => this.updateData(event)}>
+                    <input type="text" defaultValue={this.props.eventName} onChange={(event) => this.handleChange(event, "updatedName")} />
+                    <button>Save</button>
+                </form>
             )
         } else {
             return (
@@ -36,12 +60,27 @@ class EventCard extends React.Component {
 
     render() {
         return(
-            <div className="event">
-                <p>Host</p>
-                <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
-                {this.showForm(this.props.eventName)}
-                <button>Add to Registry</button>
-            </div>
+
+            this.props.isHost === true?
+                <div className="event">
+                    <p>Host</p>
+                    {this.showForm(this.props.eventName)}
+                    <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
+                    <button>Edit My Registry</button>
+                </div>
+            : 
+            (this.props.isHost === false?
+                <div className="event">
+                    <p>{this.props.eventName}</p>
+                    <p>{`Host: ${this.props.hostName}`}</p>
+                    <button>See Registry</button>
+                </div>
+            :   
+                <div key='error'>
+                    <p>isHost property has invalid value</p>
+                </div>
+            )
+            
         )
     }
 }

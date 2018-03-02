@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignIn from './logIn';
+import LogIn from './logIn';
 import SignUp from './signUp';
 import SignOut from './signOut';
 import Dashboard from './dashboard';
@@ -9,7 +9,9 @@ import {
   Route, Link } from 'react-router-dom';
 import variables from "./config.js";
 import axios from "axios";
-import Data from "./data.js";
+import RegistryPage from "./registryPage.js";
+import InviteLandingPage from "./inviteLandingPage";
+import Header from "./header";
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
@@ -26,74 +28,26 @@ class App extends React.Component {
     constructor() {
       super();
       this.state = {
-        loginEmail: '',
-        loginPassword: '',
         loggedIn: false,
-        createEmail: '',
-        createPassword: '',
         user: {}
       }
-      this.handleChange = this.handleChange.bind(this);
-      this.signIn = this.signIn.bind(this);
-      this.createUser = this.createUser.bind(this);
-      this.signOut = this.signOut.bind(this);
     }
 
-    handleChange(event, field) {
-      const newState = Object.assign({}, this.state);
-      newState[field] = event.target.value;
-      this.setState(newState);
-    }
-
-    signIn(event) {
-      event.preventDefault();
-      const email = this.state.loginEmail;
-      const password = this.state.loginPassword;
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((res) => {
-          console.log(`Logged in as ${res.email}`);
-        }), (error) => {
-          console.log(error);
-      }
-    }
-
-    createUser(event) {
-      event.preventDefault();
-      const email = this.state.createEmail;
-      const password = this.state.createPassword;
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .catch((error) => console.log(error.code, error.message));
-      this.setState ({
-        createEmail: '',
-        createPassword: ''
-      });
-    }
-
-    signOut() {
-      firebase.auth().signOut().then(function(res) {
-        console.log('Signed out!')
-      }, function(error) {
-        console.log(error);
-      });
-    }
-    
     render() {
       return (
-        <div>
-          {
-            this.state.loggedIn === false?
-            <section>
-              <SignIn signIn={this.signIn} signInStatus={this.state.loggedIn} handleChange={this.handleChange} />
-              <SignUp createUser={this.createUser} handleChange={this.handleChange} />
-            </section>
-            : 
-            <section>
-              <SignOut signOut={this.signOut} />
-              <Dashboard user={this.state.user} />
-            </section>
-            }
-            <Data />
-        </div>
+        <Router>
+          <div>
+            <Header />
+            {/* these are here temporarily */}
+            <LogIn />
+            {/* <SignUp /> */}
+            <SignOut user={this.state.user}/>
+            <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
+            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
+
+              <RegistryPage />
+          </div>
+        </Router>
       )
     }
 
