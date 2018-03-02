@@ -25,7 +25,7 @@ class ProductCard extends React.Component {
             },
             xmlToJSON: false
             }}).then(({ data }) => {
-                console.log(data.results[0]);
+                // console.log(data.results[0]);
                 this.setState({
                     imageURL:data.results[0].url_fullxfull
                 })
