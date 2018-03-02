@@ -19,59 +19,38 @@ class Data extends React.Component {
         this.handleCategory = this.handleCategory.bind(this);
         this.moreResults = this.moreResults.bind(this);
     }
+
     handleChange(e) {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
+
     handleSubmit(e) {
         e.preventDefault();
-        const searchInput = this.state.search;
-        this.setState({
-            categories: searchInput
-        })
+        const searchResults = this.state.search;
+        const searchCategories = this.state.categories;
+        const searchPageNumber = this.state.pageNumber;
 
-        axios({
-            method: 'GET',
-            url: 'http://proxy.hackeryou.com',
-            dataResponse: 'json',
-            paramsSerializer: function (params) {
-                return Qs.stringify(params, { arrayFormat: 'brackets' })
-            },
-            params: {
-                reqUrl: `${variables.apiURL}/listings/active`,
-                params: {
-                    api_key: `${variables.apiKey}`,
-                    tags: searchInput,
-                    keywords: searchInput,
-                    category: searchInput,
-                    limit: 9,
-                    page: this.state.pageNumber
-                },
-                proxyHeaders: {
-                    'header_params': 'value'
-                },
-                xmlToJSON: false
-            }
-        }).then(({ data }) => {
-            this.setState({
-                searchResults: data.results
-            })
-        });
+        this.componentDidMount(searchResults, searchCategories, searchPageNumber);
     }
+
     handleCategory(e) {
-        // console.log(e.target.value);
         this.setState({
             [e.target.name]:e.target.value
         })
     }
+
     moreResults() {
         this.setState({
             pageNumber: this.state.pageNumber + 1
-        })
+        });
+
+        this.componentDidMount(this.state.search, this.state.categories, this.state.pageNumber);
     }
     
-    componentDidMount() {
+    componentDidMount(results, categories, pageNumber) {
+        console.log(results, categories, pageNumber);
         axios({
             method: 'GET',
             url: 'http://proxy.hackeryou.com',
@@ -83,11 +62,11 @@ class Data extends React.Component {
                 reqUrl: `${variables.apiURL}/listings/active`,
                 params: {
                     api_key: `${variables.apiKey}`,
-                    tags: this.state.search,
-                    keywords: this.state.search,
-                    category: this.state.categories,
-                    limit:9,
-                    page: this.state.pageNumber
+                    tags: results,
+                    keywords: results,
+                    categories:categories,
+                    limit: 9,
+                    page: pageNumber
                 },
                 proxyHeaders: {
                     'header_params': 'value'
