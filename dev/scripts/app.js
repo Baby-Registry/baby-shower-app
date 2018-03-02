@@ -28,14 +28,9 @@ class App extends React.Component {
     constructor() {
       super();
       this.state = {
-        loginEmail: '',
-        loginPassword: '',
         loggedIn: false,
-        createEmail: '',
-        createPassword: '',
         user: {}
       }
-
     }
 
     render() {
@@ -45,8 +40,9 @@ class App extends React.Component {
             <Header />
             {/* these are here temporarily */}
             <LogIn />
-            <SignOut />
-
+            {/* <SignUp /> */}
+            <SignOut user={this.state.user}/>
+            <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
             <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
 
               <RegistryPage />

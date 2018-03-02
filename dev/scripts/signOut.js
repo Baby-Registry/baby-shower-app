@@ -3,6 +3,10 @@ import React from 'react';
 class SignOut extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            user: this.props.user,
+        }
     }
 
     signOutUser() {
@@ -11,6 +15,11 @@ class SignOut extends React.Component {
       }, function(error) {
         console.log(error);
       });
+
+      this.setState({
+          user: {},
+          loggedIn: false
+      })
     }
 
     render() {

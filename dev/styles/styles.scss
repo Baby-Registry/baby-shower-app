@@ -17,10 +17,10 @@
 //---------------------
 .modal {
     // the gray overlay part of the modal
-    width: 100vw;
-    height: 100vh;
-    background: rgba(lightgray, 0.8);
-    position: absolute;
+    // width: 100vw;
+    // height: 100vh;
+    // background: rgba(lightgray, 0.8);
+    // position: absolute;
 
     > * {
         // make the child(form) centered on the screen
@@ -28,6 +28,7 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%);
+        background: white;
     }
 }
 
