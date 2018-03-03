@@ -1,4 +1,6 @@
 import React from 'react';
+import Datetime from 'react-datetime';
+
 
 class CreateRegistryModal extends React.Component {
     constructor(props) {
@@ -7,19 +9,26 @@ class CreateRegistryModal extends React.Component {
             eventName: '',
             eventDate: '',
             eventLocation: '',
+            selectedDate: '',
             hostName: '',
             isHost: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleDate = this.handleDate.bind(this);
         this.createEvent= this.createEvent.bind(this);
         this.createUserEvent= this.createUserEvent.bind(this);
     }
 
+    
     handleChange(event, field) {
         const newState = Object.assign({}, this.state);
         newState[field] = event.target.value;
         this.setState(newState);
     }
+
+    handleDate(date){
+        this.setState({selectedDate: date._d}); 
+     };
 
     createEvent(e) {
         e.preventDefault();
@@ -57,6 +66,7 @@ class CreateRegistryModal extends React.Component {
     }
 
     render() {
+        var date = new Date();
         return(
             <div>
                 <button onClick={(event) => this.props.handleClick(event)}>Close</button>
@@ -66,6 +76,7 @@ class CreateRegistryModal extends React.Component {
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Date" onChange={(event) => this.handleChange(event, "eventDate")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
+                    <Datetime onChange={this.handleDate} />
                     <button>Create My Event!</button>
                 </form>
             </div>
