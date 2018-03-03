@@ -62,7 +62,11 @@ class Dashboard extends  React.Component {
                     {   this.state.userEvents.length > 0?
                             (this.state.userEvents.map((event) => {
                             return (
+
+
+
                                 <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
+
                                 )
                             })
                         )
@@ -75,6 +79,7 @@ class Dashboard extends  React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.user);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         console.log(`/users/${this.props.user.uid}/events`);
         dbref.on('value', (snapshot) => {
