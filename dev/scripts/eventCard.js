@@ -5,7 +5,7 @@ class EventCard extends React.Component {
         super(props);
         this.state = {
             isEditing: false,
-            updatedName: ''
+            updatedName: this.props.eventName
         }
         this.allowEdit = this.allowEdit.bind(this);
         this.showForm = this.showForm.bind(this);
