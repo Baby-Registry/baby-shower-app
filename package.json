@@ -31,6 +31,9 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "node-sass": "^4.7.1"
+    "input-moment": "^0.4.0",
+    "moment": "^2.21.0",
+    "node-sass": "^4.7.1",
+    "react-datetime": "^2.14.0"
   }
 }

@@ -5,8 +5,11 @@ class SearchForRegistryModal extends React.Component {
         super(props);
         this.state = {
             search: '',
-            existingEvents: []
+            existingEvents: [],
+            foundEvents: []
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.searchRegistry = this.searchRegistry.bind(this);
     }
 
     handleChange(event, field) {
@@ -15,13 +18,33 @@ class SearchForRegistryModal extends React.Component {
         this.setState(newState);
     }
 
+    searchRegistry(event) {
+        let events = [];
+        this.state.existingEvents.map((event) => {
+            event.hostName === this.state.search?
+            events.push(event)
+            : console.log("not a match");
+        });
+        this.setState ({
+            foundEvents: events
+        })
+    }
+
 
     render() {
         return(
             <div>
-                <form>
+                <form onSubmit={(event) => this.searchRegistry(event)}>
                     <input type="text" onChange={(event) => this.handleChange(event, "search")}/>
                     <button>Search</button>
+                    {this.state.foundEvents.map((foundEvent) => {
+                        return(
+                            <div key={foundEvent.key}>
+                                <p>{foundEvent.eventName}</p>
+                                <p>{foundEvent.eventHost}</p>
+                            </div>
+                        )
+                    })}
                 </form>
             </div>
         )
@@ -36,12 +59,12 @@ class SearchForRegistryModal extends React.Component {
             for (let key in allEventsData) {
                 allEventsData[key].key = key;
                 copyOfDB.push(allEventsData[key]);
-                console.log(copyOfDB);
+                // console.log(copyOfDB);
             }
             this.setState({
                 existingEvents: copyOfDB
             });
-            console.log(this.state.existingEvents);
+            // console.log(this.state.existingEvents);
         });
     }
 }
