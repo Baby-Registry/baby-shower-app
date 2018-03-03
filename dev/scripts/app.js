@@ -35,6 +35,38 @@ class App extends React.Component {
       }
       this.LogInUser = this.LogInUser.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.signOutUser = this.signOutUser.bind(this);
+    }
+
+    LogInUser(event) {
+      event.preventDefault();
+      const email = this.state.loginEmail;
+      const password = this.state.loginPassword;
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((res) => {
+          console.log(`Logged in as ${res.email}`);
+        }), (error) => {
+          console.log(error);
+        }
+    }
+  
+    handleChange(event, field) {
+      const newState = Object.assign({}, this.state);
+      newState[field] = event.target.value;
+      this.setState(newState);
+    }
+
+    signOutUser() {
+      firebase.auth().signOut().then(function(res) {
+        console.log('Signed out!')
+      }, function(error) {
+        console.log(error);
+      });
+
+      this.setState({
+          user: {},
+          loggedIn: false
+      })
     }
 
     render() {
@@ -42,36 +74,26 @@ class App extends React.Component {
         <Router>
           <div>
             <Header />
-            {/* these are here temporarily */}
-            <LogIn signIn={this.LogInUser} handleChange={this.handleChange}/>
+
             {/* <SignUp /> */}
-            <SignOut user={this.state.user}/>
-            <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
+
+            {
+            this.state.loggedIn === true?
+            <section>
+              <SignOut signOutUser={this.signOutUser}/>
+              <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
+            </section>
+            :
+              <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
+            }
+
             <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
 
-              <RegistryPage />
+            <RegistryPage />
           </div>
         </Router>
       )
     }
-
-  LogInUser(event) {
-    event.preventDefault();
-    const email = this.state.loginEmail;
-    const password = this.state.loginPassword;
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log(`Logged in as ${res.email}`);
-      }), (error) => {
-        console.log(error);
-      }
-  }
-
-  handleChange(event, field) {
-    const newState = Object.assign({}, this.state);
-    newState[field] = event.target.value;
-    this.setState(newState);
-  }
   
     componentDidMount() {
       firebase.auth().onAuthStateChanged((res) => {

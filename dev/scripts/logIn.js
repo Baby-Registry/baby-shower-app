@@ -1,26 +1,14 @@
 import React from 'react';
 
-class SignIn extends React.Component {
+class LogIn extends React.Component {
     constructor() {
         super();
     }
 
-    // LogInUser(event) {
-    //   event.preventDefault();
-    //   const email = this.state.loginEmail;
-    //   const password = this.state.loginPassword;
-    //   firebase.auth().signInWithEmailAndPassword(email, password)
-    //     .then((res) => {
-    //       console.log(`Logged in as ${res.email}`);
-    //     }), (error) => {
-    //       console.log(error);
-    //   }
-    // }
-
     render() {
         return (
-            <div className="signIn modal">
-              <form onSubmit={(event) => this.props.SignIn(event)}>
+            <div className="logIn modal">
+              <form onSubmit={(event) => this.props.logIn(event)}>
                 <h1>SignIn Form</h1>
                 <input type="text" placeholder="E-mail address" onChange={(event) => this.props.handleChange(event, "loginEmail")} />
                 <input type="password" placeholder="Password" onChange={(event) => this.props.handleChange(event, "loginPassword")} />
@@ -32,4 +20,4 @@ class SignIn extends React.Component {
     
 }
 
-export default SignIn;
+export default LogIn;
