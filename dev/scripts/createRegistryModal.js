@@ -1,6 +1,6 @@
 import React from 'react';
 
-class RegistryInfo extends React.Component {
+class CreateRegistryModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +59,7 @@ class RegistryInfo extends React.Component {
     render() {
         return(
             <div>
-                <button onSubmit={(event) => this.props.handleClick(event)}>Close</button>
+                <button onClick={(event) => this.props.handleClick(event)}>Close</button>
                 <h1>New Event</h1>
                 <form onSubmit={(event) => this.createEvent(event)}>
                     <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
@@ -73,4 +73,4 @@ class RegistryInfo extends React.Component {
     }
 }
 
-export default RegistryInfo;
+export default CreateRegistryModal;
