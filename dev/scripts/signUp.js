@@ -54,7 +54,7 @@ class SignUp extends React.Component {
                     <fieldset>
                         <span>Create an account with: </span>
                         <span>
-                            <i className="fab fa-google-plus-g graphics--form"></i>
+                            <a href="#" onClick={this.props.googleSignIn}><i className="fab fa-google-plus-g graphics--form"></i></a>
                         </span>
                     </fieldset>
 
