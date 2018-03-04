@@ -43,7 +43,7 @@ class SearchForRegistryModal extends React.Component {
             eventName: eventName,
             isHost: false
         }
-        const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`).push(userevent);
+        const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`).child(eventKey).set(userevent);
         this.setState({eventKey: eventKey});
         this.setState({redirect: true});
     }

@@ -48,14 +48,13 @@ class CreateRegistryModal extends React.Component {
 
     createEvent(userEventId) {
         const event = {
-            userEventKey: userEventId,
             hostName: this.state.hostName,
             eventName: this.state.eventName,
             eventDate: this.state.eventDate.toString(),
             eventLocation: this.state.eventLocation
         }
-        const dbref = firebase.database().ref('/events');
-	    dbref.push(event);
+        const dbref = firebase.database().ref('/events').child(userEventId);
+	    dbref.set(event);
         this.setState({
             hostName: '',
             eventName: '',
