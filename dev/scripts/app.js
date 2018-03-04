@@ -11,7 +11,8 @@ import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
 import InviteLandingPage from "./inviteLandingPage";
-import Header from "./header";
+import Header from "./Header";
+import Homepage from "./HomePage"
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
@@ -31,20 +32,28 @@ class App extends React.Component {
         loggedIn: false,
         user: {},
         loginEmail: '',
-        loginPassword: ''
+        loginPassword: '',
+        showLogin: false,
+        showSignUp: false,
       }
-      this.LogInUser = this.LogInUser.bind(this);
+      this.logInUser = this.logInUser.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.signOutUser = this.signOutUser.bind(this);
+      this.showLogin = this.showLogin.bind(this);
+      this.showSignUp = this.showSignUp.bind(this);
+      this.closeModal = this.closeModal.bind(this);
     }
 
-    LogInUser(event) {
+    logInUser(event) {
       event.preventDefault();
+      console.trace('inside logInUser', event)
       const email = this.state.loginEmail;
       const password = this.state.loginPassword;
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((res) => {
           console.log(`Logged in as ${res.email}`);
+          // close modal after login
+          this.setState({ showLogin: false });
         }), (error) => {
           console.log(error);
         }
@@ -69,35 +78,64 @@ class App extends React.Component {
       })
     }
 
+    showLogin() {
+      this.setState({ showLogin: true });
+    }
+
+    showSignUp() {
+      this.setState({ showSignUp: true });
+    }
+
+    //need to pass this to SignOut and LogIn
+    closeModal() {
+      this.setState({ showLogin: false, showSignUp: false, });
+    }
+
+
     render() {
       return (
         <Router>
-          <div>
-            <Route path="/" exact component={Header} />
+          <React.Fragment>
 
-            {/* <SignUp /> */}
+            <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/>
+
+            {/* shows log in or sign out modals */}
+            {this.state.showLogin ?
+              <LogIn logIn={this.logInUser} handleChange={this.handleChange} closeModal={this.closeModal} />
+              : null}
+  
+            {this.state.showSignUp ?
+              <SignUp closeModal={this.closeModal} />
+              : null}
+            <Route path="/dashboard/:eventid" exact component={RegistryPage} />
+
             {
-            this.state.loggedIn === true?
-            <section>
-              <SignOut signOutUser={this.signOutUser}/>
-              <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
-            </section>
-            :
-              <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
+              this.state.loggedIn === true ?
+                <React.Fragment>
+                  <SignOut signOutUser={this.signOutUser} />
+                  <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
+                </React.Fragment>
+                : 
+                <Homepage />
 
             }
+            {/* <InviteLandingPage user={this.state.user} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/> */}
+            {/* <RegistryPage /> */}
 
+          </React.Fragment>
+        
             }
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
           </div>
+
         </Router>
       )
     }
   
     componentDidMount() {
       firebase.auth().onAuthStateChanged((res) => {
-        console.log(res);
+        // console.log(res);
         if (res) {
             this.setState({
               loggedIn: true,
