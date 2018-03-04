@@ -42,6 +42,7 @@ class App extends React.Component {
       this.showLogin = this.showLogin.bind(this);
       this.showSignUp = this.showSignUp.bind(this);
       this.closeModal = this.closeModal.bind(this);
+      this.googleSignIn = this.googleSignIn.bind(this);
     }
 
     logInUser(event) {
@@ -58,7 +59,25 @@ class App extends React.Component {
           console.log(error);
         }
     }
-  
+
+    googleSignIn() {
+      console.log("Google signing in")
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+
+      firebase.auth().signInWithPopup(provider)
+        .then((user) => {
+          console.log(user);
+          this.closeModal();
+        }), (error) => {
+          alert(error);
+        }
+
+    }
+    
     handleChange(event, field) {
       const newState = Object.assign({}, this.state);
       newState[field] = event.target.value;
@@ -96,33 +115,33 @@ class App extends React.Component {
       return (
         <Router>
           <React.Fragment>
+            {/* always show header */}
+            <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal} googleSignIn={this.googleSignIn} />
 
-            <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/>
-
-            {/* shows log in or sign out modals */}
+            {/* always show/toggle log in or sign out modals */}
             {this.state.showLogin ?
-              <LogIn logIn={this.logInUser} handleChange={this.handleChange} closeModal={this.closeModal} />
-              : null}
+              <LogIn logIn={this.logInUser} handleChange={this.handleChange} closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
+            : null}
   
             {this.state.showSignUp ?
-              <SignUp closeModal={this.closeModal} />
-              : null}
+              <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
+            : null }
+
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
 
+            {/* show either homepage or Dashboard */}
             {
               this.state.loggedIn === true ?
                 <React.Fragment>
                   <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
                 </React.Fragment>
-                : 
+              : 
                 <Homepage />
-
             }
             {/* <InviteLandingPage user={this.state.user} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/> */}
             {/* <RegistryPage /> */}
 
           </React.Fragment>
-
         </Router>
       )
     }
