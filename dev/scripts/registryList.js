@@ -43,7 +43,6 @@ class RegistryList extends React.Component {
                     <a href={`${this.props.selection.url}`}>Link to Item</a>
                     <button onClick={() => this.props.remove(this.props.selection.listing_id)}>Remove Item</button>
                 </div>
-                <button onClick={this.props.save}>Save</button>
             </div>
         )
     }
