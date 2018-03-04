@@ -117,13 +117,17 @@ class App extends React.Component {
                 </React.Fragment>
                 : 
                 <Homepage />
+
             }
             {/* <InviteLandingPage user={this.state.user} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/> */}
             {/* <RegistryPage /> */}
 
           </React.Fragment>
-          
+        
+            }
 
+            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
+          </div>
 
         </Router>
       )

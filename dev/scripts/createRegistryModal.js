@@ -1,5 +1,7 @@
 import React from 'react';
 import Datetime from 'react-datetime';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 
 class CreateRegistryModal extends React.Component {
@@ -10,7 +12,9 @@ class CreateRegistryModal extends React.Component {
             eventDate: '',
             eventLocation: '',
             hostName: '',
-            isHost: false
+            isHost: false,
+            eventKey:  '',
+            redirect: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleDate = this.handleDate.bind(this);
@@ -52,22 +56,24 @@ class CreateRegistryModal extends React.Component {
         const userevent ={
             hostName: this.state.hostName,
             eventName: this.state.eventName,
-            isHost: true
+            isHost: true,
+            items: ''
         }
 
-        const dbref = firebase.database().ref(`/Users/${userid}/events`);
-        dbref.push(userevent);
-
+        const dbref = firebase.database().ref(`/Users/${userid}/events`).push(userevent);
+        this.setState({eventKey: dbref.key});
         this.setState({
             hostName: '',
             eventName: '',
             isHost: false
         });
+        this.setState({redirect: true});
             
     }
 
     render() {
         var date = new Date();
+        if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid}}/>}
         return(
             <div>
                 <button onClick={(event) => this.props.handleClick(event)}>Close</button>
@@ -77,7 +83,7 @@ class CreateRegistryModal extends React.Component {
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
                     <Datetime onChange={this.handleDate} defaultValue={date} />
-                    <button>Create My Event!</button>
+                        <button>Create My Event!</button>
                 </form>
             </div>
         )
