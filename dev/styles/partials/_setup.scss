@@ -27,9 +27,8 @@ img {
     display: block;
 }
 
-input[type="text"],
-input[type="password"],
+input,
 button {
     -moz-appearance: none;
-    -webkit-appearance: none;   
+    -webkit-appearance: none; 
 }
