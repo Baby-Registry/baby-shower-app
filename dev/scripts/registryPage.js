@@ -29,7 +29,6 @@ class RegistryPage extends React.Component {
         this.removefromRegistry = this.removefromRegistry.bind(this);
         this.saveRegistry = this.saveRegistry.bind(this);
         this.dataCall = this.dataCall.bind(this);
-        this.guestSelection = this.guestSelection.bind(this);
     }
 
     handleChange(e) {
@@ -168,80 +167,85 @@ class RegistryPage extends React.Component {
     }
 
     render() {
-        const hostOrNot = this.props.location.isHost;
-        return (
-                hostOrNot === true ?
-                    <section>
-                        <form onSubmit={this.handleSubmit}>
-                            <label htmlFor="search">Search</label>
-                            <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
-                            <input type="submit" value="submit" />
-                        </form>
-                        <form>
-                            <label htmlFor="accessories">Accessories</label>
-                            <input type="radio" name="categories" id="accessories" value="accessories" onChange={this.handleCategory} checked={this.state.categories === "accessories"}/>
-    
-                            <label htmlFor="bath_and_beauty">Bath and Beauty</label>
-                            <input type="radio" name="categories" id="bath_and_beauty" value="bath_and_beauty" onChange={this.handleCategory} checked={this.state.categories === "bath_and_beauty"}/>
-    
-                            <label htmlFor="children">Children</label>
-                            <input type="radio" name="categories" id="children" value="children" onChange={this.handleCategory} checked={this.state.categories === "children"}/>
-    
-                            <label htmlFor="clothing">Clothing</label>
-                            <input type="radio" name="categories" id="clothing" value="clothing" onChange={this.handleCategory} checked={this.state.categories === "clothing"}/>
-    
-                            <label htmlFor="dolls_and_miniatures">Dolls and Miniatures</label>
-                            <input type="radio" name="categories" id="dolls_and_miniatures" value="dolls_and_miniatures" onChange={this.handleCategory} checked={this.state.categories === "dolls_and_miniatures"}/>
-    
-                            <label htmlFor="everything_else">Miscellaneous</label>
-                            <input type="radio" name="categories" id="everything_else" value="everything_else" onChange={this.handleCategory} checked={this.state.categories === "everything_else"}/>
-    
-                            <label htmlFor="patterns">Patterns</label>
-                            <input type="radio" name="categories" id="patterns" value="patterns" onChange={this.handleCategory} checked={this.state.categories === "patterns"}/>
-    
-                            <label htmlFor="quilts">Quilts</label>
-                            <input type="radio" name="categories" id="quilts" value="quilts" onChange={this.handleCategory} checked={this.state.categories === "quilts"}/>
-    
-                            <label htmlFor="toys">Toys</label>
-                            <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
-                        </form>
-                        <div>
-                            {this.state.pageNumber >= 2
-                                ?
-                                <div>
-                                    <button onClick={this.lessResults}>Back</button>
-                                    <button onClick={this.moreResults}>Next</button>
-                                </div>
-                                :
-                                <button onClick={this.moreResults}>Next</button>}
-                        </div>
-                        <div>
-                            {this.state.searchResults.map((value) => {
-                                return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
-                            })}
-                        </div>
-                        <div>
-                            {/* for host */}
-                            {this.state.selectionArray.map((value) => {
-                                return (
-                                    <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} />
-                                )
-                            })}
-                            <button onClick={this.saveRegistry}>Save</button>
-                        </div>
-                    </section>
-            :
+        const host = this.props.location.isHost;
+        return ( 
+            host ? 
+            <React.Fragment>      
+                <section>
+                    <form onSubmit={this.handleSubmit}>
+                        <label htmlFor="search">Search</label>
+                        <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
+                        <input type="submit" value="submit" />
+                    </form>
+                    <form>
+                        <label htmlFor="accessories">Accessories</label>
+                        <input type="radio" name="categories" id="accessories" value="accessories" onChange={this.handleCategory} checked={this.state.categories === "accessories"}/>
+
+                        <label htmlFor="bath_and_beauty">Bath and Beauty</label>
+                        <input type="radio" name="categories" id="bath_and_beauty" value="bath_and_beauty" onChange={this.handleCategory} checked={this.state.categories === "bath_and_beauty"}/>
+
+                        <label htmlFor="children">Children</label>
+                        <input type="radio" name="categories" id="children" value="children" onChange={this.handleCategory} checked={this.state.categories === "children"}/>
+
+                        <label htmlFor="clothing">Clothing</label>
+                        <input type="radio" name="categories" id="clothing" value="clothing" onChange={this.handleCategory} checked={this.state.categories === "clothing"}/>
+
+                        <label htmlFor="dolls_and_miniatures">Dolls and Miniatures</label>
+                        <input type="radio" name="categories" id="dolls_and_miniatures" value="dolls_and_miniatures" onChange={this.handleCategory} checked={this.state.categories === "dolls_and_miniatures"}/>
+
+                        <label htmlFor="everything_else">Miscellaneous</label>
+                        <input type="radio" name="categories" id="everything_else" value="everything_else" onChange={this.handleCategory} checked={this.state.categories === "everything_else"}/>
+
+                        <label htmlFor="patterns">Patterns</label>
+                        <input type="radio" name="categories" id="patterns" value="patterns" onChange={this.handleCategory} checked={this.state.categories === "patterns"}/>
+
+                        <label htmlFor="quilts">Quilts</label>
+                        <input type="radio" name="categories" id="quilts" value="quilts" onChange={this.handleCategory} checked={this.state.categories === "quilts"}/>
+
+                        <label htmlFor="toys">Toys</label>
+                        <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
+                    </form>
                     <div>
-                        {/* for guest */}
+                        {this.state.pageNumber >= 2
+                            ?
+                            <div>
+                                <button onClick={this.lessResults}>Back</button>
+                                <button onClick={this.moreResults}>Next</button>
+                            </div>
+                            :
+                            <button onClick={this.moreResults}>Next</button>}
+                    </div>
+                    <div>
+                        {this.state.searchResults.map((value) => {
+                            return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
+                        })}
+                    </div>
+                    <div>
+
                         {this.state.selectionArray.map((value) => {
                             return (
-                                <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} />
+                                <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} host={this.props.location.isHost} />
                             )
                         })}
-                        <button>Purchase</button>
+                        <button onClick={this.saveRegistry}>Save</button>
                     </div>
-                 )   
-            }
+                </section>
+            </React.Fragment> 
+
+                :
+
+            <React.Fragment>
+                <div>
+                    {this.state.selectionArray.map((value) => {
+                        return (
+                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} host={this.props.location.isHost} />
+                        )
+                    })}
+                    <button>Purchase</button>
+                </div>
+            </React.Fragment>
+            )   
+        }
 }
 
 export default RegistryPage;

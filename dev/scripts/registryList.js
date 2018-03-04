@@ -35,14 +35,12 @@ class RegistryList extends React.Component {
     render () {
         return (
             <div>
-                <div>
-                    <img src={this.state.imageURL} alt="" />
-                    <h2>{this.props.selection.title}</h2>
-                    <h3>{`Price: ${this.props.selection.currency_code} ${this.props.selection.price}`}</h3>
-                    <h3>{`Quantity: ${this.props.selection.quantity} remaining`}</h3>
-                    <a href={`${this.props.selection.url}`}>Link to Item</a>
-                    <button onClick={() => this.props.remove(this.props.selection.listing_id)}>Remove Item</button>
-                </div>
+                <img src={this.state.imageURL} alt="" />
+                <h2>{this.props.selection.title}</h2>
+                <h3>{`Price: ${this.props.selection.currency_code} ${this.props.selection.price}`}</h3>
+                <h3>{`Quantity: ${this.props.selection.quantity} remaining`}</h3>
+                <a href={`${this.props.selection.url}`}>Link to Item</a>
+                <button onClick={() => this.props.remove(this.props.selection.listing_id)}>Remove Item</button>
             </div>
         )
     }
