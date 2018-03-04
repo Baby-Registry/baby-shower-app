@@ -4,6 +4,7 @@ import variables from "./config.js";
 import Qs from 'qs';
 import ProductCard from "./productCard.js";
 import RegistryList from "./registryList.js";
+import RegistryGuest from "./registryPageGuest.js";
 
 class RegistryPage extends React.Component {
     constructor() {
@@ -15,18 +16,20 @@ class RegistryPage extends React.Component {
             imageResults:{},
             pageNumber:1,
             listingaddButton:false,
-            selectionArray:[]
+            selectionArray:[],
+            guestArray:[]
 
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCategory = this.handleCategory.bind(this);
         this.moreResults = this.moreResults.bind(this);
-        this.dataCall = this.dataCall.bind(this);
         this.lessResults = this.lessResults.bind(this);
         this.addtoRegistry = this.addtoRegistry.bind(this);
         this.removefromRegistry = this.removefromRegistry.bind(this);
         this.saveRegistry = this.saveRegistry.bind(this);
+        this.dataCall = this.dataCall.bind(this);
+        this.guestSelection = this.guestSelection.bind(this);
     }
 
     handleChange(e) {
@@ -38,43 +41,37 @@ class RegistryPage extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const searchResults = this.state.search;
-        const searchCategories = this.state.categories;
-        const searchPageNumber = this.state.pageNumber;
-
-        this.dataCall(searchResults, searchCategories, searchPageNumber);
+        this.setState({
+            search:searchResults
+        })
+        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
     handleCategory(e) {
+        const newCategory = e.target.value;
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name]:newCategory
         })
+        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
     lessResults () {
+        const newPageNumber = this.state.pageNumber - 1;
         this.setState({
-            pageNumber: this.state.pageNumber - 1
+            pageNumber: newPageNumber
         });
-
-        const searchResults = this.state.search;
-        const searchCategories = this.state.categories;
-        const searchPageNumber = this.state.pageNumber;
-
-        this.dataCall(searchResults, searchCategories, searchPageNumber);
+        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
     moreResults() {
+        const newPageNumber = this.state.pageNumber + 1;
         this.setState({
-            pageNumber: this.state.pageNumber + 1
+            pageNumber: newPageNumber
         });
-
-        const searchResults = this.state.search;
-        const searchCategories = this.state.categories;
-        const searchPageNumber = this.state.pageNumber;
-
-        this.dataCall(searchResults, searchCategories, searchPageNumber);
+        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
-    dataCall(results, categories, pageNumber) {
+    dataCall(searchResults, categories, pageNumber) {
         axios({
             method: 'GET',
             url: 'http://proxy.hackeryou.com',
@@ -86,14 +83,11 @@ class RegistryPage extends React.Component {
                 reqUrl: `${variables.apiURL}/listings/active`,
                 params: {
                     api_key: `${variables.apiKey}`,
-                    tags: results,
-                    keywords: results,
+                    tags: searchResults,
+                    keywords: searchResults,
                     categories: categories,
-                    limit: 5,
-                    page: pageNumber
-                },
-                proxyHeaders: {
-                    'header_params': 'value'
+                    page:pageNumber,
+                    limit: 5
                 },
                 xmlToJSON: false
             }
@@ -124,7 +118,20 @@ class RegistryPage extends React.Component {
     }
     
     saveRegistry () {
-        console.log("sup");
+        const dbRef = firebase.database().ref("/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6c01dBvXXqkqojRipc/item");
+        const copySelectionArray = Array.from(this.state.selectionArray);
+
+        //need to add USER ID and EVENT ID props to make dynamic
+        //need to push items as originally empty objects
+
+        dbRef.set(copySelectionArray);
+    }
+
+    guestSelection() {
+        const dbRef = firebase.database().ref("/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6c01dBvXXqkqojRipc/item/itemid");
+        const copySelectionArray = Array.from(this.state.selectionArray);
+
+        dbRef.set();
     }
 
     componentDidMount() {
@@ -141,9 +148,6 @@ class RegistryPage extends React.Component {
                     api_key: `${variables.apiKey}`,
                     limit: 5
                 },
-                proxyHeaders: {
-                    'header_params': 'value'
-                },
                 xmlToJSON: false
             }
         }).then(({ data }) => {
@@ -151,6 +155,19 @@ class RegistryPage extends React.Component {
                 searchResults:data.results
             })
         });
+
+        // const dbRef = firebase.database().ref("/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6c01dBvXXqkqojRipc/item");
+        // const copyGuestArray = Array.from(this.state.guestArray);
+        // dbRef.on("value", (res) => {
+        //     res.val().map((value) => {
+        //         copyGuestArray.push(value);
+        //     })
+        //     console.log(copyGuestArray);
+        //     this.setState({
+        //         guestArray:copyGuestArray
+        //     })
+        //     //pulled data from database for guest - need to move it into state and map to screen
+        // })
     }
 
     render() {
@@ -205,11 +222,22 @@ class RegistryPage extends React.Component {
                     })}
                 </div>
                 <div>
+                    {/* for host */}
                     {this.state.selectionArray.map((value) => {
                         return (
-                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} save={this.saveRegistry}/>
+                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} />
                         )
                     })}
+                    <button onClick={this.saveRegistry}>Save</button>
+                </div>
+                <div>
+                    {/* for guest */}
+                    {this.state.selectionArray.map((value) => {
+                        return (
+                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} />
+                        )
+                    })}
+                    <button onClick ={this.guestSelection}>Purchase</button>
                 </div>
             </section>
         )
