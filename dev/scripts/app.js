@@ -88,8 +88,6 @@ class App extends React.Component {
             }
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
-
-            <RegistryPage />
           </div>
         </Router>
       )
