@@ -73,11 +73,10 @@ class App extends React.Component {
       return (
         <Router>
           <div>
-            <Header />
+            <Route path="/" exact component={Header} />
 
             {/* <SignUp /> */}
-
-            {
+            {/* {
             this.state.loggedIn === true?
             <section>
               <SignOut signOutUser={this.signOutUser}/>
@@ -85,11 +84,9 @@ class App extends React.Component {
             </section>
             :
               <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
-            }
+            } */}
 
-            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
-
-            <RegistryPage />
+            <Route path="/:eventid" exact component={RegistryPage}/>
           </div>
         </Router>
       )
