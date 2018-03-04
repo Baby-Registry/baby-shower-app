@@ -112,13 +112,13 @@ class App extends React.Component {
             {
               this.state.loggedIn === true ?
                 <React.Fragment>
-                  {/* <SignOut signOutUser={this.signOutUser} /> */}
+                  <SignOut signOutUser={this.signOutUser} />
                   <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
                 </React.Fragment>
                 : 
                 <Homepage />
             }
-
+            {/* <InviteLandingPage user={this.state.user} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/> */}
             {/* <RegistryPage /> */}
 
           </React.Fragment>
