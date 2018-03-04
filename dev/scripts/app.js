@@ -84,9 +84,12 @@ class App extends React.Component {
             </section>
             :
               <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
+
             } */}
 
-            <Route path="/:eventid" exact component={RegistryPage}/>
+            }
+
+            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
           </div>
         </Router>
       )
