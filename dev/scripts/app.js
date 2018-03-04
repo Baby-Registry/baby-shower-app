@@ -112,7 +112,6 @@ class App extends React.Component {
             {
               this.state.loggedIn === true ?
                 <React.Fragment>
-                  <SignOut signOutUser={this.signOutUser} />
                   <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
                 </React.Fragment>
                 : 
@@ -123,12 +122,6 @@ class App extends React.Component {
             {/* <RegistryPage /> */}
 
           </React.Fragment>
-        
-            }
-
-            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
-          </div>
-
         </Router>
       )
     }
