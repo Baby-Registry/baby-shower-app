@@ -112,7 +112,6 @@ class App extends React.Component {
             {
               this.state.loggedIn === true ?
                 <React.Fragment>
-                  <SignOut signOutUser={this.signOutUser} />
                   <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
                 </React.Fragment>
                 : 
