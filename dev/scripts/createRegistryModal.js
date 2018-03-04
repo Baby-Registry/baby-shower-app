@@ -9,7 +9,6 @@ class CreateRegistryModal extends React.Component {
             eventName: '',
             eventDate: '',
             eventLocation: '',
-            selectedDate: '',
             hostName: '',
             isHost: false
         }
@@ -27,19 +26,21 @@ class CreateRegistryModal extends React.Component {
     }
 
     handleDate(date){
-        this.setState({selectedDate: date._d}); 
+        this.setState({eventDate: date._d}); 
      };
 
     createEvent(e) {
         e.preventDefault();
         const event = {
+            hostName: this.state.hostName,
             eventName: this.state.eventName,
-            eventDate: this.state.eventDate,
+            eventDate: this.state.eventDate.toString(),
             eventLocation: this.state.eventLocation
         }
         const dbref = firebase.database().ref('/events');
 	    dbref.push(event);
         this.setState({
+            hostName: '',
             eventName: '',
             eventDate: '',
             eventLocation: ''
@@ -74,9 +75,8 @@ class CreateRegistryModal extends React.Component {
                 <form onSubmit={(event) => this.createEvent(event)}>
                     <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
-                    <input type="text" placeholder="Date" onChange={(event) => this.handleChange(event, "eventDate")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
-                    <Datetime onChange={this.handleDate} />
+                    <Datetime onChange={this.handleDate} defaultValue={date} />
                     <button>Create My Event!</button>
                 </form>
             </div>
