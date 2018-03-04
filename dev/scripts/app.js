@@ -76,7 +76,7 @@ class App extends React.Component {
             <Route path="/" exact component={Header} />
 
             {/* <SignUp /> */}
-            {/* {
+            {
             this.state.loggedIn === true?
             <section>
               <SignOut signOutUser={this.signOutUser}/>
@@ -85,7 +85,7 @@ class App extends React.Component {
             :
               <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
 
-            } */}
+            }
 
             }
 
