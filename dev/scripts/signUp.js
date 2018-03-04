@@ -23,6 +23,7 @@ class SignUp extends React.Component {
             createEmail: '',
             createPassword: ''
         });
+        this.props.closeModal();
     }
 
     handleChange(event, field) {
@@ -35,7 +36,10 @@ class SignUp extends React.Component {
         return(
             <div className = "signUp modal">
                 <form onSubmit={(event) => this.createUser(event)} className="form__auth layout__XYCenter">
-                    <h3 className="heading__form">Sign Up</h3>
+                    <div className="layout__opposite">
+                        <div><h3 className="heading__form">Sign Up</h3></div>
+                        <div><a href="#" onClick={this.props.closeModal}><i className="fas fa-times"></i></a></div>
+                    </div>
 
                     <fieldset>
                         <label htmlFor="email" className="label__form">Email:</label>
@@ -50,7 +54,7 @@ class SignUp extends React.Component {
                     <fieldset>
                         <span>Create an account with: </span>
                         <span>
-                            <i class="fab fa-google-plus-g graphics--form"></i>
+                            <i className="fab fa-google-plus-g graphics--form"></i>
                         </span>
                     </fieldset>
 

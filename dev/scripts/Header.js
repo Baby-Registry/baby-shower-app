@@ -11,26 +11,28 @@ class Header extends React.Component {
 
     render() {
         return (
-            <header className='layout__opposite clearfix'>
-                <div><h1>Baby Registry</h1></div>
-                {/* Display different items on the right side of header if logged in) */}
-                {/* to do: show button, toggle show form */}
-                {this.props.user ?
-                    <div className="layout__beside">
-                    {/* user is logged in, show user's email, link to dashboard, sign out button */}
-                        <span>{this.props.user.email}</span>
-                        <a href="/dashboard">Dashboard</a>
-                        <SignOut signOutUser={this.props.signOutUser} />
-                    </div>
-                : 
-                    <div className="layout__beside">
-                    {/* (user is logged out, show log in button and sign up button) */}
-                        <p>(user is logged out..buttons for log in and sign up go here)</p>
-                        <LogIn logIn={this.props.LogInUser} handleChange={this.props.handleChange}  className="layout__beside" />
-                        {/* <SignUp className="layout__beside" /> */}
-                    </div>
-                }
-            </header>   
+            <React.Fragment>
+                <header className='layout__opposite clearfix'>
+                    <div><h1>Baby Registry</h1></div>
+                    {/* Display different items on the right of header if logged in) */}
+                    {this.props.user ?
+                        <div className="layout__beside">
+                        {/* user is logged in, show user's email, link to dashboard, sign out button */}
+                            <span>{this.props.user.email}</span>
+                            <a href="/dashboard">Dashboard</a>
+                            <SignOut signOutUser={this.props.signOutUser} />
+                        </div>
+                    : 
+                        <div className="layout__beside">
+                        {/* (user is logged out, show log in button and sign up button) */}
+                            <button className="btn" onClick={this.props.showLogin}>Log In</button>
+                            <button className="btn" onClick={this.props.showSignUp}>Sign Up</button>
+                        </div>
+                    }
+                </header>  
+                
+                
+            </React.Fragment> 
         )
     }
 }

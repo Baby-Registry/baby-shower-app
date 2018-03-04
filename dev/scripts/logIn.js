@@ -8,8 +8,12 @@ class LogIn extends React.Component {
     render() {
         return (
             <div className="logIn modal">
+                {console.log('inside login component')}
                 <form onSubmit={(event) => this.props.logIn(event)} className="form__auth layout__XYCenter">
-                <h3 className="header__form">Sign In</h3>
+                <div className="layout__opposite">
+                    <div><h3 className="heading__form">Log In</h3></div>
+                    <div><a href="#" onClick={this.props.closeModal}><i className="fas fa-times"></i></a></div>
+                </div>
 
                 <fieldset>
                     <label htmlFor="email" className="label__form">Email:</label>
@@ -24,7 +28,7 @@ class LogIn extends React.Component {
                 <fieldset>
                     <span>Sign in with: </span>
                     <span>
-                        <i class="fab fa-google-plus-g graphics--form"></i>
+                        <i className="fab fa-google-plus-g graphics--form"></i>
                     </span>
                 </fieldset>
                 
