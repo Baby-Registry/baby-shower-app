@@ -34,10 +34,27 @@ class SignUp extends React.Component {
     render() {
         return(
             <div className = "signUp modal">
-                <form onSubmit={(event) => this.createUser(event)}>
-                    <input type="text" value={this.state.createEmail} placeholder="Please enter e-mail address" onChange={(event) => this.handleChange(event, "createEmail")} />
-                    <input type="password" value={this.state.createPassword} placeholder="Please enter password" onChange={(event) => this.handleChange(event, "createPassword")} />
-                    <button>Create User</button>
+                <form onSubmit={(event) => this.createUser(event)} className="form__auth layout__XYCenter">
+                    <h3 className="heading__form">Sign Up</h3>
+
+                    <fieldset>
+                        <label htmlFor="email" className="label__form">Email:</label>
+                        <input type="email" value={this.state.createEmail} placeholder="Email" onChange={(event) => this.handleChange(event, "createEmail")} name="email" />
+                    </fieldset>
+
+                    <fieldset>
+                        <label htmlFor="password" className="label__form">Password:</label>
+                        <input type="password" value={this.state.createPassword} placeholder="Password" onChange={(event) => this.handleChange(event, "createPassword")} name="password" />
+                    </fieldset>
+
+                    <fieldset>
+                        <span>Create an account with: </span>
+                        <span>
+                            <i class="fab fa-google-plus-g graphics--form"></i>
+                        </span>
+                    </fieldset>
+
+                    <button className="layout__XCenter btn__form btn">Create An Account</button>
                 </form>
             </div>
         )

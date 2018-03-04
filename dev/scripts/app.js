@@ -11,7 +11,8 @@ import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
 import InviteLandingPage from "./inviteLandingPage";
-import Header from "./header";
+import Header from "./Header";
+import Homepage from "./HomePage"
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
@@ -73,23 +74,21 @@ class App extends React.Component {
       return (
         <Router>
           <div>
-            <Header />
-
-            {/* <SignUp /> */}
+            <Header user={this.state.user} signOutUser={this.signOutUser} />
 
             {
-            this.state.loggedIn === true?
-            <section>
-              <SignOut signOutUser={this.signOutUser}/>
-              <Dashboard user={this.state.user} loggedIn={this.state.loggedIn}/>
-            </section>
-            :
-              <LogIn logIn={this.LogInUser} handleChange={this.handleChange}/>
+              this.state.loggedIn === true ?
+                <section>
+                  <SignOut signOutUser={this.signOutUser} />
+                  <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
+                </section>
+                :
+                <LogIn logIn={this.LogInUser} handleChange={this.handleChange} />
             }
 
-            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
+            <Route path="/dashboard/:eventid" exact component={RegistryPage} />
 
-            <RegistryPage />
+            {/* <RegistryPage /> */}
           </div>
         </Router>
       )
