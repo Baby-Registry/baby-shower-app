@@ -29,7 +29,7 @@ class RegistryPage extends React.Component {
         this.removefromRegistry = this.removefromRegistry.bind(this);
         this.saveRegistry = this.saveRegistry.bind(this);
         this.dataCall = this.dataCall.bind(this);
-        this.guestSelection = this.guestSelection.bind(this);
+    
     }
 
     handleChange(e) {

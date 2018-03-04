@@ -32,9 +32,23 @@ class CreateRegistryModal extends React.Component {
         this.setState({eventDate: date._d}); 
      };
 
-    createEvent(e) {
-        e.preventDefault();
+     createUserEvent(event, userid) {
+        event.preventDefault();
+        const userevent ={
+            hostName: this.state.hostName,
+            eventName: this.state.eventName,
+            isHost: true,
+            items: ''
+        }
+
+        const dbref = firebase.database().ref(`/Users/${userid}/events`).push(userevent);
+        this.setState({eventKey: dbref.key});
+        this.createEvent(dbref.key);
+    }
+
+    createEvent(userEventId) {
         const event = {
+            userEventKey: userEventId,
             hostName: this.state.hostName,
             eventName: this.state.eventName,
             eventDate: this.state.eventDate.toString(),
@@ -48,26 +62,7 @@ class CreateRegistryModal extends React.Component {
             eventDate: '',
             eventLocation: ''
         });
-        this.createUserEvent(this.props.user.uid);
-    }
-
-    createUserEvent(userid) {
-        const userevent ={
-            hostName: this.state.hostName,
-            eventName: this.state.eventName,
-            isHost: true,
-            items: ''
-        }
-
-        const dbref = firebase.database().ref(`/Users/${userid}/events`).push(userevent);
-        this.setState({eventKey: dbref.key});
-        this.setState({
-            hostName: '',
-            eventName: '',
-            isHost: false
-        });
         this.setState({redirect: true});
-            
     }
 
     render() {
@@ -77,7 +72,7 @@ class CreateRegistryModal extends React.Component {
             <div>
                 <button onClick={(event) => this.props.handleClick(event)}>Close</button>
                 <h1>New Event</h1>
-                <form onSubmit={(event) => this.createEvent(event)}>
+                <form onSubmit={(event) => this.createUserEvent(event, this.props.user.uid)}>
                     <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
