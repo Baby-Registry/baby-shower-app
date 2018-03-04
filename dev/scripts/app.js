@@ -122,6 +122,7 @@ class App extends React.Component {
             {/* <RegistryPage /> */}
 
           </React.Fragment>
+
         </Router>
       )
     }
