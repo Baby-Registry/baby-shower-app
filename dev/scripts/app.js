@@ -123,11 +123,6 @@ class App extends React.Component {
             {/* <RegistryPage /> */}
 
           </React.Fragment>
-        
-            }
-
-            <Route path="/dashboard/:eventid" exact component={RegistryPage}/>
-          </div>
 
         </Router>
       )

@@ -1,6 +1,5 @@
 import React from 'react';
 import Datetime from 'react-datetime';
-import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
 
@@ -9,7 +8,7 @@ class CreateRegistryModal extends React.Component {
         super(props);
         this.state = {
             eventName: '',
-            eventDate: '',
+            eventDate: new Date(),
             eventLocation: '',
             hostName: '',
             isHost: false,
@@ -73,7 +72,7 @@ class CreateRegistryModal extends React.Component {
 
     render() {
         var date = new Date();
-        if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid}}/>}
+        if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: true}}/>}
         return(
             <div>
                 <button onClick={(event) => this.props.handleClick(event)}>Close</button>
