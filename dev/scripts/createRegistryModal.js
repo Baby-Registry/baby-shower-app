@@ -67,7 +67,10 @@ class CreateRegistryModal extends React.Component {
 
     render() {
         var date = new Date();
+    
+
         if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: true}}/>}
+
         return(
             <div>
                 <button onClick={(event) => this.props.handleClick(event)}>Close</button>
