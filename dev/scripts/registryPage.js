@@ -118,7 +118,7 @@ class RegistryPage extends React.Component {
     }
     
     saveRegistry () {
-        const dbRef = firebase.database().ref("/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6c01dBvXXqkqojRipc/item");
+        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventID}/items`);
         const copySelectionArray = Array.from(this.state.selectionArray);
 
         //need to add USER ID and EVENT ID props to make dynamic
@@ -128,7 +128,7 @@ class RegistryPage extends React.Component {
     }
 
     guestSelection() {
-        const dbRef = firebase.database().ref("/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6c01dBvXXqkqojRipc/item/itemid");
+        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventID}/items`);
         const copySelectionArray = Array.from(this.state.selectionArray);
 
         dbRef.set();
