@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 
 class SearchForRegistryModal extends React.Component {
     constructor(props) {
@@ -6,10 +7,13 @@ class SearchForRegistryModal extends React.Component {
         this.state = {
             search: '',
             existingEvents: [],
-            foundEvents: []
+            foundEvents: [],
+            redirect: false,
+            eventKey: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.searchRegistry = this.searchRegistry.bind(this);
+        this.joinEvent = this.joinEvent.bind(this);
     }
 
     handleChange(event, field) {
@@ -19,6 +23,7 @@ class SearchForRegistryModal extends React.Component {
     }
 
     searchRegistry(event) {
+        event.preventDefault();
         let events = [];
         this.state.existingEvents.map((event) => {
             event.hostName === this.state.search?
@@ -30,8 +35,22 @@ class SearchForRegistryModal extends React.Component {
         })
     }
 
+    joinEvent(event, eventKey, eventName, eventHost) {
+        event.preventDefault();
+
+        const userevent ={
+            hostName: eventHost,
+            eventName: eventName,
+            isHost: false
+        }
+        const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`).push(userevent);
+        this.setState({eventKey: eventKey});
+        this.setState({redirect: true});
+    }
+
 
     render() {
+        if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false}}/>}
         return(
             <div>
                 <form onSubmit={(event) => this.searchRegistry(event)}>
@@ -40,8 +59,9 @@ class SearchForRegistryModal extends React.Component {
                     {this.state.foundEvents.map((foundEvent) => {
                         return(
                             <div key={foundEvent.key}>
-                                <p>{foundEvent.eventName}</p>
-                                <p>{foundEvent.eventHost}</p>
+                                    <p>{foundEvent.eventName}</p>
+                                    <p>{foundEvent.hostName}</p>
+                                    <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName)}>JOIN EVENT</button>
                             </div>
                         )
                     })}
