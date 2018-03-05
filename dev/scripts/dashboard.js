@@ -74,9 +74,14 @@ class Dashboard extends  React.Component {
             </main>
         )
     }
-
-    componentDidMount() {
-        console.log(`Here is an object: ${this.props}`);
+    // if refreshing dashboard
+    componentWillReceiveProps(props) {
+        console.log(props);
+        if(props.user.uid !== undefined) {
+            this.listenToDB();
+        }
+    }
+    listenToDB() {
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         console.log(`/users/${this.props.user.uid}/events`);
         dbref.on('value', (snapshot) => {
@@ -89,7 +94,7 @@ class Dashboard extends  React.Component {
             }
             for (let key in eventsData) {
                 eventsData[key].key = key;
-                if(eventsData[key].isHost === true) {
+                if (eventsData[key].isHost === true) {
                     hostedEvents.push(eventsData[key].key);
                 }
             }
@@ -98,6 +103,12 @@ class Dashboard extends  React.Component {
                 userHostEvents: hostedEvents
             });
         });
+    }
+    // if arriving at dashboard from another page
+    componentDidMount() {
+        if(this.props.user.uid !== undefined) {
+            this.listenToDB();
+        }
     }
 }
 
