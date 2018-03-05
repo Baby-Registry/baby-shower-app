@@ -137,30 +137,31 @@ class RegistryPage extends React.Component {
     }
     
     saveRegistry () {
-        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items`);
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6ruERZmSa7MbPjSGUJ/items`);
         const copySelectionArray = Array.from(this.state.selectionArray);
         const newKeys = this.state.keys;
         
-        copySelectionArray.map((value) => {
-            return newKeys.push(value.listing_id);
-        })
-        
-        console.log(newKeys);
+        const keysArray = copySelectionArray.map((value) => {
+            return value.listing_id;
+        }); 
 
         this.setState({
-            keys: newKeys
+            keys:keysArray,
+            selectionArray:copySelectionArray
         })
-        
+
+        console.log(keysArray);
+        console.log(copySelectionArray);
         dbRef.remove();
         //pushing selected items into firebase, but the unique ID is custom (listing ID)
-        for(let i = 0; i < this.state.keys.length ; i = i + 1) {
-            dbRef.child(this.state.keys[i]).set(copySelectionArray[i]);
-            dbRef.child(this.state.keys[i]).update({"purchase":false});
+        for(let i = 0; i < keysArray.length ; i = i + 1) {
+            dbRef.child(keysArray[i]).set(copySelectionArray[i]);
+            dbRef.child(keysArray[i]).update({"purchase":false});
         }
     }
 
     purchaseItem(index) {
-        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items/${index}`); 
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6ruERZmSa7MbPjSGUJ/items/${index}`); 
         dbRef.update({"purchase":true});
     }
 
@@ -202,9 +203,9 @@ class RegistryPage extends React.Component {
         });
 
 
-        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items`);
-        const copySelectionArray = [];
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6ruERZmSa7MbPjSGUJ/items`);
         dbRef.on("value", (res) => {
+            const copySelectionArray = [];
             console.log(res.val());
             const results = res.val();
             
