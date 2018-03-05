@@ -1,0 +1,29 @@
+.eventDashboard {
+    h1  {
+        margin-bottom: 50px;
+    }
+}
+
+.noEventsMessage {
+    margin-top: 50px;
+    min-height: 400px;
+    background-color: $color-ltgray;
+    font-weight: bold;
+    font-size: 2.5rem;
+    position: relative;
+    p {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.eventList {
+    .event {
+        min-height: 200px;
+        background-color: $color-ltgray;
+        margin-bottom: 25px;
+    }
+}

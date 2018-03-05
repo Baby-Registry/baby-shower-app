@@ -163,6 +163,7 @@ class RegistryPage extends React.Component {
         dbRef.update({"purchase":true});
     }
 
+
     unpurchaseItem(index) {
         const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6ruERZmSa7MbPjSGUJ/items/${index}`);
         dbRef.update({ "purchase": false });
@@ -216,10 +217,11 @@ class RegistryPage extends React.Component {
             for(let key in results) {
                 copySelectionArray.push(results[key]);
             }
-
+            console.log(`here is the copySelectionArray: ${copySelectionArray}`);
             this.setState({
                 selectionArray:copySelectionArray
             })
+            console.log(`here is the selectionArray: ${this.state.selectionArray}`);
         })
     }
 
@@ -227,9 +229,10 @@ class RegistryPage extends React.Component {
         const host = this.props.location.isHost;
         return ( 
             <div>  
-                {true ?
-                    <section className="searchResults">
-                        <form onSubmit={this.handleSubmit} className="searchBar">
+
+                {false ?
+                    <section>
+                        <form onSubmit={this.handleSubmit}>
                             <label htmlFor="search">Search</label>
                             <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
                             <input type="submit" value="submit" />
@@ -277,7 +280,7 @@ class RegistryPage extends React.Component {
                                 return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
                             })}
                         </div>
-                        <div>
+                        <div className="SelectedItems">
                             {this.state.selectionArray.map((value) => {
                                 return (
                                     <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry}/>

@@ -2,6 +2,9 @@ import React from 'react';
 import EventCard from './eventCard';
 import CreateRegistryModal from './createRegistryModal';
 import SearchForRegistryModal from './searchForRegistryModal';
+import {
+    Redirect
+} from 'react-router-dom';
 
 class Dashboard extends  React.Component {
     constructor(props) {
@@ -16,6 +19,7 @@ class Dashboard extends  React.Component {
         this.renderModal= this.renderModal.bind(this);
         this.handleSearchClick = this.handleSearchClick.bind(this);
         this.renderSearchModal= this.renderSearchModal.bind(this);
+        this.listenToDB = this.listenToDB.bind(this);
     }
 
     handleClick(event, state) {
@@ -51,35 +55,50 @@ class Dashboard extends  React.Component {
     render() {
         return(
             <main>
-                {this.renderModal()}
-                {this.renderSearchModal()}
-                <h1>Events Dashboard</h1>
-                <div className="dashboardControls">
-                    <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
-                    <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
-                </div>
-                <section>
-{/** iterate through array of user's events and for each event render a div container */}
-                {   this.state.userEvents.length > 0?
-                            (this.state.userEvents.map((event) => {
-                            return (
-                                <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
+            { this.props.user ?
+                    (<div className="wrapper">
+                        {this.renderModal()}
+                        {this.renderSearchModal()}
+                        <h1>Events Dashboard</h1>
+                        <div className="dashboardControls">
+                            <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
+                            <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
+                        </div>
+                        <section className="eventList">
+        {/** iterate through array of user's events and for each event render a div container */}
+                        {   this.state.userEvents.length > 0 ?
+                                    (this.state.userEvents.map((event) => {
+                                    return (
+                                        <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
+                                        )
+                                    })
                                 )
-                            })
-                        )
-                        :
-                            <div>NO EVENTS</div>
-                    }
-                </section>
+                                :
+                                    <div className="noEventsMessage">
+                                      <p>NO EVENTS</p>
+                                    </div>
+                            }
+                        </section>
+                    </div>)
+            :
+                <Redirect to="/" />
+            }
             </main>
         )
     }
-
-    componentDidMount() {
-        console.log(`Here is an object: ${this.props}`);
+    // if refreshing dashboard
+    componentWillReceiveProps(props) {
+        console.log(props)
+        if(props.user !== undefined && props.user !== null) {
+            this.listenToDB();
+        }
+    }
+    listenToDB() {
+        console.log(this.props);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
-        console.log(`/users/${this.props.user.uid}/events`);
+        // console.log(`/users/${this.props.user.uid}/events`);
         dbref.on('value', (snapshot) => {
+            console.log('In the db value')
             const eventsData = snapshot.val();
             const copyOfDB = [];
             const hostedEvents = [];
@@ -89,7 +108,7 @@ class Dashboard extends  React.Component {
             }
             for (let key in eventsData) {
                 eventsData[key].key = key;
-                if(eventsData[key].isHost === true) {
+                if (eventsData[key].isHost === true) {
                     hostedEvents.push(eventsData[key].key);
                 }
             }
@@ -98,6 +117,13 @@ class Dashboard extends  React.Component {
                 userHostEvents: hostedEvents
             });
         });
+    }
+    // if arriving at dashboard from another page
+    componentDidMount() {
+        console.log(this.props);
+        if(this.props.user !== undefined && this.props.user !== null) {
+            this.listenToDB();
+        }
     }
 }
 

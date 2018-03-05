@@ -6,7 +6,7 @@ import SignOut from './signOut';
 import Dashboard from './dashboard';
 import { 
   BrowserRouter as Router, 
-  Route, Link } from 'react-router-dom';
+  Route, Link, Redirect } from 'react-router-dom';
 import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
@@ -44,11 +44,12 @@ class App extends React.Component {
       this.showSignUp = this.showSignUp.bind(this);
       this.closeModal = this.closeModal.bind(this);
       this.googleSignIn = this.googleSignIn.bind(this);
+      this.redirectUserToDashBoard = this.redirectUserToDashBoard.bind(this);
+      this.firebaseListener = this.firebaseListener.bind(this);
     }
 
     logInUser(event) {
       event.preventDefault();
-      console.trace('inside logInUser', event)
       const email = this.state.loginEmail;
       const password = this.state.loginPassword;
       firebase.auth().signInWithEmailAndPassword(email, password)
@@ -58,14 +59,12 @@ class App extends React.Component {
           this.setState({
              showLogin: false,
           });
-          this.redirectUserToDashBoard();
         }), (error) => {
           console.log(error);
         }
     }
 
     googleSignIn() {
-      console.log("Google signing in")
       const provider = new firebase.auth.GoogleAuthProvider();
 
       provider.setCustomParameters({
@@ -74,9 +73,7 @@ class App extends React.Component {
 
       firebase.auth().signInWithPopup(provider)
         .then((user) => {
-          console.log(user);
           this.closeModal();
-          this.redirectUserToDashBoard();
         }), (error) => {
           alert(error);
         }
@@ -100,6 +97,8 @@ class App extends React.Component {
           user: {},
           loggedIn: false
       })
+
+      return  <p><Redirect to="/" /></p> ;
     }
 
     showLogin() {
@@ -117,7 +116,6 @@ class App extends React.Component {
 
     // redirect user to dashboard after they log in
     redirectUserToDashBoard() {
-      console.log("now redirect user to dash");
       this.setState({
         redirectToDashboard: true,
       });
@@ -125,7 +123,6 @@ class App extends React.Component {
 
 
     render() {
-      const hi ="test";
       return (
         <Router>
           <React.Fragment>
@@ -155,6 +152,8 @@ class App extends React.Component {
               /> )} 
             />
 
+                
+            {/* show either homepage or Dashboard */}
             <Route
               path="/dashboard" exact
               render={(props) => (
@@ -162,14 +161,11 @@ class App extends React.Component {
                   loggedIn={this.state.loggedIn}
                 />)}
             />
-                
-            {/* show either homepage or Dashboard */}
             {
               (this.state.loggedIn === true || this.state.redirectToDashboard === true ) ?
                 <div>
-                  <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
+                  <Redirect to="/dashboard" />
                 </div>
-
               : 
                 <Homepage />
             }
@@ -179,23 +175,33 @@ class App extends React.Component {
         </Router>
       )
     }
-  
-    componentDidMount() {
+
+    // componentWillReceiveProps() {
+    //   this.firebaseListener();
+    // }
+    
+    firebaseListener() {
       firebase.auth().onAuthStateChanged((res) => {
-        // console.log(res);
         if (res) {
-            this.setState({
-              loggedIn: true,
-              user: res
-            });
-          } else {
-            this.setState({
-              loggedIn: false,
-              user: res
-            });
-          }
+          this.setState({
+            loggedIn: true,
+            user: res
+          },() => {
+            this.redirectUserToDashBoard();
+          });
+        } else {
+          this.setState({
+            loggedIn: false,
+            user: res,
+            redirectToDashboard: false
+          });
+        }
       })
     }
-}
+
+    componentDidMount() {
+      this.firebaseListener();
+    }
+  }
 
 ReactDOM.render(<App />, document.getElementById('app'));
