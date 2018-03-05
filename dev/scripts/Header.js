@@ -13,7 +13,7 @@ class Header extends React.Component {
         return (
             <React.Fragment>
                 <header className='layout__opposite clearfix'>
-                    <div><h1>Baby Registry</h1></div>
+                    <div><a href="/"><h1>Baby Registry</h1></a></div>
                     {/* Display different items on the right of header if logged in) */}
                     {this.props.user ?
                         <div className="layout__beside">
