@@ -142,13 +142,15 @@ class RegistryPage extends React.Component {
         const newKeys = this.state.keys;
         
         copySelectionArray.map((value) => {
-            console.log(value.listing_id);
-            newKeys.push(value.listing_id);
+            return newKeys.push(value.listing_id);
         })
         
+        console.log(newKeys);
+
         this.setState({
             keys: newKeys
         })
+        
         dbRef.remove();
         //pushing selected items into firebase, but the unique ID is custom (listing ID)
         for(let i = 0; i < this.state.keys.length ; i = i + 1) {
