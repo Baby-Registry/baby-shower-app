@@ -50,17 +50,18 @@ class Dashboard extends  React.Component {
 
     render() {
         return(
-            <main>
-                {this.renderModal()}
-                {this.renderSearchModal()}
-                <h1>Events Dashboard</h1>
-                <div className="dashboardControls">
-                    <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
-                    <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
-                </div>
-                <section>
-{/** iterate through array of user's events and for each event render a div container */}
-                {   this.state.userEvents.length > 0?
+            <main className='eventDashboard'>
+                <div className="wrapper">
+                    {this.renderModal()}
+                    {this.renderSearchModal()}
+                    <h1>Events Dashboard</h1>
+                    <div className="dashboardControls">
+                        <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
+                        <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
+                    </div>
+                    <section className="eventList">
+    {/** iterate through array of user's events and for each event render a div container */}
+                    {this.state.userEvents.length > 0?
                             (this.state.userEvents.map((event) => {
                             return (
                                 <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
@@ -68,9 +69,12 @@ class Dashboard extends  React.Component {
                             })
                         )
                         :
-                            <div>NO EVENTS</div>
+                            <div className="noEventsMessage">
+                                <p>No events yet!</p>
+                            </div>
                     }
-                </section>
+                    </section>
+                </div>
             </main>
         )
     }

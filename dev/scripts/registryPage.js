@@ -224,7 +224,7 @@ class RegistryPage extends React.Component {
         const host = this.props.location.isHost;
         return ( 
             <div>  
-                {true ?
+                {false ?
                     <section>
                         <form onSubmit={this.handleSubmit}>
                             <label htmlFor="search">Search</label>
