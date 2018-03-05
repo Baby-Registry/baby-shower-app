@@ -15,7 +15,7 @@ class Header extends React.Component {
                 <header className='layout__opposite clearfix'>
                     <div><a href="/"><h1>Baby Registry</h1></a></div>
                     {/* Display different items on the right of header if logged in) */}
-                    {this.props.user ?
+                    {this.props.user  ?
                         <div className="layout__beside">
                         {/* user is logged in, show user's email, link to dashboard, sign out button */}
                             <span>{this.props.user.email}</span>
