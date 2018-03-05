@@ -35,6 +35,7 @@ class App extends React.Component {
         loginPassword: '',
         showLogin: false,
         showSignUp: false,
+        redirectToDashboard: false,
       }
       this.logInUser = this.logInUser.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -54,7 +55,10 @@ class App extends React.Component {
         .then((res) => {
           console.log(`Logged in as ${res.email}`);
           // close modal after login
-          this.setState({ showLogin: false });
+          this.setState({
+             showLogin: false,
+          });
+          this.redirectUserToDashBoard();
         }), (error) => {
           console.log(error);
         }
@@ -72,6 +76,7 @@ class App extends React.Component {
         .then((user) => {
           console.log(user);
           this.closeModal();
+          this.redirectUserToDashBoard();
         }), (error) => {
           alert(error);
         }
@@ -110,6 +115,14 @@ class App extends React.Component {
       this.setState({ showLogin: false, showSignUp: false, });
     }
 
+    // redirect user to dashboard after they log in
+    redirectUserToDashBoard() {
+      console.log("now redirect user to dash");
+      this.setState({
+        redirectToDashboard: true,
+      });
+    }
+
 
     render() {
       const hi ="test";
@@ -125,8 +138,9 @@ class App extends React.Component {
             : null}
   
             {this.state.showSignUp ?
-              <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
+              <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn} redirectUserToDashBoard={this.redirectUserToDashBoard} />
             : null }
+
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
 
@@ -141,17 +155,25 @@ class App extends React.Component {
               /> )} 
             />
 
+            <Route
+              path="/dashboard" exact
+              render={(props) => (
+                <Dashboard user={this.state.user}
+                  loggedIn={this.state.loggedIn}
+                />)}
+            />
+                
             {/* show either homepage or Dashboard */}
             {
-              this.state.loggedIn === true ?
-                <React.Fragment>
+              (this.state.loggedIn === true || this.state.redirectToDashboard === true ) ?
+                <div>
                   <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
-                </React.Fragment>
+                </div>
+
               : 
                 <Homepage />
             }
-            {/* <InviteLandingPage user={this.state.user} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal}/> */}
-            {/* <RegistryPage /> */}
+
 
           </React.Fragment>
         </Router>

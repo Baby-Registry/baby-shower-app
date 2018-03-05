@@ -58,8 +58,8 @@ class Dashboard extends  React.Component {
                     <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
                 </div>
                 <section>
-{/** iterate through array of user's events and for each event render a div container**/}
-                    {   this.state.userEvents.length > 0?
+{/** iterate through array of user's events and for each event render a div container */}
+                {   this.state.userEvents.length > 0?
                             (this.state.userEvents.map((event) => {
                             return (
 
@@ -79,7 +79,7 @@ class Dashboard extends  React.Component {
     }
 
     componentDidMount() {
-        console.log(`Here is an object: ${this.props.user}`);
+        console.log(`Here is an object: ${this.props}`);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         console.log(`/users/${this.props.user.uid}/events`);
         dbref.on('value', (snapshot) => {

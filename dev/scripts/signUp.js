@@ -24,6 +24,7 @@ class SignUp extends React.Component {
             createPassword: ''
         });
         this.props.closeModal();
+        this.props.redirectUserToDashBoard();
     }
 
     handleChange(event, field) {
