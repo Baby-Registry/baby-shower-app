@@ -2,6 +2,7 @@
 @import 'partials/_setup';
 @import 'partials/_general';
 @import 'partials/_react-datetime';
+@import 'partials/_dashboard';
 
 // $color-main: #2d3956;
 // $color-ac: #b7eae3;
@@ -164,7 +165,7 @@ header {
 .inviteLandingPage {
     img {
         width: initial;
-        margin:: 50px auto;
+        margin: 50px auto;
         // margin: 50px 0;
         // margin-left: 43%;
     }

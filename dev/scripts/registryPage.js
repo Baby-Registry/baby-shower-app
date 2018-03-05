@@ -166,7 +166,6 @@ class RegistryPage extends React.Component {
     }
 
     savePurchases () {
-        console.log("hello");
         dbRef.on("value", (res) => {
             console.log(res.val());
             const results = res.val();
@@ -213,10 +212,11 @@ class RegistryPage extends React.Component {
             for(let key in results) {
                 copySelectionArray.push(results[key]);
             }
-
+            console.log(`here is the copySelectionArray: ${copySelectionArray}`);
             this.setState({
                 selectionArray:copySelectionArray
             })
+            console.log(`here is the selectionArray: ${this.state.selectionArray}`);
         })
     }
 
@@ -224,7 +224,7 @@ class RegistryPage extends React.Component {
         const host = this.props.location.isHost;
         return ( 
             <div>  
-                {true ?
+                {false ?
                     <section>
                         <form onSubmit={this.handleSubmit}>
                             <label htmlFor="search">Search</label>
@@ -274,7 +274,7 @@ class RegistryPage extends React.Component {
                                 return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
                             })}
                         </div>
-                        <div>
+                        <div className="SelectedItems">
                             {this.state.selectionArray.map((value) => {
                                 return (
                                     <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry}/>

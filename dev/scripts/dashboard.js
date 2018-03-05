@@ -56,7 +56,7 @@ class Dashboard extends  React.Component {
         return(
             <main>
             { this.props.user ?
-                    (<React.Fragment>
+                    (<div className="wrapper">
                         {this.renderModal()}
                         {this.renderSearchModal()}
                         <h1>Events Dashboard</h1>
@@ -64,7 +64,7 @@ class Dashboard extends  React.Component {
                             <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
                             <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
                         </div>
-                        <section>
+                        <section className="eventList">
         {/** iterate through array of user's events and for each event render a div container */}
                         {   this.state.userEvents.length > 0 ?
                                     (this.state.userEvents.map((event) => {
@@ -74,10 +74,12 @@ class Dashboard extends  React.Component {
                                     })
                                 )
                                 :
-                                    <div>NO EVENTS</div>
+                                    <div className="noEventsMessage">
+                                      <p>NO EVENTS</p>
+                                    </div>
                             }
                         </section>
-                    </React.Fragment>)
+                    </div>)
             :
                 <Redirect to="/" />
             }
