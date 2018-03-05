@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import { SSL_OP_PKCS1_CHECK_2 } from 'constants';
 
 class SearchForRegistryModal extends React.Component {
     constructor(props) {
@@ -9,11 +10,13 @@ class SearchForRegistryModal extends React.Component {
             existingEvents: [],
             foundEvents: [],
             redirect: false,
-            eventKey: ''
+            eventKey: '',
+            searchTriggered: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.searchRegistry = this.searchRegistry.bind(this);
         this.joinEvent = this.joinEvent.bind(this);
+        this.renderSearchResults = this.renderSearchResults.bind(this);
     }
 
     handleChange(event, field) {
@@ -26,13 +29,35 @@ class SearchForRegistryModal extends React.Component {
         event.preventDefault();
         let events = [];
         this.state.existingEvents.map((event) => {
-            event.hostName === this.state.search?
-            events.push(event)
-            : console.log("not a match");
-        });
-        this.setState ({
-            foundEvents: events
+            if (event.hostName === this.state.search) {
+                if((this.props.userHostEvents.indexOf(event.key)>=0) === false) {
+                        events.push(event);
+                }
+            }
         })
+
+        this.setState ({
+            foundEvents: events,
+            searchTriggered: true
+        }) 
+    }
+
+    renderSearchResults() {
+        if(this.state.searchTriggered) {
+            if(this.state.foundEvents.length > 0) {
+                return this.state.foundEvents.map((foundEvent) => {
+                    return (
+                        <div key={foundEvent.key}>
+                            <p>{foundEvent.eventName}</p>
+                            <p>{foundEvent.hostName}</p>
+                            <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName)}>JOIN EVENT</button>
+                        </div>
+                    )
+                });
+            }
+            else {return <div>No results returned for search criteria</div>}
+        }
+
     }
 
     joinEvent(event, eventKey, eventName, eventHost) {
@@ -50,21 +75,14 @@ class SearchForRegistryModal extends React.Component {
 
 
     render() {
-        if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false}}/>}
+        if(this.state.redirect) {
+            return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false}}/>}
         return(
             <div>
                 <form onSubmit={(event) => this.searchRegistry(event)}>
                     <input type="text" onChange={(event) => this.handleChange(event, "search")}/>
                     <button>Search</button>
-                    {this.state.foundEvents.map((foundEvent) => {
-                        return(
-                            <div key={foundEvent.key}>
-                                    <p>{foundEvent.eventName}</p>
-                                    <p>{foundEvent.hostName}</p>
-                                    <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName)}>JOIN EVENT</button>
-                            </div>
-                        )
-                    })}
+                    {this.renderSearchResults()}
                 </form>
             </div>
         )
@@ -79,12 +97,10 @@ class SearchForRegistryModal extends React.Component {
             for (let key in allEventsData) {
                 allEventsData[key].key = key;
                 copyOfDB.push(allEventsData[key]);
-                // console.log(copyOfDB);
             }
             this.setState({
                 existingEvents: copyOfDB
             });
-            // console.log(this.state.existingEvents);
         });
     }
 }

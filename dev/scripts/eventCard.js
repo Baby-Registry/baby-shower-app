@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import {
     BrowserRouter as Router,
     Route, Link
@@ -66,14 +67,18 @@ class EventCard extends React.Component {
                     <p>Host</p>
                     {this.showForm(this.props.eventName)}
                     <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
-                    <button>Edit My Registry</button>
+                    <Link to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: true}}>
+                        <button>Edit My Registry</button>
+                    </Link>
                 </div>
             : 
             (this.props.isHost === false?
                 <div className="event">
                     <p>{this.props.eventName}</p>
                     <p>{`Host: ${this.props.hostName}`}</p>
-                    <button>See Registry</button>
+                    <Link to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: false}}>
+                        <button>See Registry</button>
+                    </Link>
                 </div>
             :   
                 <div key='error'>

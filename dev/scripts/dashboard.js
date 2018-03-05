@@ -8,6 +8,7 @@ class Dashboard extends  React.Component {
         super(props);
         this.state = {
             userEvents: [],
+            userHostEvents: [],
             showModal: false,
             showSearchModal: false
         }
@@ -42,7 +43,7 @@ class Dashboard extends  React.Component {
     renderSearchModal() {
         if(this.state.showSearchModal === true) {
             return(
-                <SearchForRegistryModal user={this.props.user} />
+                <SearchForRegistryModal user={this.props.user} userHostEvents = {this.state.userHostEvents} />
             )
         }
     }
@@ -62,11 +63,7 @@ class Dashboard extends  React.Component {
                 {   this.state.userEvents.length > 0?
                             (this.state.userEvents.map((event) => {
                             return (
-
-
-
                                 <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user}/>
-
                                 )
                             })
                         )
@@ -85,12 +82,20 @@ class Dashboard extends  React.Component {
         dbref.on('value', (snapshot) => {
             const eventsData = snapshot.val();
             const copyOfDB = [];
+            const hostedEvents = [];
             for (let key in eventsData) {
                 eventsData[key].key = key;
                 copyOfDB.push(eventsData[key]);
             }
+            for (let key in eventsData) {
+                eventsData[key].key = key;
+                if(eventsData[key].isHost === true) {
+                    hostedEvents.push(eventsData[key].key);
+                }
+            }
             this.setState({
-                userEvents: copyOfDB
+                userEvents: copyOfDB,
+                userHostEvents: hostedEvents
             });
         });
     }

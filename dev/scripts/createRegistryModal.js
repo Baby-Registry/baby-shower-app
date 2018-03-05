@@ -48,6 +48,7 @@ class CreateRegistryModal extends React.Component {
 
     createEvent(userEventId) {
         const event = {
+            eventKey: userEventId,
             hostName: this.state.hostName,
             eventName: this.state.eventName,
             eventDate: this.state.eventDate.toString(),
