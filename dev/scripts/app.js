@@ -112,6 +112,7 @@ class App extends React.Component {
 
 
     render() {
+      const hi ="test";
       return (
         <Router>
           <React.Fragment>
@@ -128,6 +129,17 @@ class App extends React.Component {
             : null }
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
+
+            <Route
+              path="/invite/:eventid" exact
+              render={(props) => (
+              <InviteLandingPage {...this.state.user} 
+              {...props}
+              showLogin= { this.showLogin }
+              showSignUp = { this.showSignUp }
+              closeModal = { this.closeModal }
+              /> )} 
+            />
 
             {/* show either homepage or Dashboard */}
             {
