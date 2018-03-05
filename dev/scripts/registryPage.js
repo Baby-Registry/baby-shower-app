@@ -30,7 +30,7 @@ class RegistryPage extends React.Component {
         this.saveRegistry = this.saveRegistry.bind(this);
         this.dataCall = this.dataCall.bind(this);
         this.purchaseItem = this.purchaseItem.bind(this);
-        this.savePurchases = this.savePurchases.bind(this);
+        // this.savePurchases = this.savePurchases.bind(this);
         this.unpurchaseItem = this.unpurchaseItem.bind(this);
     }
 
@@ -93,7 +93,7 @@ class RegistryPage extends React.Component {
                     keywords: searchResults,
                     categories: categories,
                     page:pageNumber,
-                    limit: 5
+                    limit: 6
                 },
                 xmlToJSON: false
             }
@@ -150,8 +150,6 @@ class RegistryPage extends React.Component {
             selectionArray:copySelectionArray
         })
 
-        console.log(keysArray);
-        console.log(copySelectionArray);
         dbRef.remove();
         //pushing selected items into firebase, but the unique ID is custom (listing ID)
         for(let i = 0; i < keysArray.length ; i = i + 1) {
@@ -170,21 +168,21 @@ class RegistryPage extends React.Component {
         dbRef.update({ "purchase": false });
     }
 
-    savePurchases () {
-        console.log("hello");
-        dbRef.on("value", (res) => {
-            console.log(res.val());
-            const results = res.val();
+    // savePurchases () {
+    //     console.log("hello");
+    //     dbRef.on("value", (res) => {
+    //         console.log(res.val());
+    //         const results = res.val();
 
-            for (let key in results) {
-                copySelectionArray.push(results[key]);
-            }
+    //         for (let key in results) {
+    //             copySelectionArray.push(results[key]);
+    //         }
 
-            this.setState({
-                selectionArray: copySelectionArray
-            })
-        })
-    }
+    //         this.setState({
+    //             selectionArray: copySelectionArray
+    //         })
+    //     })
+    // }
 
     componentDidMount() {
         axios({
@@ -198,7 +196,7 @@ class RegistryPage extends React.Component {
                 reqUrl: `${variables.apiURL}/listings/active`,
                 params: {
                     api_key: `${variables.apiKey}`,
-                    limit: 5
+                    limit: 6
                 },
                 xmlToJSON: false
             }
@@ -230,8 +228,8 @@ class RegistryPage extends React.Component {
         return ( 
             <div>  
                 {true ?
-                    <section>
-                        <form onSubmit={this.handleSubmit}>
+                    <section className="searchResults">
+                        <form onSubmit={this.handleSubmit} className="searchBar">
                             <label htmlFor="search">Search</label>
                             <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
                             <input type="submit" value="submit" />
@@ -298,7 +296,7 @@ class RegistryPage extends React.Component {
                                     <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
                                 )
                             })}
-                            <button onClick={this.savePurchases}>Save Purchases</button>
+                            {/* <button onClick={this.savePurchases}>Save Purchases</button> */}
                         </React.Fragment>
                     </div>
                 }
