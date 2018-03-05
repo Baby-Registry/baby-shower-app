@@ -41,6 +41,11 @@ class RegistryList extends React.Component {
                 <h3>{`Quantity: ${this.props.selection.quantity} remaining`}</h3>
                 <a href={`${this.props.selection.url}`}>Link to Item</a>
                 <button onClick={() => this.props.remove(this.props.selection.listing_id)}>Remove Item</button>
+                {this.props.selection.purchase ? 
+                    <h3>This has been purchased by a guest</h3>
+                    :
+                    null
+                }
             </div>
         )
     }
