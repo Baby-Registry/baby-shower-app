@@ -17,7 +17,7 @@ class RegistryPage extends React.Component {
             pageNumber:1,
             listingaddButton:false,
             selectionArray:[],
-            guestArray:[]
+            keys:[]
 
         }
         this.handleChange = this.handleChange.bind(this);
@@ -29,6 +29,8 @@ class RegistryPage extends React.Component {
         this.removefromRegistry = this.removefromRegistry.bind(this);
         this.saveRegistry = this.saveRegistry.bind(this);
         this.dataCall = this.dataCall.bind(this);
+        this.purchaseItem = this.purchaseItem.bind(this);
+        this.savePurchases = this.savePurchases.bind(this);
 
     }
 
@@ -43,32 +45,36 @@ class RegistryPage extends React.Component {
         const searchResults = this.state.search;
         this.setState({
             search:searchResults
-        })
-        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
+        }, () => {
+            this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
+        });
     }
 
     handleCategory(e) {
         const newCategory = e.target.value;
         this.setState({
-            [e.target.name]:newCategory
-        })
-        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
+            categories:newCategory
+        }, () => {
+            this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
+        });
     }
 
     lessResults () {
         const newPageNumber = this.state.pageNumber - 1;
         this.setState({
             pageNumber: newPageNumber
+        }, () => {
+            this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
         });
-        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
     moreResults() {
         const newPageNumber = this.state.pageNumber + 1;
         this.setState({
             pageNumber: newPageNumber
+        }, () => {
+            this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
         });
-        this.dataCall(this.state.search, this.state.categories, this.state.pageNumber);
     }
 
     dataCall(searchResults, categories, pageNumber) {
@@ -93,7 +99,7 @@ class RegistryPage extends React.Component {
             }
         }).then(({ data }) => {
             this.setState({
-                searchResults: data.results
+                searchResults: data.results,
             })
         });
     }
@@ -108,6 +114,7 @@ class RegistryPage extends React.Component {
     }
 
     removefromRegistry (index) {
+        console.log(index);
         const removeItemArray = Array.from(this.state.selectionArray);
         const filteredremoveArray = removeItemArray.filter((value) => {
             return value.listing_id !== index;
@@ -115,24 +122,61 @@ class RegistryPage extends React.Component {
         this.setState({
             selectionArray:filteredremoveArray
         })
+
+        const key = this.state.keys;
+        const newKeys = Array.from(key);
+
+        if(key.length > 0) {
+            newKeys.splice(index, 1);
+    
+            this.setState({
+                keys:newKeys
+            })
+        }
+    
     }
     
     saveRegistry () {
-        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items`);
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items`);
         const copySelectionArray = Array.from(this.state.selectionArray);
-
-        //need to add USER ID and EVENT ID props to make dynamic
-        //need to push items as originally empty objects
-
-        dbRef.set(copySelectionArray);
+        const newKeys = this.state.keys;
+        
+        copySelectionArray.map((value) => {
+            console.log(value.listing_id);
+            newKeys.push(value.listing_id);
+        })
+        
+        this.setState({
+            keys: newKeys
+        })
+        dbRef.remove();
+        //pushing selected items into firebase, but the unique ID is custom (listing ID)
+        for(let i = 0; i < this.state.keys.length ; i = i + 1) {
+            dbRef.child(this.state.keys[i]).set(copySelectionArray[i]);
+            dbRef.child(this.state.keys[i]).update({"purchase":false});
+        }
     }
 
-    // guestSelection() {
-    //     const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items`);
-    //     const copySelectionArray = Array.from(this.state.selectionArray);
+    purchaseItem(index) {
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items/${index}`); 
+        dbRef.update({"purchase":true});
+    }
 
-    //     dbRef.set();
-    // }
+    savePurchases () {
+        console.log("hello");
+        dbRef.on("value", (res) => {
+            console.log(res.val());
+            const results = res.val();
+
+            for (let key in results) {
+                copySelectionArray.push(results[key]);
+            }
+
+            this.setState({
+                selectionArray: copySelectionArray
+            })
+        })
+    }
 
     componentDidMount() {
         axios({
@@ -156,95 +200,101 @@ class RegistryPage extends React.Component {
             })
         });
 
-        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items`);
+
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6qPgfa5EiF8EsP6X2n/items`);
         const copySelectionArray = [];
         dbRef.on("value", (res) => {
-            res.val().map((value) => {
-                copySelectionArray.push(value);
+            console.log(res.val());
+            const results = res.val();
+            
+            for(let key in results) {
+                copySelectionArray.push(results[key]);
+            }
+
+            this.setState({
+                selectionArray:copySelectionArray
             })
-        console.log(copySelectionArray);
-            //pulled data from database for guest - need to move it into state and map to screen
         })
     }
 
     render() {
         const host = this.props.location.isHost;
         return ( 
-            host ? 
-            <React.Fragment>      
-                <section>
-                    <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="search">Search</label>
-                        <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
-                        <input type="submit" value="submit" />
-                    </form>
-                    <form>
-                        <label htmlFor="accessories">Accessories</label>
-                        <input type="radio" name="categories" id="accessories" value="accessories" onChange={this.handleCategory} checked={this.state.categories === "accessories"}/>
+            <div>  
+                {false ?
+                    <section>
+                        <form onSubmit={this.handleSubmit}>
+                            <label htmlFor="search">Search</label>
+                            <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
+                            <input type="submit" value="submit" />
+                        </form>
+                        <form>
+                            <label htmlFor="accessories">Accessories</label>
+                            <input type="radio" name="categories" id="accessories" value="accessories" onChange={this.handleCategory} checked={this.state.categories === "accessories"}/>
 
-                        <label htmlFor="bath_and_beauty">Bath and Beauty</label>
-                        <input type="radio" name="categories" id="bath_and_beauty" value="bath_and_beauty" onChange={this.handleCategory} checked={this.state.categories === "bath_and_beauty"}/>
+                            <label htmlFor="bath_and_beauty">Bath and Beauty</label>
+                            <input type="radio" name="categories" id="bath_and_beauty" value="bath_and_beauty" onChange={this.handleCategory} checked={this.state.categories === "bath_and_beauty"}/>
 
-                        <label htmlFor="children">Children</label>
-                        <input type="radio" name="categories" id="children" value="children" onChange={this.handleCategory} checked={this.state.categories === "children"}/>
+                            <label htmlFor="children">Children</label>
+                            <input type="radio" name="categories" id="children" value="children" onChange={this.handleCategory} checked={this.state.categories === "children"}/>
 
-                        <label htmlFor="clothing">Clothing</label>
-                        <input type="radio" name="categories" id="clothing" value="clothing" onChange={this.handleCategory} checked={this.state.categories === "clothing"}/>
+                            <label htmlFor="clothing">Clothing</label>
+                            <input type="radio" name="categories" id="clothing" value="clothing" onChange={this.handleCategory} checked={this.state.categories === "clothing"}/>
 
-                        <label htmlFor="dolls_and_miniatures">Dolls and Miniatures</label>
-                        <input type="radio" name="categories" id="dolls_and_miniatures" value="dolls_and_miniatures" onChange={this.handleCategory} checked={this.state.categories === "dolls_and_miniatures"}/>
+                            <label htmlFor="dolls_and_miniatures">Dolls and Miniatures</label>
+                            <input type="radio" name="categories" id="dolls_and_miniatures" value="dolls_and_miniatures" onChange={this.handleCategory} checked={this.state.categories === "dolls_and_miniatures"}/>
 
-                        <label htmlFor="everything_else">Miscellaneous</label>
-                        <input type="radio" name="categories" id="everything_else" value="everything_else" onChange={this.handleCategory} checked={this.state.categories === "everything_else"}/>
+                            <label htmlFor="everything_else">Miscellaneous</label>
+                            <input type="radio" name="categories" id="everything_else" value="everything_else" onChange={this.handleCategory} checked={this.state.categories === "everything_else"}/>
 
-                        <label htmlFor="patterns">Patterns</label>
-                        <input type="radio" name="categories" id="patterns" value="patterns" onChange={this.handleCategory} checked={this.state.categories === "patterns"}/>
+                            <label htmlFor="patterns">Patterns</label>
+                            <input type="radio" name="categories" id="patterns" value="patterns" onChange={this.handleCategory} checked={this.state.categories === "patterns"}/>
 
-                        <label htmlFor="quilts">Quilts</label>
-                        <input type="radio" name="categories" id="quilts" value="quilts" onChange={this.handleCategory} checked={this.state.categories === "quilts"}/>
+                            <label htmlFor="quilts">Quilts</label>
+                            <input type="radio" name="categories" id="quilts" value="quilts" onChange={this.handleCategory} checked={this.state.categories === "quilts"}/>
 
-                        <label htmlFor="toys">Toys</label>
-                        <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
-                    </form>
-                    <div>
-                        {this.state.pageNumber >= 2
-                            ?
-                            <div>
-                                <button onClick={this.lessResults}>Back</button>
-                                <button onClick={this.moreResults}>Next</button>
-                            </div>
-                            :
-                            <button onClick={this.moreResults}>Next</button>}
-                    </div>
-                    <div>
-                        {this.state.searchResults.map((value) => {
-                            return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
-                        })}
-                    </div>
-                    <div>
-
-                        {this.state.selectionArray.map((value) => {
-                            return (
-                                <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} host={this.props.location.isHost} />
-                            )
-                        })}
-                        <button onClick={this.saveRegistry}>Save</button>
-                    </div>
-                </section>
-            </React.Fragment> 
-
+                            <label htmlFor="toys">Toys</label>
+                            <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
+                        </form>
+                        <div>
+                            {this.state.pageNumber >= 2
+                                ?
+                                <div>
+                                    <button onClick={this.lessResults}>Back</button>
+                                    <button onClick={this.moreResults}>Next</button>
+                                </div>
+                                :
+                                <button onClick={this.moreResults}>Next</button>}
+                        </div>
+                        <div>
+                            {this.state.searchResults.map((value) => {
+                                return <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
+                            })}
+                        </div>
+                        <div>
+                            {this.state.selectionArray.map((value) => {
+                                return (
+                                    <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry}/>
+                                )
+                            })}
+                            <button onClick={this.saveRegistry}>Save</button>
+                        </div>
+                    </section>
+                
                 :
-
-            <React.Fragment>
-                <div>
-                    {this.state.selectionArray.map((value) => {
-                        return (
-                            <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry} host={this.props.location.isHost} />
-                        )
-                    })}
-                    <button>Purchase</button>
-                </div>
-            </React.Fragment>
+                
+                    <div>
+                        <React.Fragment>
+                            {this.state.selectionArray.map((value) => {
+                                return (
+                                    <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} />
+                                )
+                            })}
+                            <button onClick={this.savePurchases}>Save Purchases</button>
+                        </React.Fragment>
+                    </div>
+                }
+            </div> 
             )   
         }
 }
