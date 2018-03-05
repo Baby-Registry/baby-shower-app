@@ -6,7 +6,7 @@ import SignOut from './signOut';
 import Dashboard from './dashboard';
 import { 
   BrowserRouter as Router, 
-  Route, Link } from 'react-router-dom';
+  Route, Link, Redirect } from 'react-router-dom';
 import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
@@ -48,7 +48,6 @@ class App extends React.Component {
 
     logInUser(event) {
       event.preventDefault();
-      console.trace('inside logInUser', event)
       const email = this.state.loginEmail;
       const password = this.state.loginPassword;
       firebase.auth().signInWithEmailAndPassword(email, password)
@@ -65,7 +64,6 @@ class App extends React.Component {
     }
 
     googleSignIn() {
-      console.log("Google signing in")
       const provider = new firebase.auth.GoogleAuthProvider();
 
       provider.setCustomParameters({
@@ -100,6 +98,8 @@ class App extends React.Component {
           user: {},
           loggedIn: false
       })
+
+      // return {<Redirect to="/" />};
     }
 
     showLogin() {
@@ -117,7 +117,6 @@ class App extends React.Component {
 
     // redirect user to dashboard after they log in
     redirectUserToDashBoard() {
-      console.log("now redirect user to dash");
       this.setState({
         redirectToDashboard: true,
       });
@@ -125,7 +124,6 @@ class App extends React.Component {
 
 
     render() {
-      const hi ="test";
       return (
         <Router>
           <React.Fragment>
@@ -155,6 +153,8 @@ class App extends React.Component {
               /> )} 
             />
 
+                
+            {/* show either homepage or Dashboard */}
             <Route
               path="/dashboard" exact
               render={(props) => (
@@ -162,12 +162,10 @@ class App extends React.Component {
                   loggedIn={this.state.loggedIn}
                 />)}
             />
-                
-            {/* show either homepage or Dashboard */}
             {
               (this.state.loggedIn === true || this.state.redirectToDashboard === true ) ?
                 <div>
-                  <Dashboard user={this.state.user} loggedIn={this.state.loggedIn} />
+                  <Redirect to="/dashboard" />}
                 </div>
 
               : 
@@ -182,7 +180,7 @@ class App extends React.Component {
   
     componentDidMount() {
       firebase.auth().onAuthStateChanged((res) => {
-        // console.log(res);
+        console.log(res);
         if (res) {
             this.setState({
               loggedIn: true,
