@@ -44,6 +44,8 @@ class App extends React.Component {
       this.showSignUp = this.showSignUp.bind(this);
       this.closeModal = this.closeModal.bind(this);
       this.googleSignIn = this.googleSignIn.bind(this);
+      this.redirectUserToDashBoard = this.redirectUserToDashBoard.bind(this);
+      this.firebaseListener = this.firebaseListener.bind(this);
     }
 
     logInUser(event) {
@@ -57,7 +59,6 @@ class App extends React.Component {
           this.setState({
              showLogin: false,
           });
-          this.redirectUserToDashBoard();
         }), (error) => {
           console.log(error);
         }
@@ -72,9 +73,7 @@ class App extends React.Component {
 
       firebase.auth().signInWithPopup(provider)
         .then((user) => {
-          console.log(user);
           this.closeModal();
-          this.redirectUserToDashBoard();
         }), (error) => {
           alert(error);
         }
@@ -99,7 +98,7 @@ class App extends React.Component {
           loggedIn: false
       })
 
-      // return {<Redirect to="/" />};
+      return  <p><Redirect to="/" /></p> ;
     }
 
     showLogin() {
@@ -165,9 +164,8 @@ class App extends React.Component {
             {
               (this.state.loggedIn === true || this.state.redirectToDashboard === true ) ?
                 <div>
-                  <Redirect to="/dashboard" />}
+                  <Redirect to="/dashboard" />
                 </div>
-
               : 
                 <Homepage />
             }
@@ -177,23 +175,33 @@ class App extends React.Component {
         </Router>
       )
     }
-  
-    componentDidMount() {
+
+    // componentWillReceiveProps() {
+    //   this.firebaseListener();
+    // }
+    
+    firebaseListener() {
       firebase.auth().onAuthStateChanged((res) => {
-        console.log(res);
         if (res) {
-            this.setState({
-              loggedIn: true,
-              user: res
-            });
-          } else {
-            this.setState({
-              loggedIn: false,
-              user: res
-            });
-          }
+          this.setState({
+            loggedIn: true,
+            user: res
+          },() => {
+            this.redirectUserToDashBoard();
+          });
+        } else {
+          this.setState({
+            loggedIn: false,
+            user: res,
+            redirectToDashboard: false
+          });
+        }
       })
     }
-}
+
+    componentDidMount() {
+      this.firebaseListener();
+    }
+  }
 
 ReactDOM.render(<App />, document.getElementById('app'));
