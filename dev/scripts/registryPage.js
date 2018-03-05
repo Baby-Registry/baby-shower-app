@@ -31,7 +31,7 @@ class RegistryPage extends React.Component {
         this.dataCall = this.dataCall.bind(this);
         this.purchaseItem = this.purchaseItem.bind(this);
         this.savePurchases = this.savePurchases.bind(this);
-
+        this.unpurchaseItem = this.unpurchaseItem.bind(this);
     }
 
     handleChange(e) {
@@ -165,6 +165,11 @@ class RegistryPage extends React.Component {
         dbRef.update({"purchase":true});
     }
 
+    unpurchaseItem(index) {
+        const dbRef = firebase.database().ref(`/Users/6uJ8PI3dsqPcqRgK3h6ZJ93Z2D02/events/-L6ruERZmSa7MbPjSGUJ/items/${index}`);
+        dbRef.update({ "purchase": false });
+    }
+
     savePurchases () {
         console.log("hello");
         dbRef.on("value", (res) => {
@@ -290,7 +295,7 @@ class RegistryPage extends React.Component {
                         <React.Fragment>
                             {this.state.selectionArray.map((value) => {
                                 return (
-                                    <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} />
+                                    <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
                                 )
                             })}
                             <button onClick={this.savePurchases}>Save Purchases</button>

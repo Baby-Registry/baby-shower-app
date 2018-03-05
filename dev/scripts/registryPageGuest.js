@@ -41,7 +41,10 @@ class RegistryGuest extends React.Component {
                 <h3>{`Quantity: ${this.props.selection.quantity} remaining`}</h3>
                 <a href={`${this.props.selection.url}`}>Link to Item</a>
                 {this.props.taken ?
-                    <h3>Already Taken!</h3>
+                    <React.Fragment>
+                        <h3>Already Taken!</h3>
+                        <button onClick={() => this.props.unpurchase(this.props.selection.listing_id)}>Would not like to purchase</button>
+                    </React.Fragment>
                     :
                     <button onClick={() => this.props.purchase(this.props.selection.listing_id)}>Purchase</button>
                 }
