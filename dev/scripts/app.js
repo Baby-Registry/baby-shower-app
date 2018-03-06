@@ -128,10 +128,8 @@ class App extends React.Component {
       return (
         <Router>
           <React.Fragment>
-            {/* always show header */}
-            <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal} googleSignIn={this.googleSignIn} />
-
             {/* always show/toggle log in or sign out modals */}
+            {/* render in the HTML ABOVE header so that modal can cover header */}
             {this.state.showLogin ?
               <LogIn logIn={this.logInUser} handleChange={this.handleChange} closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
             : null}
@@ -139,6 +137,10 @@ class App extends React.Component {
             {this.state.showSignUp ?
               <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn} redirectUserToDashBoard={this.redirectUserToDashBoard} />
             : null }
+
+            {/* always show header */}
+            <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal} googleSignIn={this.googleSignIn} />
+
 
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
