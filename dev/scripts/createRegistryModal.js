@@ -38,6 +38,8 @@ class CreateRegistryModal extends React.Component {
             hostName: this.state.hostName,
             eventName: this.state.eventName,
             isHost: true,
+            eventDate: this.state.eventDate.toString(),
+            eventLocation: this.state.eventLocation,
             items: ''
         }
 
@@ -49,6 +51,7 @@ class CreateRegistryModal extends React.Component {
     createEvent(userEventId) {
         const event = {
             eventKey: userEventId,
+            hostId: this.props.user.uid,
             hostName: this.state.hostName,
             eventName: this.state.eventName,
             eventDate: this.state.eventDate.toString(),

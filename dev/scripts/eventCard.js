@@ -53,7 +53,7 @@ class EventCard extends React.Component {
             )
         } else {
             return (
-                <p>{eventName}</p>
+                <h2>{eventName}</h2>
             )
         }
     }
@@ -64,9 +64,10 @@ class EventCard extends React.Component {
 
             this.props.isHost === true?
                 <div className="event">
-                    <p>Host</p>
+                    <p className="hostBadge">Host</p>
                     {this.showForm(this.props.eventName)}
                     <a href="#" className="btn__edit" onClick={(e) => this.allowEdit(e)}>Edit</a>
+                    <p className="eventDateLocation">{`Event: ${this.props.datetime} at the ${this.props.location}`}</p>
                     <Link to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: true}}>
                         <button>Edit My Registry</button>
                     </Link>
@@ -74,9 +75,10 @@ class EventCard extends React.Component {
             : 
             (this.props.isHost === false?
                 <div className="event">
-                    <p>{this.props.eventName}</p>
+                    <h2>{this.props.eventName}</h2>
                     <p>{`Host: ${this.props.hostName}`}</p>
-                    <Link to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: false}}>
+                    <p className="eventDateLocation">{`Event: ${this.props.datetime} at the ${this.props.location}`}</p>
+                    <Link to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: false, hostId:this.props.hostId}}>
                         <button>See Registry</button>
                     </Link>
                 </div>

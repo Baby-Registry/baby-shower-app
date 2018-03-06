@@ -11,6 +11,7 @@ class SearchForRegistryModal extends React.Component {
             foundEvents: [],
             redirect: false,
             eventKey: '',
+            eventHostId: '',
             searchTriggered: false
         }
         this.handleChange = this.handleChange.bind(this);
@@ -50,7 +51,7 @@ class SearchForRegistryModal extends React.Component {
                         <div key={foundEvent.key}>
                             <p>{foundEvent.eventName}</p>
                             <p>{foundEvent.hostName}</p>
-                            <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName)}>JOIN EVENT</button>
+                            <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName, foundEvent.hostId,foundEvent.eventDate, foundEvent.eventLocation)}>JOIN EVENT</button>
                         </div>
                     )
                 });
@@ -60,23 +61,27 @@ class SearchForRegistryModal extends React.Component {
 
     }
 
-    joinEvent(event, eventKey, eventName, eventHost) {
+    joinEvent(event, eventKey, eventName, eventHost, eventHostId, eventDate, eventLocation) {
         event.preventDefault();
 
         const userevent ={
             hostName: eventHost,
+            hostId: eventHostId,
             eventName: eventName,
-            isHost: false
+            isHost: false,
+            eventDate: eventDate,
+            eventLocation: eventLocation
         }
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`).child(eventKey).set(userevent);
         this.setState({eventKey: eventKey});
+        this.setState({eventHostId:eventHostId});
         this.setState({redirect: true});
     }
 
 
     render() {
         if(this.state.redirect) {
-            return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false}}/>}
+            return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false, hostId:this.state.eventHostId}}/>}
         return(
             <div>
                 <form onSubmit={(event) => this.searchRegistry(event)}>
