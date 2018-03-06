@@ -34,7 +34,7 @@ class RegistryGuest extends React.Component {
     }
     render() {
         return(
-            <React.Fragment>
+            <div className="guestCard">
                 <div className="guestCardImage">
                     <img src={this.state.imageURL} alt="" />
                 </div>
@@ -45,14 +45,14 @@ class RegistryGuest extends React.Component {
                     <a href={`${this.props.selection.url}`}>Link to Item</a>
                     {this.props.taken ?
                         <React.Fragment>
-                            <h3>Already Taken!</h3>
-                            <button onClick={() => this.props.unpurchase(this.props.selection.listing_id)}>Would not like to purchase</button>
+                            <h3 className="beenPurchased">Already Taken!</h3>
+                            <button onClick={() => this.props.unpurchase(this.props.selection.listing_id)}>Remove from Purchase List</button>
                         </React.Fragment>
                         :
-                        <button onClick={() => this.props.purchase(this.props.selection.listing_id)}>Purchase</button>
+                        <button onClick={() => this.props.purchase(this.props.selection.listing_id)}>Add to Purchase List</button>
                     }
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 

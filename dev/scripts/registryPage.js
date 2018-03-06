@@ -173,7 +173,6 @@ class RegistryPage extends React.Component {
     }
 
     // savePurchases () {
-    //     console.log("hello");
     //     dbRef.on("value", (res) => {
     //         console.log(res.val());
     //         const results = res.val();
@@ -223,22 +222,36 @@ class RegistryPage extends React.Component {
             })
         });
 
-        //need to change this.props.location.userId to HOST'S ID TO PULL DOWN ITEMS
-        const dbRef = firebase.database().ref(`/Users/${this.props.location.hostId}/events/${this.props.location.eventId}/items`);
-        dbRef.on("value", (res) => {
-            const copySelectionArray = [];
-            console.log(res.val());
-            const results = res.val();
-            
-            for(let key in results) {
-                copySelectionArray.push(results[key]);
-            }
-            console.log(`here is the copySelectionArray: ${copySelectionArray}`);
-            this.setState({
-                selectionArray:copySelectionArray
+        if(this.props.location.isHost === false) {
+            const dbRef = firebase.database().ref(`/Users/${this.props.location.hostId}/events/${this.props.location.eventId}/items`);
+            dbRef.on("value", (res) => {
+                const copySelectionArray = [];
+                const results = res.val();
+                console.log(results);
+                
+                for(let key in results) {
+                    copySelectionArray.push(results[key]);
+                }
+                this.setState({
+                    selectionArray:copySelectionArray
+                })
             })
-            console.log(`here is the selectionArray: ${this.state.selectionArray}`);
-        })
+        }
+        else if (this.props.location.isHost === true) {
+            const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items`);
+            dbRef.on("value", (res) => {
+                const copySelectionArray = [];
+                const results = res.val();
+                console.log(results);
+
+                for (let key in results) {
+                    copySelectionArray.push(results[key]);
+                }
+                this.setState({
+                    selectionArray: copySelectionArray
+                })
+            })
+        }
     }
 
     render() {
@@ -342,14 +355,13 @@ class RegistryPage extends React.Component {
                 :
                 
                     <div className="registryItems">
-                        <React.Fragment>
+                        <h2>Registry List</h2>
                             {this.state.selectionArray.map((value) => {
                                 return (
                                     <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
                                 )
                             })}
                             {/* <button onClick={this.savePurchases}>Save Purchases</button> */}
-                        </React.Fragment>
                     </div>
                 }
             </div> 
