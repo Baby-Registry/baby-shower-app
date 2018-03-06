@@ -18,7 +18,7 @@ class RegistryPage extends React.Component {
             listingaddButton:false,
             selectionArray:[],
             keys:[],
-            categoryClick:false
+            categoryClick:true
         }
         
         this.handleChange = this.handleChange.bind(this);
@@ -82,7 +82,7 @@ class RegistryPage extends React.Component {
     dataCall(searchResults, categories, pageNumber) {
         axios({
             method: 'GET',
-            url: 'http://proxy.hackeryou.com',
+            url: 'https://proxy.hackeryou.com',
             dataResponse: 'json',
             paramsSerializer: function (params) {
                 return Qs.stringify(params, { arrayFormat: 'brackets' })
@@ -203,7 +203,7 @@ class RegistryPage extends React.Component {
     componentDidMount() {
         axios({
             method: 'GET',
-            url: 'http://proxy.hackeryou.com',
+            url: 'https://proxy.hackeryou.com',
             dataResponse: 'json',
             paramsSerializer: function (params) {
                 return Qs.stringify(params, { arrayFormat: 'brackets' })
@@ -267,7 +267,7 @@ class RegistryPage extends React.Component {
                         </form>
                         <div className="filter clearfix">
                             <h2>Filters:</h2>
-                            <button><h3 onClick={this.categoryDropdown}>Categories</h3></button>
+                            <button onClick={this.categoryDropdown}>Categories</button>
                         </div>
                         <div className="resultsButtons clearfix">
                             {this.state.pageNumber >= 2
