@@ -3,14 +3,20 @@
 .hide {
     display: none;
 }
+// General class to emphasize text
+.em {
+    font-weight: bold;
+}
 
-// button {
-//     padding: 10px 15px;
-//     font-size: 1.8rem;
-//     margin-right: 50px;
-//     font-weight: bold;
-//     min-width: 200px;
-// }
+button {
+    padding: 10px 15px;
+    min-width: 150px;
+    background-color: #DB5461;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    color: whitesmoke;
+    border: none;
+    border-radius: 2px;
+}
 
 .SelectedItems {
     background-color: salmon;
@@ -46,11 +52,11 @@
 // Button
 //---------------------
 
-.btn {
-   display: inline-block;
-   border: 1px solid black;
-   padding: 10px 20px;
-}
+// .btn {
+//    display: inline-block;
+//    border: 1px solid black;
+//    padding: 10px 20px;
+// }
 
 .afterAdd {
     background: $color-ac2;
@@ -69,7 +75,7 @@ header {
     min-height: 80px;
     background: $color-ac;
     color: black;
-    width: 100vw;
+    // width: 100vw;
     padding: 0 40px;
     ~ section, ~ main {
         clear: both;
