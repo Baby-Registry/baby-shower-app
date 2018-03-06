@@ -254,7 +254,7 @@ class RegistryPage extends React.Component {
                             <h3>Filters:</h3>
                             <button><h3 onClick={this.categoryDropdown}>Categories</h3></button>
                         </div>
-                        <div>
+                        <div className="resultsButtons clearfix">
                             {this.state.pageNumber >= 2
                                 ?
                                 <div className="nextBackButton">

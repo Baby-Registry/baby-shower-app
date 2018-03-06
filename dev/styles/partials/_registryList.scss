@@ -10,15 +10,20 @@
 .filter {
     margin-top:20px;
     margin-bottom:20px;
-    h3 {
+    width:50%;
+    float:left;
+    button {
         float:left;
+        margin-left:20px;
     }
     h3:first-of-type {
         margin-left:10%;
+        float:left;
     }
-    h3:nth-of-type(2) {
-        margin-left:40px;
-    }
+}
+
+.resultsButton {
+    float:left;
 }
 
 .categories {
@@ -42,18 +47,6 @@
     label {
         margin-left:10px;
     }
-}
-
-.nextBackButton {
-    margin-left:33%;
-    margin-top:30px;
-    margin-bottom:30px;
-}
-
-.nextButton {
-    margin-left:42%;
-    margin-top:30px;
-    margin-bottom:30px;
 }
 
 .searchGrid {
