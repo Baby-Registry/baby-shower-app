@@ -84,6 +84,7 @@ class CreateRegistryModal extends React.Component {
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
                     <Datetime onChange={this.handleDate} defaultValue={date} closeOnSelect={true} />
+
                         <button>Create My Event!</button>
                 </form>
             </div>

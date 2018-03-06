@@ -35,6 +35,8 @@ class App extends React.Component {
         loginPassword: '',
         showLogin: false,
         showSignUp: false,
+        userHostEvents: [],
+        userEvents: []
       }
       this.logInUser = this.logInUser.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -43,7 +45,6 @@ class App extends React.Component {
       this.showSignUp = this.showSignUp.bind(this);
       this.closeModal = this.closeModal.bind(this);
       this.googleSignIn = this.googleSignIn.bind(this);
-      this.firebaseListener = this.firebaseListener.bind(this);
     }
 
     logInUser(event) {
@@ -141,12 +142,16 @@ class App extends React.Component {
               closeModal = { this.closeModal }
               /> )} 
             />
-
+            
+            {/* Changes: passing down userHostEvents and userEvents */}
             <Route
               path="/dashboard" exact
               render={(props) => (
-                <Dashboard user={this.state.user}
+                <Dashboard 
+                  user={this.state.user}
                   loggedIn={this.state.loggedIn}
+                  userHostEvents={this.state.userHostEvents}
+                  userEvents={this.state.userEvents}
                 />)}
             />
 
@@ -159,15 +164,42 @@ class App extends React.Component {
       )
     }
 
-    firebaseListener() {
+    componentDidMount() {
       firebase.auth().onAuthStateChanged((res) => {
         if (res) {
           this.setState({
             loggedIn: true,
             user: res
-          },() => {
+          }, () => {
           });
-        } else {
+        // code below grabs the user's event objects (userEvents) and array of ids where they are hosts for (userHostEvents) and sets it in state. It will be passed down to dashboard.
+          const dbref = firebase.database().ref(`/Users/${res.uid}/events`);
+          // console.log(`/users/${this.props.user.uid}/events`);
+          dbref.on('value', (snapshot) => {
+
+            console.log(snapshot.val());
+            const eventsData = snapshot.val();
+            const copyOfDB = [];
+            const hostedEvents = [];
+            for (let key in eventsData) {
+              eventsData[key].key = key;
+              copyOfDB.push(eventsData[key]);
+            }
+            for (let key in eventsData) {
+              eventsData[key].key = key;
+              if (eventsData[key].isHost === true) {
+                hostedEvents.push(eventsData[key].key);
+              }
+            }
+            console.log("hahah", hostedEvents);
+            this.setState({
+              userEvents: copyOfDB,
+              userHostEvents: hostedEvents
+            });
+          });
+        } 
+        
+        else {
           this.setState({
             loggedIn: false,
             user: res,
@@ -175,10 +207,9 @@ class App extends React.Component {
           });
         }
       })
-    }
 
-    componentDidMount() {
-      this.firebaseListener();
+
+
     }
   }
 
