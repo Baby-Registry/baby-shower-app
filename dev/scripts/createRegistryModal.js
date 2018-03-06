@@ -2,13 +2,15 @@ import React from 'react';
 import Datetime from 'react-datetime';
 import { Redirect } from 'react-router';
 
+let today = new Date();
+let formattedDate = ("0"+(today.getMonth()+1)).slice(-2) + "-" + ("0"+(today.getDate())).slice(-2) + "-" + today.getFullYear() + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2);
 
 class CreateRegistryModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             eventName: '',
-            eventDate: new Date(),
+            eventDate: formattedDate,
             eventLocation: '',
             hostName: '',
             isHost: false,
@@ -29,7 +31,7 @@ class CreateRegistryModal extends React.Component {
     }
 
     handleDate(date){
-        this.setState({eventDate: date._d}); 
+        this.setState({eventDate: ("0"+(date._d.getMonth()+1)).slice(-2) + "-" + ("0"+(date._d.getDate())).slice(-2) + "-" + date._d.getFullYear() + " " + ("0" + date._d.getHours()).slice(-2) + ":" + ("0" + date._d.getMinutes()).slice(-2)});
      };
 
      createUserEvent(event, userid) {
@@ -70,8 +72,6 @@ class CreateRegistryModal extends React.Component {
 
     render() {
         var date = new Date();
-    
-
         if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: true}}/>}
 
         return(
