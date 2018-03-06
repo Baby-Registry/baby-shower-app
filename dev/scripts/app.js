@@ -6,7 +6,7 @@ import SignOut from './signOut';
 import Dashboard from './dashboard';
 import { 
   BrowserRouter as Router, 
-  Route, Link, Redirect } from 'react-router-dom';
+  Route, Link } from 'react-router-dom';
 import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
@@ -35,7 +35,6 @@ class App extends React.Component {
         loginPassword: '',
         showLogin: false,
         showSignUp: false,
-        redirectToDashboard: false,
       }
       this.logInUser = this.logInUser.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -44,7 +43,6 @@ class App extends React.Component {
       this.showSignUp = this.showSignUp.bind(this);
       this.closeModal = this.closeModal.bind(this);
       this.googleSignIn = this.googleSignIn.bind(this);
-      this.redirectUserToDashBoard = this.redirectUserToDashBoard.bind(this);
       this.firebaseListener = this.firebaseListener.bind(this);
     }
 
@@ -97,9 +95,6 @@ class App extends React.Component {
           user: {},
           loggedIn: false
       })
-
-      // return  <p><Redirect to="/" /></p> ;
-      this.redirectUserToDashBoard();
     }
 
     // 3 methods for showing/hiding the log in /sign up modals
@@ -116,14 +111,6 @@ class App extends React.Component {
       this.setState({ showLogin: false, showSignUp: false, });
     }
 
-    // redirect user to dashboard after they log in
-    redirectUserToDashBoard() {
-      this.setState({
-        redirectToDashboard: true,
-      });
-    }
-
-
     render() {
       return (
         <Router>
@@ -135,12 +122,11 @@ class App extends React.Component {
             : null}
   
             {this.state.showSignUp ?
-              <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn} redirectUserToDashBoard={this.redirectUserToDashBoard} />
+              <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
             : null }
 
             {/* always show header */}
             <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal} googleSignIn={this.googleSignIn} />
-
 
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
@@ -163,52 +149,16 @@ class App extends React.Component {
                   loggedIn={this.state.loggedIn}
                 />)}
             />
-            
-            {/* Show link to the Dashboard if the user is logged in */}
-            {/* { (this.state.loggedIn === true) ? 
-              <React.Fragment>
-                <Link to="/dashboard"><div className="linkToDash"> Go to My Dashboard </div></Link> */}
-                {/* <Redirect to="/dashboard" /> */}
-              {/* </React.Fragment>
-            : <React.Fragment>
-               <p>Log in to see the dashboard</p>
-                <Homepage />
-             </React.Fragment>
-            } */}
+
             <Route path="/" exact render={(props) => (
               <Homepage loggedIn={this.state.loggedIn} />)}
             />
-            
-
-
-            {/* redirectToDashboard once user signs in. Otherwise reload this page */}
-            {/* {
-              (this.state.redirectToDashboard === true) ?
-                <div>
-                  <Redirect to="/dashboard" />
-                </div>
-                :
-                  <Redirect to="/" />
-            } */}
-            
-            {/* added this to fix bug with page not refreshing when loggin out on registry page */}
-            {/* {
-              this.state.loggedIn ?
-                <Redirect to="/dashboard" />
-              :
-              <Homepage />
-            } */}
-
 
           </React.Fragment>
         </Router>
       )
     }
 
-    // componentWillReceiveProps() {
-    //   this.firebaseListener();
-    // }
-    
     firebaseListener() {
       firebase.auth().onAuthStateChanged((res) => {
         if (res) {
@@ -216,7 +166,6 @@ class App extends React.Component {
             loggedIn: true,
             user: res
           },() => {
-            this.redirectUserToDashBoard();
           });
         } else {
           this.setState({

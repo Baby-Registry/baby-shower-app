@@ -57,16 +57,16 @@
     margin-bottom: 40px;
 }
 
-.btn ~ .btn {
-    margin-top: 20px;
-}
+// .btn ~ .btn {
+//     margin-top: 20px;
+// }
 
 
 //---------------------
 // Header
 //---------------------
 header {
-    height: 80px;
+    min-height: 80px;
     background: $color-ac;
     color: black;
     width: 100vw;
@@ -84,15 +84,31 @@ header {
         fill: white;
     }
 
-    .layout__beside {
+    .header__right {
         margin-top: 20px;
+        .btn ~ .btn {
+            margin-left: 10px;
+        }
     }
 
-    .btn {
-        margin-top: 0;
+    button.btn {
+        margin-top: 0px;
     }
 }
 
+.text__header {
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+span.text__header {
+    font-weight: 700;
+}
+
+a.text__header {
+    font-style: italic;
+}
 //---------------------
 // Layouts (floats)
 //---------------------

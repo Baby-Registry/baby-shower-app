@@ -88,7 +88,6 @@ class Dashboard extends  React.Component {
     }
     // if refreshing dashboard
     componentWillReceiveProps(props) {
-        console.log(props)
         if(props.user !== undefined && props.user !== null) {
             this.listenToDB();
         }
@@ -121,7 +120,6 @@ class Dashboard extends  React.Component {
 
     // if arriving at dashboard from another page
     componentDidMount() {
-        console.log(this.props);
         if(this.props.user !== undefined && this.props.user !== null) {
             this.listenToDB();
         }
