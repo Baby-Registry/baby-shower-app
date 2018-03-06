@@ -243,6 +243,7 @@ class RegistryPage extends React.Component {
     render() {
         return ( 
             <div>  
+
                 {this.props.location.isHost ?
                     <section className="clearfix">
                         <form onSubmit={this.handleSubmit} className="searchBar">

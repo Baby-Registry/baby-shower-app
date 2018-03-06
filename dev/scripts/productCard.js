@@ -32,12 +32,13 @@ class ProductCard extends React.Component {
         }
 
     render() {
+        console.log(this.props.data);
         return (
-            <div>
+            <div className="productCard">
                 <img src={this.state.imageURL} alt=""/>
-                <h2>{this.props.data.title}</h2>
-                <h3>{`Price: ${this.props.data.currency_code} ${this.props.data.price}`}</h3>
-                <h3>{`Quantity: ${this.props.data.quantity} remaining`}</h3>
+                <h2 className="heading__product">{this.props.data.title}</h2>
+                <h3>{`$${this.props.data.price} ${this.props.data.currency_code}`}</h3>
+                <h3>{`${this.props.data.quantity} remaining`}</h3>
                 <a href={`${this.props.data.url}`}>Link to Item</a>
                 <button onClick={() => this.props.add(this.props.data)}>Add me!</button>
             </div>

@@ -1,0 +1,77 @@
+//---------------------
+// Typography
+//---------------------
+@mixin remCalc($fontSize) {
+    font-size: ($fontSize / 16) * 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    // font-size: 1.6rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, p, a, ul {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5 ,h6 {
+    font-family: 'Karla', serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+// input,
+// button {
+//     -moz-appearance: none;
+//     -webkit-appearance: none; 
+// }
+
+.heading {
+    &__form {
+        @include remCalc(24);
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    &__page {
+        @include remCalc(28);
+        margin-bottom: 15px;
+    }
+
+    &__hero {
+        @extend .heading__page;
+        text-align: center;
+    }
+
+    &__section {
+        @include remCalc(20);
+        margin-bottom: 20px;
+    }
+
+}
+
+.label__form {
+    margin-bottom: 5px;
+    // color: black;
+}
+
+.graphics {
+    width: initial;
+}
+
+h1 {
+    // header app name
+    padding-top: 18px;
+    // font-family: 
+}
+

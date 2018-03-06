@@ -6,24 +6,29 @@ import React from 'react';
 const Homepage = () => {
     return (
         <main className="homepage">
+            <section className="hero">
+                <h2 className="heading__hero layout__XYCenter">The Best Etsy Baby Registry</h2>
+            </section>
             <div className="wrapper">
-                <section className="hero">
-                    <h2 className="heading__hero layout__XYCenter">Stress-free Event Planning</h2>
-                </section>
     
                 <section className="layout__opposite clearfix layout__half padding">
 
                     <div className="home__description">
-                        <p className="smallWrap">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis debitis sed voluptatibus consequuntur impedit, minus, officia provident distinctio dolor voluptates perferendis eum nam nesciunt! Commodi enim aliquam illo facere consectetur, at dignissimos nemo soluta quis laudantium sint atque quae officia, a magni sapiente labore voluptatibus, fuga harum reiciendis quam. Sit nam eaque dolore, a veniam quos nulla dolores nobis officiis? Dolorum beatae fugiat, repudiandae officiis eos excepturi quis dolores cumque!</p>
+                        <div className="smallWrap">
+                            <h3 className="heading__section">Make your baby shower extra special with Baby Registry!</h3>
+                            <p>1. Search for Etsy gifts</p>
+                            <p>2. Invite guests to your event</p>
+                            <p>3. Keep track of your guests choices!</p>
+                        </div>
                     </div>
                     
                     <div className="home__graphic">
-                        <img src="/assets/svg-babyGirl.svg" alt="Graphic of baby girl" className="graphics layout__XYCenter" />
+                        <img src="/assets/svg-babyGirl-black.svg" alt="Graphic of baby girl" className="graphics layout__XYCenter" />
                     </div>
                 </section>
-                <section>
+                {/* <section>
                     <img src="/assets/baby.jpeg" alt="Baby girl in a tutu eating cake"/>
-                </section>
+                </section> */}
             </div>
         </main>
 

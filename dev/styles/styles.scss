@@ -1,13 +1,17 @@
 @import 'partials/_variables';
 @import 'partials/_setup';
 @import 'partials/_general';
+@import 'partials/typography';
 @import 'partials/_react-datetime';
 @import 'partials/_registryList';
 @import 'partials/_dashboard';
+@import 'partials/_productCard';
+@import 'partials/_forms';
 
 
 // $color-main: #2d3956;
 // $color-ac: #b7eae3;
+
 // $color-ltgray: #efefef;
 // $color-dkgray: #c1c1b5;
 
@@ -96,14 +100,24 @@
 //---------------------
 header {
     height: 80px;
-    background: $color-main;
-    color: white;
+    background: $color-ac;
+    color: black;
     width: 100vw;
     padding: 0 40px;
     ~ section, ~ main {
         clear: both;
     }
+    a:visited {
+        color: black;
+    }
+
+    .logo {
+        height: 63px;
+        margin-top: 7px;
+        fill: white;
+    }
 }
+
 
 //---------------------
 // Homepage
@@ -111,6 +125,10 @@ header {
 .homepage {
     .layout__half > * {
         min-height: 420px;
+        @media(max-width: $break-med) {
+            min-height: 300px;
+            padding: 40px;
+        }
     }
 }
 .hero {
@@ -126,6 +144,10 @@ header {
     img {
         width: 200px;
     }
+}
+
+.home__description {
+    padding-right: 23px;
 }
 
 //---------------------

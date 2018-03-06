@@ -1,0 +1,44 @@
+//---------------------
+// Modal
+//---------------------
+.modal {
+    // the gray overlay part of the modal
+    width: 100vw;
+    height: 100vh;
+    background: rgba(lightgray, 0.8);
+    position: fixed;
+    z-index: 100;
+}
+
+
+//---------------------
+// Forms
+//---------------------
+form {
+    border: 1px solid $color-main;
+    color: black;
+    padding: 60px 40px;
+    background: $color-ac;
+    input {
+        border: 1px solid $color-main;
+        padding: 5px 8px;
+    }
+}
+
+.form__auth {
+    // padding bottom for absolutely positioned button
+    padding-bottom: 130px;
+}
+
+.btn__form {
+    margin-top: 30px;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 20px 0;
+    label, input {
+        display: block;
+    }
+}
