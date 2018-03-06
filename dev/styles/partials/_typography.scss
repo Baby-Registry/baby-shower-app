@@ -30,6 +30,12 @@ img {
     display: block;
 }
 
+input,
+button {
+    -moz-appearance: none;
+    -webkit-appearance: none; 
+}
+
 .heading {
     &__form {
         @include remCalc(24);
@@ -67,6 +73,7 @@ img {
 h1 {
     // header app name
     padding-top: 18px;
+    // font-size: 3.7rem; 
     // font-family: 
 }
 
