@@ -26,7 +26,7 @@ class ProductCard extends React.Component {
             xmlToJSON: false
             }}).then(({ data }) => {
                 this.setState({
-                    imageURL:data.results[0].url_fullxfull
+                    imageURL:data.results[0].url_170x135
                 })
             })
         }
@@ -35,12 +35,16 @@ class ProductCard extends React.Component {
         console.log(this.props.data);
         return (
             <div className="productCard">
-                <img src={this.state.imageURL} alt=""/>
-                <h2 className="heading__product">{this.props.data.title}</h2>
-                <h3>{`$${this.props.data.price} ${this.props.data.currency_code}`}</h3>
-                <h3>{`${this.props.data.quantity} remaining`}</h3>
-                <a href={`${this.props.data.url}`}>Link to Item</a>
-                <button onClick={() => this.props.add(this.props.data)}>Add me!</button>
+                <div className="productCardImage">
+                    <img src={this.state.imageURL} alt=""/>
+                </div>
+                <div className="productCardDesc">
+                    <h3>{this.props.data.title}</h3>
+                    <h4>{`${this.props.data.currency_code} $${this.props.data.price}`}</h4>
+                    <h4>{`${this.props.data.quantity} remaining`}</h4>
+                    <a href={`${this.props.data.url}`}>More Details on Item</a>
+                    <button onClick={() => this.props.add(this.props.data)}>Add me!</button>
+                </div>
             </div>
         )
     }
