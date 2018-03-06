@@ -1,0 +1,44 @@
+//---------------------
+// Homepage
+//---------------------
+.homepage {
+    .layout__half > * {
+        min-height: 420px;
+        @media(max-width: $break-med) {
+            min-height: 300px;
+            padding: 40px;
+        }
+    }
+}
+.hero {
+    position: relative;
+    background: url('/assets/home-hero.jpeg') center no-repeat;
+    background-size: cover;
+    height: 50vh;
+}
+
+.home__graphic {
+    position: relative;
+    background: $color-ac;
+    img {
+        width: 200px;
+    }
+}
+
+.home__description {
+    padding-right: 23px;
+}
+
+.linkToDash {
+    min-height: 30px;
+    background: $color-ac2;
+    position: relative;
+    @include remCalc(20);
+    > * {
+        @extend .layout__XYCenter;
+        color: black;
+        &:visited {
+            color: black;
+        }
+    }
+}

@@ -164,23 +164,40 @@ class App extends React.Component {
                 />)}
             />
             
+            {/* Show link to the Dashboard if the user is logged in */}
+            {/* { (this.state.loggedIn === true) ? 
+              <React.Fragment>
+                <Link to="/dashboard"><div className="linkToDash"> Go to My Dashboard </div></Link> */}
+                {/* <Redirect to="/dashboard" /> */}
+              {/* </React.Fragment>
+            : <React.Fragment>
+               <p>Log in to see the dashboard</p>
+                <Homepage />
+             </React.Fragment>
+            } */}
+            <Route path="/" exact render={(props) => (
+              <Homepage loggedIn={this.state.loggedIn} />)}
+            />
+            
+
+
             {/* redirectToDashboard once user signs in. Otherwise reload this page */}
-            {
+            {/* {
               (this.state.redirectToDashboard === true) ?
                 <div>
                   <Redirect to="/dashboard" />
                 </div>
                 :
                   <Redirect to="/" />
-            }
+            } */}
             
             {/* added this to fix bug with page not refreshing when loggin out on registry page */}
-            {
+            {/* {
               this.state.loggedIn ?
                 <Redirect to="/dashboard" />
               :
               <Homepage />
-            }
+            } */}
 
 
           </React.Fragment>

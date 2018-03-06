@@ -1,3 +1,9 @@
+
+// Class which can be toggled to display/ hide html components
+.hide {
+    display: none;
+}
+
 // button {
 //     padding: 10px 15px;
 //     font-size: 1.8rem;
@@ -6,13 +12,126 @@
 //     min-width: 200px;
 // }
 
-
-
-// REMOVE LATER
-// img {
-//     max-width: 100px;
-// }
-
 .SelectedItems {
     background-color: salmon;
+}
+
+//---------------------
+// All Section
+//---------------------
+.wrapper {
+    width: 80%;
+    max-width: 1150px;
+    margin: 0 auto;
+    @media (max-width: $break-large) {
+        width: 95%;
+    } 
+}
+
+.smallWrap {
+    width: 90%;
+    margin: 0 auto;
+    @media (max-width:$break-med) {
+        width: 95%;
+    }
+}
+
+
+.padding > * {
+    padding: 80px 0;
+
+}
+
+//---------------------
+// Button
+//---------------------
+
+.btn {
+   display: inline-block;
+   border: 1px solid black;
+   padding: 10px 20px;
+}
+
+.afterAdd {
+    background: $color-ac2;
+    margin-bottom: 40px;
+}
+
+.btn ~ .btn {
+    margin-top: 20px;
+}
+
+
+//---------------------
+// Header
+//---------------------
+header {
+    height: 80px;
+    background: $color-ac;
+    color: black;
+    width: 100vw;
+    padding: 0 40px;
+    ~ section, ~ main {
+        clear: both;
+    }
+    a:visited {
+        color: black;
+    }
+
+    .logo {
+        height: 63px;
+        margin-top: 7px;
+        fill: white;
+    }
+
+    .layout__beside {
+        margin-top: 20px;
+    }
+
+    .btn {
+        margin-top: 0;
+    }
+}
+
+//---------------------
+// Layouts (floats)
+//---------------------
+.layout__opposite {
+    > * {
+        display: inline;
+    }
+    div:first-child {
+        float: left;
+    }
+    div:last-child {
+        float: right;
+    }
+}
+
+.layout__beside {
+    > * {
+        display: inline;
+    }
+}
+
+.layout__XCenter {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.layout__XYCenter {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+.layout__half {
+    > * {
+        width: 50%;
+    }
+}
+
+.layout__marginCenter {
+    margin: 0 auto;
 }
