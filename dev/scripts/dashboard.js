@@ -55,7 +55,7 @@ class Dashboard extends  React.Component {
     render() {
         return(
             <main>
-            { this.props.user ?
+
                     (<div className="wrapper">
                         {this.renderModal()}
                         {this.renderSearchModal()}
@@ -80,23 +80,23 @@ class Dashboard extends  React.Component {
                             }
                         </section>
                     </div>)
-            :
-                <Redirect to="/" />
-            }
+
             </main>
         )
     }
     // if refreshing dashboard
     componentWillReceiveProps(props) {
+        console.log(`inside componrnet will reviece props`)
         if(props.user !== undefined && props.user !== null) {
             this.listenToDB();
+            console.log(`running componenet will recieving props`);
         }
     }
     listenToDB() {
-        console.log(this.props);
+        console.log(`running listentoDB`,this.props);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         // console.log(`/users/${this.props.user.uid}/events`);
-        this.unsubscribe = dbref.on('value', (snapshot) => {
+        dbref.on('value', (snapshot) => {
             // console.log('In the db value')
             const eventsData = snapshot.val();
             const copyOfDB = [];
@@ -120,8 +120,10 @@ class Dashboard extends  React.Component {
 
     // if arriving at dashboard from another page
     componentDidMount() {
+        console.log(`inside component did mount`);
         if(this.props.user !== undefined && this.props.user !== null) {
             this.listenToDB();
+            console.log(`running component did mount`);
         }
     }
 }
