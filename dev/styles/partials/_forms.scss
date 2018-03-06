@@ -17,8 +17,7 @@
 form {
     border: 1px solid $color-main;
     color: black;
-    padding: 60px 40px;
-    background: $color-ac;
+
     input {
         border: 1px solid $color-main;
         padding: 5px 8px;
@@ -26,7 +25,10 @@ form {
 }
 
 .form__auth {
+    padding: 60px 40px;
+    background: $color-ac;
     // padding bottom for absolutely positioned button
+    
     padding-bottom: 130px;
 }
 

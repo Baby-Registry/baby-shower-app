@@ -97,8 +97,8 @@ class Dashboard extends  React.Component {
         console.log(this.props);
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events`);
         // console.log(`/users/${this.props.user.uid}/events`);
-        dbref.on('value', (snapshot) => {
-            console.log('In the db value')
+        this.unsubscribe = dbref.on('value', (snapshot) => {
+            // console.log('In the db value')
             const eventsData = snapshot.val();
             const copyOfDB = [];
             const hostedEvents = [];
@@ -118,6 +118,7 @@ class Dashboard extends  React.Component {
             });
         });
     }
+
     // if arriving at dashboard from another page
     componentDidMount() {
         console.log(this.props);
