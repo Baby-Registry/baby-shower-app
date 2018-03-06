@@ -1,0 +1,28 @@
+
+//---------------------
+// inviteLandingPage
+//---------------------
+
+.inviteLandingPage {
+    img {
+        width: initial;
+        margin: 50px auto;
+        // margin: 50px 0;
+        // margin-left: 43%;
+    }
+    .wrapper {
+        background: $color-ltgray;
+        padding: 100px 0;
+        > * {
+            display:block;
+            text-align: center;
+        }
+    }
+}
+
+.wrap__button {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+

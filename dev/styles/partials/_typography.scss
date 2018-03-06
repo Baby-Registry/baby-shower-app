@@ -49,8 +49,9 @@ img {
     }
 
     &__hero {
-        @extend .heading__page;
+        @include remCalc(38);
         text-align: center;
+        color: white;
     }
 
     &__section {

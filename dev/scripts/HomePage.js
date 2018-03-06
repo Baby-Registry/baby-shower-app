@@ -1,11 +1,18 @@
 import React from 'react';
+import {
+    Link
+} from 'react-router-dom';
 
 
 // This page is completely static
 // <Homepage />
-const Homepage = () => {
+const Homepage = (props) => {
     return (
         <main className="homepage">
+            {  props.loggedIn === true ?
+                <Link to="/dashboard"><div className="linkToDash"> <h4> Go to My Dashboard </h4> </div></Link>
+            : null
+            }
             <section className="hero">
                 <h2 className="heading__hero layout__XYCenter">The Best Etsy Baby Registry</h2>
             </section>
