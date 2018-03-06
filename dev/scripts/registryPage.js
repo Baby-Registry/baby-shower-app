@@ -230,7 +230,7 @@ class RegistryPage extends React.Component {
         return ( 
             <div>  
 
-                {false ?
+                {true ?
                     <section>
                         <form onSubmit={this.handleSubmit}>
                             <label htmlFor="search">Search</label>

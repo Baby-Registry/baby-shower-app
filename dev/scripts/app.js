@@ -98,9 +98,11 @@ class App extends React.Component {
           loggedIn: false
       })
 
-      return  <p><Redirect to="/" /></p> ;
+      // return  <p><Redirect to="/" /></p> ;
+      this.redirectUserToDashBoard();
     }
 
+    // 3 methods for showing/hiding the log in /sign up modals
     showLogin() {
       this.setState({ showLogin: true });
     }
@@ -152,8 +154,6 @@ class App extends React.Component {
               /> )} 
             />
 
-                
-            {/* show either homepage or Dashboard */}
             <Route
               path="/dashboard" exact
               render={(props) => (
@@ -161,13 +161,23 @@ class App extends React.Component {
                   loggedIn={this.state.loggedIn}
                 />)}
             />
+            
+            {/* redirectToDashboard once user signs in. Otherwise reload this page */}
             {
-              (this.state.loggedIn === true || this.state.redirectToDashboard === true ) ?
+              (this.state.redirectToDashboard === true) ?
                 <div>
                   <Redirect to="/dashboard" />
                 </div>
-              : 
-                <Homepage />
+                :
+                  <Redirect to="/" />
+            }
+            
+            {/* added this to fix bug with page not refreshing when loggin out on registry page */}
+            {
+              this.state.loggedIn ?
+                <Redirect to="/dashboard" />
+              :
+              <Homepage />
             }
 
 
