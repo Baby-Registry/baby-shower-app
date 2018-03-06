@@ -30,12 +30,6 @@ img {
     display: block;
 }
 
-// input,
-// button {
-//     -moz-appearance: none;
-//     -webkit-appearance: none; 
-// }
-
 .heading {
     &__form {
         @include remCalc(24);
