@@ -1,5 +1,8 @@
 .dashboardControls {
     margin: 50px 0;
+    button {
+        margin-right: 25px;
+    }
 }
 
 .noEventsMessage {
@@ -33,15 +36,19 @@
             font-size: 2rem;
             margin-bottom: 10px;
             display: inline-block;
+            color: $color-main;
         }
         .hostBadge {
             padding: 7px 20px;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             background-color: $color-ac;
-            border: 1px solid $color-dkgray;
+            // border: 2px solid $color-main;
+            border-radius: 5px;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 1px -1px rgba(0, 0, 0, 0.12);
             width: 100px;
             display: block;
             text-align: center;
+            font-weight: bold;
         }
         .eventDateLocation {
             margin: 20px 0;
@@ -68,6 +75,9 @@
             @media (max-width: 768px) {
                 margin-bottom: 25px;
             }
+        }
+        p {
+            color: $color-main;
         }
     }
 }

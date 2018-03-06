@@ -31,6 +31,7 @@ class CreateRegistryModal extends React.Component {
     }
 
     handleDate(date){
+        event.preventDefault();
         this.setState({eventDate: ("0"+(date._d.getMonth()+1)).slice(-2) + "-" + ("0"+(date._d.getDate())).slice(-2) + "-" + date._d.getFullYear() + " " + ("0" + date._d.getHours()).slice(-2) + ":" + ("0" + date._d.getMinutes()).slice(-2)});
      };
 
@@ -82,7 +83,7 @@ class CreateRegistryModal extends React.Component {
                     <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
                     <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
                     <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
-                    <Datetime onChange={this.handleDate} defaultValue={date} />
+                    <Datetime onChange={this.handleDate} defaultValue={date} closeOnSelect={true} />
                         <button>Create My Event!</button>
                 </form>
             </div>
