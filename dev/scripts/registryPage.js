@@ -161,13 +161,13 @@ class RegistryPage extends React.Component {
     }
 
     purchaseItem(index) {
-        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items/${index}`); 
+        const dbRef = firebase.database().ref(`/Users/${this.props.location.hostId}/events/${this.props.location.eventId}/items/${index}`); 
         dbRef.update({"purchase":true});
     }
 
 
     unpurchaseItem(index) {
-        const dbRef = firebase.database().ref(`/Users/${this.props.location.userId}/events/${this.props.location.eventId}/items/${index}`);
+        const dbRef = firebase.database().ref(`/Users/${this.props.location.hostId}/events/${this.props.location.eventId}/items/${index}`);
         dbRef.update({ "purchase": false });
     }
 
