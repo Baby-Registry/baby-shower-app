@@ -18,7 +18,7 @@ class EventCard extends React.Component {
     }
 
     allowEdit(e) {
-        console.log(e.target);
+        e.preventDefault();
         this.setState({
             isEditing: true
         })
@@ -63,12 +63,13 @@ class EventCard extends React.Component {
         return(
 
             this.props.isHost === true?
-                <div className="event clearfix">
+                <div className="event">
                     <div className="eventDetails">
                         <p className="hostBadge">Host</p>
                         {this.showForm(this.props.eventName)}
                         <a href="#" className={this.state.isEditing ? 'hide': 'editEvent'} onClick={(e) => this.allowEdit(e)}>Edit</a>
-                        <p className="eventDateLocation">{`Event: ${this.props.datetime} at the ${this.props.location}`}</p>
+                        <p className="eventDateLocation"><span className="em">Event:</span> {`${this.props.datetime} at the ${this.props.location}`}</p>
+                        <p><span className="em">Invite Link</span>: {`url/dashboard/${this.props.eventId}`}</p>
                     </div>
                     <Link className="eventAction" to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: true}}>
                         <button>Edit My Registry</button>
@@ -76,11 +77,11 @@ class EventCard extends React.Component {
                 </div>
             : 
             (this.props.isHost === false?
-                <div className="event clearfix">
+                <div className="event">
                     <div className="eventDetails">
                         <h2>{this.props.eventName}</h2>
                         <p>{`Host: ${this.props.hostName}`}</p>
-                        <p className="eventDateLocation">{`Event: ${this.props.datetime} at the ${this.props.location}`}</p>
+                        <p className="eventDateLocation"><span className="em">Event:</span>{`at the ${this.props.location}`}</p>
                     </div>
                     <Link className="eventAction" to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: false, hostId:this.props.hostId}}>
                         <button>See Registry</button>
