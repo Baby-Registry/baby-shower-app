@@ -34,7 +34,7 @@ class RegistryList extends React.Component {
     }
     render () {
         return (
-            <div>
+            <React.Fragment>
                 <img src={this.state.imageURL} alt="" />
                 <h2>{this.props.selection.title}</h2>
                 <h3>{`Price: ${this.props.selection.currency_code} ${this.props.selection.price}`}</h3>
@@ -46,7 +46,7 @@ class RegistryList extends React.Component {
                     :
                     null
                 }
-            </div>
+            </React.Fragment>
         )
     }
 }
