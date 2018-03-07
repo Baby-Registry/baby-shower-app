@@ -56,8 +56,8 @@ class Dashboard extends  React.Component {
             <main>
                 {this.renderModal()}
                 {this.renderSearchModal()}
-                <div className="wrapper">
-                    <h1>Events Dashboard</h1>
+                <div className="wrapper eventDashboard">
+                    <h2 className="heading__page">Events Dashboard</h2>
                     <div className="dashboardControls">
                         <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
                         <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
@@ -65,9 +65,8 @@ class Dashboard extends  React.Component {
                     <section className="eventList">
                     {/** iterate through array of user's events and for each event render a div container */}
 
-                    {   this.props.userEvents.length > 0 ?
+                    {   (this.props.userEvents.length > 0 && this.props.user) ?
                                 (this.props.userEvents.map((event) => {
-                                    console.log(event)
                                 return (
                                     <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user} location={event.eventLocation} datetime={event.eventDate} hostId={event.hostId}/>
                                     )

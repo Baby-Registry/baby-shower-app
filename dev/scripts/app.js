@@ -54,7 +54,6 @@ class App extends React.Component {
       const password = this.state.loginPassword;
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((res) => {
-          console.log(`Logged in as ${res.email}`);
           // close modal after login
           this.setState({
              showLogin: false,
@@ -88,7 +87,6 @@ class App extends React.Component {
 
     signOutUser() {
       firebase.auth().signOut().then(function(res) {
-        console.log('Signed out!')
       }, function(error) {
         console.log(error);
       });
@@ -178,10 +176,8 @@ class App extends React.Component {
           });
         // code below grabs the user's event objects (userEvents) and array of ids where they are hosts for (userHostEvents) and sets it in state. It will be passed down to dashboard.
           const dbref = firebase.database().ref(`/Users/${res.uid}/events`);
-          // console.log(`/users/${this.props.user.uid}/events`);
           dbref.on('value', (snapshot) => {
 
-            console.log(snapshot.val());
             const eventsData = snapshot.val();
             const copyOfDB = [];
             const hostedEvents = [];
@@ -195,7 +191,6 @@ class App extends React.Component {
                 hostedEvents.push(eventsData[key].key);
               }
             }
-            console.log("hahah", hostedEvents);
             this.setState({
               userEvents: copyOfDB,
               userHostEvents: hostedEvents

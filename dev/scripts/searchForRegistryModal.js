@@ -101,7 +101,6 @@ class SearchForRegistryModal extends React.Component {
         const dbref = firebase.database().ref(`/events`);
         dbref.on('value', (snapshot) => {
             const allEventsData = snapshot.val();
-            console.log(allEventsData);
             const copyOfDB = [];
             for (let key in allEventsData) {
                 allEventsData[key].key = key;
