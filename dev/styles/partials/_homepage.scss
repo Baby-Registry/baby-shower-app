@@ -19,26 +19,39 @@
 }
 
 .home__graphic {
-    height: 200px;
+    // min-height: 200px;
     width: 100%;
     padding: 50px;
     color: $color-dkgray;
     img {
         max-width: 100px;
         float: left;
-        margin-right: 50px;
+        margin: 0 50px 25px 0;
+        @media(max-width: 768px) {
+            margin-right: 0;
+            width: 25%;
+            max-width: none;
+        }
     }
     ol,
     .toyCollection {
         float: left;
-        width: 40%;
+        width: 41%;
+        @media(max-width: 768px) {
+            display: none;
+        }
     }
     .toyCollection {
-        width: 60%;
+        width: 58%;
+        @media(max-width: 768px) {
+            display: block;
+            width: 100%;
+        }
     }
     li {
         margin-bottom: 25px;
         text-transform: uppercase;
+        letter-spacing: 1.1px;
     }
 }
 
