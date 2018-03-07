@@ -56,7 +56,7 @@ class SearchForRegistryModal extends React.Component {
                     )
                 });
             }
-            else {return <div>No results returned for search criteria</div>}
+            else {return <p>No results returned for search criteria</p>}
         }
 
     }
@@ -83,12 +83,16 @@ class SearchForRegistryModal extends React.Component {
         if(this.state.redirect) {
             return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: false, hostId:this.state.eventHostId}}/>}
         return(
-            <div>
-                <form onSubmit={(event) => this.searchRegistry(event)}>
-                    <input type="text" onChange={(event) => this.handleChange(event, "search")}/>
-                    <button>Search</button>
-                    {this.renderSearchResults()}
-                </form>
+            <div className="modal">
+                <div className="layout__XYCenter eventForm">
+                    <a href="#" onClick={(event) => this.props.handleSearchClick(event)}><i className="fas fa-times eventFormControl"></i></a>
+                    <form onSubmit={(event) => this.searchRegistry(event)}>
+                        <h1>Search For a Registry</h1>
+                        <input type="text" placeholder="Host Name" onChange={(event) => this.handleChange(event, "search")}/>
+                        <button>Search</button>
+                        {this.renderSearchResults()}
+                    </form>
+                </div>
             </div>
         )
     }

@@ -148,6 +148,9 @@ a.text__header {
     left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;
+    @media (max-width: 480px) {
+        transform: none;
+    }
 }
 .layout__half {
     > * {
