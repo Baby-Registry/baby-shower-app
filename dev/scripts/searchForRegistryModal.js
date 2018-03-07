@@ -85,7 +85,7 @@ class SearchForRegistryModal extends React.Component {
         return(
             <div className="modal">
                 <div className="layout__XYCenter eventForm">
-                    <a href="#" onClick={(event) => this.props.handleSearchClick(event)}><i className="fas fa-times eventFormControl"></i></a>
+                    <a href="#" onClick={(event) => this.props.handleSearchClick(event)}><i className="fas fa-times eventFormControl link__black"></i></a>
                     <form onSubmit={(event) => this.searchRegistry(event)}>
                         <h1>Search For a Registry</h1>
                         <input type="text" placeholder="Host Name" onChange={(event) => this.handleChange(event, "search")}/>

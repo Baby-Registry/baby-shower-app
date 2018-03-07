@@ -11,7 +11,7 @@ class LogIn extends React.Component {
                 <form onSubmit={(event) => this.props.logIn(event)} className="form__auth layout__XYCenter">
                 <div className="layout__opposite clearfix">
                     <div><h3 className="heading__form">Log In</h3></div>
-                    <div><a href="#" onClick={this.props.closeModal}><i className="fas fa-times"></i></a></div>
+                        <div><a href="#" onClick={this.props.closeModal} className="link__black"><i className="fas fa-times"></i></a></div>
                 </div>
 
                 <fieldset>

@@ -78,7 +78,7 @@ class CreateRegistryModal extends React.Component {
         return(
             <div className="modal">
                 <div className="layout__XYCenter eventForm">
-                    <a href="#" onClick={(event) => this.props.handleClick(event)}><i className="fas fa-times eventFormControl"></i></a>
+                    <a href="#" onClick={(event) => this.props.handleClick(event)}><i className="fas fa-times eventFormControl link__black"></i></a>
                     <h1>Create New Event</h1>
                     <form onSubmit={(event) => this.createUserEvent(event, this.props.user.uid)}>
                         <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
