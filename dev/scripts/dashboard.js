@@ -65,9 +65,8 @@ class Dashboard extends  React.Component {
                     <section className="eventList">
                     {/** iterate through array of user's events and for each event render a div container */}
 
-                    {   this.props.userEvents.length > 0 ?
+                    {   (this.props.userEvents.length > 0 && this.props.user) ?
                                 (this.props.userEvents.map((event) => {
-                                    console.log(event)
                                 return (
                                     <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user} location={event.eventLocation} datetime={event.eventDate} hostId={event.hostId}/>
                                     )

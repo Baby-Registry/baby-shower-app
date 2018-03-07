@@ -61,8 +61,7 @@ class EventCard extends React.Component {
 
     render() {
         return(
-
-            this.props.isHost === true?
+            (this.props.isHost === true) ?
                 <div className="event">
                     <div className="eventDetails">
                         <p className="hostBadge">Host</p>
