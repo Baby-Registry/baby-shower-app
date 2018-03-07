@@ -46,7 +46,7 @@ class Dashboard extends  React.Component {
     renderSearchModal() {
         if(this.state.showSearchModal === true) {
             return(
-                <SearchForRegistryModal user={this.props.user} userHostEvents = {this.state.userHostEvents} />
+                <SearchForRegistryModal user={this.props.user} userHostEvents = {this.state.userHostEvents} handleSearchClick={this.handleSearchClick} />
             )
         }
     }
@@ -54,33 +54,32 @@ class Dashboard extends  React.Component {
     render() {
         return(
             <main>
-                    <div className="wrapper">
-                        {this.renderModal()}
-                        {this.renderSearchModal()}
-                        <h1>Events Dashboard</h1>
-                        <div className="dashboardControls">
-                            <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
-                            <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
-                        </div>
-                        <section className="eventList">
-                        {/** iterate through array of user's events and for each event render a div container */}
-
-                        {   this.props.userEvents.length > 0 ?
-                                    (this.props.userEvents.map((event) => {
-                                        console.log(event)
-                                    return (
-                                        <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user} location={event.eventLocation} datetime={event.eventDate} hostId={event.hostId}/>
-                                        )
-                                    })
-                                )
-                                :
-                                    <div className="noEventsMessage">
-                                      <p>NO EVENTS</p>
-                                    </div>
-                            }
-                        </section>
+                {this.renderModal()}
+                {this.renderSearchModal()}
+                <div className="wrapper">
+                    <h1>Events Dashboard</h1>
+                    <div className="dashboardControls">
+                        <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
+                        <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
                     </div>
+                    <section className="eventList">
+                    {/** iterate through array of user's events and for each event render a div container */}
 
+                    {   this.props.userEvents.length > 0 ?
+                                (this.props.userEvents.map((event) => {
+                                    console.log(event)
+                                return (
+                                    <EventCard key={event.key} eventId={event.key} eventName={event.eventName} isHost={event.isHost} hostName={event.hostName} user={this.props.user} location={event.eventLocation} datetime={event.eventDate} hostId={event.hostId}/>
+                                    )
+                                })
+                            )
+                            :
+                                <div className="noEventsMessage">
+                                    <p>NO EVENTS</p>
+                                </div>
+                        }
+                    </section>
+                </div>
             </main>
         )
     }

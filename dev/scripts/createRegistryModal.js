@@ -76,16 +76,18 @@ class CreateRegistryModal extends React.Component {
         if(this.state.redirect) {return <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: true}}/>}
 
         return(
-            <div>
-                <button onClick={(event) => this.props.handleClick(event)}>Close</button>
-                <h1>New Event</h1>
-                <form onSubmit={(event) => this.createUserEvent(event, this.props.user.uid)}>
-                    <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
-                    <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
-                    <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
-                    <Datetime onChange={this.handleDate} defaultValue={date} closeOnSelect={true} />
-                        <button>Create My Event!</button>
-                </form>
+            <div className="modal">
+                <div className="layout__XYCenter eventForm">
+                    <a href="#" onClick={(event) => this.props.handleClick(event)}><i className="fas fa-times eventFormControl"></i></a>
+                    <h1>Create New Event</h1>
+                    <form onSubmit={(event) => this.createUserEvent(event, this.props.user.uid)}>
+                        <input type="text" placeholder="Host name" onChange={(event) => this.handleChange(event, "hostName")} />
+                        <input type="text" placeholder="Name of event" onChange={(event) => this.handleChange(event, "eventName")} />
+                        <input type="text" placeholder="Location" onChange={(event) => this.handleChange(event, "eventLocation")} />
+                        <Datetime onChange={this.handleDate} defaultValue={date} closeOnSelect={true} open={true} input={false} />
+                            <button>Create My Event!</button>
+                    </form>
+                </div>
             </div>
         )
     }
