@@ -109,7 +109,11 @@ button.btn__filter {
         margin-bottom:20px;
     }
     button {
+        border:1.5px solid transparent;
         margin-bottom:10px;
+    }
+    button:hover {
+        border:1.5px solid #2d3956;
     }
     h3 {
         margin-top:20px;

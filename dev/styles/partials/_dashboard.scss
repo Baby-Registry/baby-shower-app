@@ -4,6 +4,10 @@
         margin: 0 25px 25px 0;
         min-width: 250px;
         padding: 15px 20px;
+        border:1.5px solid transparent;
+    }
+    button:hover {
+        border:1.5px solid #2d3956;
     }
 }
 
