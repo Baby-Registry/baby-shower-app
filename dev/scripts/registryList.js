@@ -28,7 +28,7 @@ class RegistryList extends React.Component {
         }).then(({ data }) => {
             const results = data;
             this.setState({
-                imageURL:data.results[0].url_570xN
+                imageURL:data.results[0].url_170x135
             })
         })
     }

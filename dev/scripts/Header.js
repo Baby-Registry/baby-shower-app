@@ -20,7 +20,7 @@ class Header extends React.Component {
                     {/* Change from "Baby Registry" text to the logo */}
                     <div><Link to="/">
                         <MediaQuery minWidth={801}>
-                            <h1>Baby Registry</h1>
+                            <h1>Betsy</h1>
                         </MediaQuery>
                         <MediaQuery maxWidth={800}>
                             <img src="/assets/svg-babyGirl-black.svg" alt="Graphic of baby girl" className="graphics logo" />

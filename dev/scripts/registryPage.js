@@ -100,7 +100,6 @@ class RegistryPage extends React.Component {
                 xmlToJSON: false
             }
         }).then(({ data }) => {
-            console.log(data);
             this.setState({
                 searchResults: data.results,
             })
@@ -117,7 +116,6 @@ class RegistryPage extends React.Component {
     }
 
     removefromRegistry (index) {
-        console.log(index);
         const removeItemArray = Array.from(this.state.selectionArray);
         const filteredremoveArray = removeItemArray.filter((value) => {
             return value.listing_id !== index;
@@ -172,21 +170,6 @@ class RegistryPage extends React.Component {
         dbRef.update({ "purchase": false });
     }
 
-    // savePurchases () {
-    //     dbRef.on("value", (res) => {
-    //         console.log(res.val());
-    //         const results = res.val();
-
-    //         for (let key in results) {
-    //             copySelectionArray.push(results[key]);
-    //         }
-
-    //         this.setState({
-    //             selectionArray: copySelectionArray
-    //         })
-    //     })
-    // }
-
     categoryDropdown () {
         if(this.state.categoryClick === false) {
             this.setState({
@@ -227,7 +210,6 @@ class RegistryPage extends React.Component {
             dbRef.on("value", (res) => {
                 const copySelectionArray = [];
                 const results = res.val();
-                console.log(results);
                 
                 for(let key in results) {
                     copySelectionArray.push(results[key]);
@@ -242,7 +224,6 @@ class RegistryPage extends React.Component {
             dbRef.on("value", (res) => {
                 const copySelectionArray = [];
                 const results = res.val();
-                console.log(results);
 
                 for (let key in results) {
                     copySelectionArray.push(results[key]);
@@ -255,9 +236,9 @@ class RegistryPage extends React.Component {
     }
 
     render() {
+        const truefalseArray = this.state.selectionArray;
         return ( 
             <main className="registryPage">  
-
                 {this.props.location.isHost ?
                     <div className=" wrapper">
                         <h2 className="heading__page">My Event Registry List</h2>
@@ -311,11 +292,6 @@ class RegistryPage extends React.Component {
                                     <label htmlFor="patterns">Patterns</label>
                                 </div>
 
-                                {/* <div>
-                                    <label htmlFor="quilts">Quilts</label>
-                                    <input type="radio" name="categories" id="quilts" value="quilts" onChange={this.handleCategory} checked={this.state.categories === "quilts"}/>
-                                </div> */}
-
                                 <div>
                                     <input type="radio" name="categories" id="toys" value="toys" onChange={this.handleCategory} checked={this.state.categories === "toys"}/>
                                     <label htmlFor="toys">Toys</label>
@@ -366,13 +342,20 @@ class RegistryPage extends React.Component {
                 :
                 
                     <div className="registryItems">
-                        <h2>Registry List</h2>
+                        <React.Fragment>
+                            {truefalseArray.length === 0
+                            ?
+                            <h2>Sorry, the host has not started a registry yet. Please try again later.</h2>
+                            :
+                            <h2>Registry List</h2>
+                            }
+
                             {this.state.selectionArray.map((value) => {
                                 return (
                                     <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
                                 )
                             })}
-                            {/* <button onClick={this.savePurchases}>Save Purchases</button> */}
+                        </React.Fragment>
                     </div>
                 }
             </main> 
