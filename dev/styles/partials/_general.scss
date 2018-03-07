@@ -116,6 +116,9 @@ header {
     button.btn {
         margin-top: 0px;
     }
+    button.btn:hover {
+        border:1.5px solid #2d3956;
+    }
 
     .signOutButton {
         margin-left: 10px;

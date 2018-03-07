@@ -112,8 +112,15 @@
     h1 {
         margin-bottom: 25px;
     }
+    p:first-of-type(1) {
+        margin-top:20px;
+    }
     p {
         margin-top: 15px;
+        margin-bottom:20px;
+        span{
+            font-weight:bold;
+        }
     }
     input {
         border: 1px solid $color-ltgray;
