@@ -49,8 +49,8 @@ class SearchForRegistryModal extends React.Component {
                 return this.state.foundEvents.map((foundEvent) => {
                     return (
                         <div key={foundEvent.key}>
-                            <p>{foundEvent.eventName}</p>
-                            <p>{foundEvent.hostName}</p>
+                            <p><span>Event Name: </span>{foundEvent.eventName}</p>
+                            <p><span>Host Name: </span>{foundEvent.hostName}</p>
                             <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName, foundEvent.hostId,foundEvent.eventDate, foundEvent.eventLocation)}>JOIN EVENT</button>
                         </div>
                     )
