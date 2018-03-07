@@ -14,7 +14,7 @@ const Homepage = (props) => {
             : null
             }
             <section className="hero">
-                <h2 className="heading__hero layout__XYCenter">The Best Etsy Baby Registry</h2>
+                <h2 className="heading__hero layout__XYCenter">A Registry For Your Special One</h2>
             </section>
             <div className="wrapper">
     

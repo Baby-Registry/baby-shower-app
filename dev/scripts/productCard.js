@@ -32,7 +32,6 @@ class ProductCard extends React.Component {
         }
 
     render() {
-        console.log(this.props.data);
         return (
             <div className="productCard">
                 <div className="productCardImage">
