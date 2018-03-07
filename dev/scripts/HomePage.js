@@ -14,28 +14,27 @@ const Homepage = (props) => {
             : null
             }
             <section className="hero">
-                <h2 className="heading__hero layout__XYCenter">A Registry For Your Special One</h2>
+                <h2 className="heading__hero layout__XYCenter">Make your baby shower extra special with Betsy!</h2>
             </section>
             <div className="wrapper">
     
                 <section className="layout__opposite clearfix layout__half padding">
-
-                    <div className="home__description">
-                        <div className="smallWrap">
-                            <h3 className="heading__section">Make your baby shower extra special with Baby Registry!</h3>
-                            <p>1. Search for Etsy gifts</p>
-                            <p>2. Invite guests to your event</p>
-                            <p>3. Keep track of your guests choices!</p>
+                    
+                    
+                    <div className="home__graphic clearfix">
+                        <ol className="clearfix">
+                            <li>Search for Etsy gifts</li>
+                            <li>Invite your firends&family</li>
+                            <li>Keep track of your guests choices</li>
+                        </ol>    
+                        <div className="toyCollection">              
+                            <img src="/assets/baby-boy.png" alt="Graphic of baby girl" className="graphics" />
+                            <img src="/assets/toy-train.png" alt="Graphic of baby girl" className="graphics" />
+                            <img src="/assets/cot.png" alt="Graphic of baby girl" className="graphics" />
+                            <img src="/assets/doll.png" alt="Graphic of baby girl" className="graphics" />
                         </div>
                     </div>
-                    
-                    <div className="home__graphic">
-                        <img src="/assets/svg-babyGirl-black.svg" alt="Graphic of baby girl" className="graphics layout__XYCenter" />
-                    </div>
                 </section>
-                {/* <section>
-                    <img src="/assets/baby.jpeg" alt="Baby girl in a tutu eating cake"/>
-                </section> */}
             </div>
         </main>
 

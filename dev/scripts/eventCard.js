@@ -69,7 +69,7 @@ class EventCard extends React.Component {
                         {this.showForm(this.props.eventName)}
                         <a href="#" className={this.state.isEditing ? 'hide': 'editEvent'} onClick={(e) => this.allowEdit(e)}>Edit</a>
                         <p className="eventDateLocation"><span className="em">Event:</span> {`${this.props.datetime} at the ${this.props.location}`}</p>
-                        <p><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/dashboard/${this.props.eventId}`}</p>
+                        <p><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`}</p>
                     </div>
                     <Link className="eventAction" to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: true}}>
                         <button>Edit My Registry</button>

@@ -2,26 +2,43 @@
 // Homepage
 //---------------------
 .homepage {
-    .layout__half > * {
-        min-height: 420px;
-        @media(max-width: $break-med) {
-            min-height: 300px;
-            padding: 40px;
-        }
-    }
+    background-color: $color-ac2;
 }
 .hero {
     position: relative;
-    background: url('/assets/home-hero.jpeg') center no-repeat;
+    background-image: linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0.3)),url('/assets/home-hero.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
-    height: 50vh;
+    height: 55vh;
+    min-height: 420px;
+    @media(max-width: $break-med) {
+        min-height: 300px;
+        padding: 40px;
+    }
 }
 
 .home__graphic {
-    position: relative;
-    background: $color-ac;
+    height: 200px;
+    width: 100%;
+    padding: 50px;
+    color: $color-dkgray;
     img {
-        width: 200px;
+        max-width: 100px;
+        float: left;
+        margin-right: 50px;
+    }
+    ol,
+    .toyCollection {
+        float: left;
+        width: 40%;
+    }
+    .toyCollection {
+        width: 60%;
+    }
+    li {
+        margin-bottom: 25px;
+        text-transform: uppercase;
     }
 }
 
