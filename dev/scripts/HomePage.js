@@ -24,8 +24,9 @@ const Homepage = (props) => {
                     <div className="home__graphic clearfix">
                         <ol className="clearfix">
                             <li>Search for Etsy gifts</li>
-                            <li>Invite your firends&family</li>
-                            <li>Keep track of your guests choices</li>
+                            <li>Save your choices</li>
+                            <li>Invite friends & family</li>
+                            <li>Keep track of your guests purchases</li>
                         </ol>    
                         <div className="toyCollection">              
                             <img src="/assets/baby-boy.png" alt="Graphic of baby girl" className="graphics" />
