@@ -13,6 +13,7 @@ import RegistryPage from "./registryPage.js";
 import InviteLandingPage from "./inviteLandingPage";
 import Header from "./Header";
 import Homepage from "./HomePage"
+import Footer from "./Footer"
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
@@ -158,7 +159,10 @@ class App extends React.Component {
             <Route path="/" exact render={(props) => (
               <Homepage loggedIn={this.state.loggedIn} />)}
             />
-
+            
+            
+          {/* Always render: footer */}
+          <Footer />
           </React.Fragment>
         </Router>
       )
