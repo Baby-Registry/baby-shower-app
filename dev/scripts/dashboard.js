@@ -56,8 +56,8 @@ class Dashboard extends  React.Component {
             <main>
                 {this.renderModal()}
                 {this.renderSearchModal()}
-                <div className="wrapper">
-                    <h1>Events Dashboard</h1>
+                <div className="wrapper eventDashboard">
+                    <h2 className="heading__page">Events Dashboard</h2>
                     <div className="dashboardControls">
                         <button onClick={(event) => this.handleClick(event)}>Host a New Event</button>
                         <button onClick={(event) => this.handleSearchClick(event)} >Join an Event</button>
