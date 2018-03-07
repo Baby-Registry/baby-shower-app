@@ -101,6 +101,10 @@ header {
     button.btn {
         margin-top: 0px;
     }
+
+    .signOutButton {
+        margin-left: 10px;
+    }
 }
 
 .text__header {
@@ -148,6 +152,9 @@ a.text__header {
     left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;
+    @media (max-width: 480px) {
+        transform: none;
+    }
 }
 .layout__half {
     > * {
@@ -157,4 +164,28 @@ a.text__header {
 
 .layout__marginCenter {
     margin: 0 auto;
+}
+
+
+//---------------------
+// Footer
+//---------------------
+
+footer {
+    width: 100%;
+    background: $color-main;
+    color: white;
+    height: 50px;
+    padding-top: 16px;
+    clear:both;
+
+    a {
+        font-style: italic;
+    }
+    a:visited {
+        color: white;
+    }
+    p {
+        margin: 0 auto;
+    }
 }

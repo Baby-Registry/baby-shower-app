@@ -42,7 +42,7 @@ class ProductCard extends React.Component {
                     <h4>{`${this.props.data.currency_code} $${this.props.data.price}`}</h4>
                     <h4>{`${this.props.data.quantity} remaining`}</h4>
                     <a href={`${this.props.data.url}`}>More Details on Item</a>
-                    <button onClick={() => this.props.add(this.props.data)}>Add me!</button>
+                    <button onClick={() => this.props.add(this.props.data)}>Add to registry!</button>
                 </div>
             </div>
         )
