@@ -8,6 +8,10 @@
     font-weight: bold;
 }
 
+ul {
+    list-style: none;
+}
+
 button {
     padding: 10px 15px;
     min-width: 150px;
@@ -152,9 +156,6 @@ a.text__header {
     left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;
-    @media (max-width: 480px) {
-        transform: none;
-    }
 }
 .layout__half {
     > * {
@@ -174,18 +175,20 @@ a.text__header {
 footer {
     width: 100%;
     background: $color-main;
-    color: white;
-    height: 50px;
-    padding-top: 16px;
+    color: $color-dkgray;
+    // height: 50px;
+    padding: 10px 0;
     clear:both;
 
     a {
         font-style: italic;
+        color: $color-dkgray;
     }
     a:visited {
-        color: white;
+        color: $color-dkgray;
     }
     p {
         margin: 0 auto;
+        font-size: 0.7rem;
     }
 }

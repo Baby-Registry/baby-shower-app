@@ -43,9 +43,18 @@ img {
     }
 
     &__hero {
-        @include remCalc(38);
+        font-size: 4rem;
         text-align: center;
         color: white;
+        text-transform: uppercase;
+        color: $color-main;
+        text-shadow: 0 0 3px white;
+        @media(max-width: 960px) {
+            font-size: 2.5rem;
+        }
+        @media(max-width: 480px) {
+            font-size: 2rem;
+        }
     }
 
     &__section {
