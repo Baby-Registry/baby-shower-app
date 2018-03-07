@@ -93,12 +93,23 @@ header {
         height: 63px;
         margin-top: 7px;
         fill: white;
+        @media(max-width: 480px) {
+            display: none;
+        }
     }
 
     .header__right {
         margin-top: 20px;
-        .btn ~ .btn {
-            margin-left: 10px;
+        @media(max-width: 480px) {
+            margin-top: 15px;
+        }
+        button {
+            margin-right: 10px;
+            @media(max-width: 480px) {
+                width: 100%;
+                margin-left: 0;
+                margin: 0 0 15px 0;
+            }
         }
     }
 
@@ -136,6 +147,9 @@ a.text__header {
     }
     div:last-child {
         float: right;
+        @media(max-width: 480px) {
+            float: none;
+        }
     }
 }
 
