@@ -18,7 +18,7 @@ class RegistryPage extends React.Component {
             listingaddButton:false,
             selectionArray:[],
             keys:[],
-            categoryClick:true
+            categoryClick: false,
         }
         
         this.handleChange = this.handleChange.bind(this);
@@ -256,31 +256,26 @@ class RegistryPage extends React.Component {
 
     render() {
         return ( 
-            <div>  
+            <main className="registryPage">  
 
                 {this.props.location.isHost ?
-                    <section className="clearfix">
+                    <div className=" wrapper">
+                        <h2 className="heading__page">My Event Registry List</h2>
                         <form onSubmit={this.handleSubmit} className="searchBar">
-                            <label htmlFor="search">Search for Items</label>
-                            <input type="text" id="search" value={this.state.search} onChange={this.handleChange} />
-                            <input type="submit" value="Submit" />
+                            <h3 className="heading__section">Add Etsy Product to Registry List</h3>
+                            <label htmlFor="search">Search Etsy: </label>
+                            <input type="search" id="search" value={this.state.search} onChange={this.handleChange} />
+                            <input type="submit" value="Submit" className="btn"/>
                         </form>
-                        <div className="filter clearfix">
-                            <h2>Filters:</h2>
-                            <button onClick={this.categoryDropdown}>Categories</button>
+                        <div className="filter ">
+                            <h2 className="heading__section">Filters:</h2>
+                            <button className="btn__filter"onClick={this.categoryDropdown}>Categories</button>
                         </div>
-                        <div className="resultsButtons clearfix">
-                            {this.state.pageNumber >= 2
-                                ?
-                                <div className="nextBackButton">
-                                    <button onClick={this.lessResults}>Back</button>
-                                    <button onClick={this.moreResults}>Next</button>
-                                </div>
-                                :
-                                <button onClick={this.moreResults} className="nextButton">More Results</button>}
-                        </div>
+
+                        
+
                         {this.state.categoryClick ?
-                            <form className="categories clearfix">
+                            <form className="categories ">
                                 <div>
                                     <input type="radio" name="categories" id="accessories" value="accessories" onChange={this.handleCategory} checked={this.state.categories === "accessories"}/>
                                     <label htmlFor="accessories">Accessories</label>
@@ -329,8 +324,24 @@ class RegistryPage extends React.Component {
                             :
                             null
                         }
+
+                        
+
                         <div className="searchGrid">
-                            <h2>Search Results</h2>
+                            <h2 className="heading__section">Search Results</h2>
+
+                            {/* Pagination */}
+                            <div className="resultsButtons">
+                                {this.state.pageNumber >= 2
+                                    ?
+                                    <div className="nextBackButton">
+                                        <button onClick={this.lessResults}>Back</button>
+                                        <button onClick={this.moreResults}>Next</button>
+                                    </div>
+                                    :
+                                    <button onClick={this.moreResults} className="nextButton">More Results</button>}
+                            </div>
+
                             {this.state.searchResults.map((value) => {
                                 return (
                                 <React.Fragment>
@@ -340,7 +351,7 @@ class RegistryPage extends React.Component {
                             })}
                         </div>
                         <div className="selectedItems">
-                            <h2>Registry List</h2>
+                            <h2 className="heading__section">Registry List</h2>
                             <button onClick={this.saveRegistry}>Save to Registry</button>
                             {this.state.selectionArray.map((value) => {
                                 return (
@@ -350,7 +361,7 @@ class RegistryPage extends React.Component {
                                 )
                             })}
                         </div>
-                    </section>
+                    </div>
                 
                 :
                 
@@ -364,7 +375,7 @@ class RegistryPage extends React.Component {
                             {/* <button onClick={this.savePurchases}>Save Purchases</button> */}
                     </div>
                 }
-            </div> 
+            </main> 
             )   
         }
 }
