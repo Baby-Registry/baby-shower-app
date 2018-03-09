@@ -12,7 +12,8 @@ class SearchForRegistryModal extends React.Component {
             redirect: false,
             eventKey: '',
             eventHostId: '',
-            searchTriggered: false
+            searchTriggered: false,
+            resultsReturned: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.searchRegistry = this.searchRegistry.bind(this);
@@ -39,7 +40,8 @@ class SearchForRegistryModal extends React.Component {
 
         this.setState ({
             foundEvents: events,
-            searchTriggered: true
+            searchTriggered: true,
+            resultsReturned: true
         }) 
     }
 
@@ -48,7 +50,7 @@ class SearchForRegistryModal extends React.Component {
             if(this.state.foundEvents.length > 0) {
                 return this.state.foundEvents.map((foundEvent) => {
                     return (
-                        <div key={foundEvent.key}>
+                        <div key={foundEvent.key} className="searchResult">
                             <p><span>Event Name: </span>{foundEvent.eventName}</p>
                             <p><span>Host Name: </span>{foundEvent.hostName}</p>
                             <button onClick={(event) => this.joinEvent(event, foundEvent.key, foundEvent.eventName, foundEvent.hostName, foundEvent.hostId,foundEvent.eventDate, foundEvent.eventLocation)}>JOIN EVENT</button>
@@ -86,12 +88,16 @@ class SearchForRegistryModal extends React.Component {
             <div className="modal">
                 <div className="layout__XYCenter eventForm">
                     <a href="#" onClick={(event) => this.props.handleSearchClick(event)}><i className="fas fa-times eventFormControl link__black"></i></a>
-                    <form onSubmit={(event) => this.searchRegistry(event)}>
+                    <div className="centeredContent">
                         <h1>Search For a Registry</h1>
-                        <input type="text" placeholder="Host Name" onChange={(event) => this.handleChange(event, "search")}/>
-                        <button>Search</button>
+                        <form className="searchForm">
+                            <input type="text" placeholder="Host Name" onChange={(event) => this.handleChange(event, "search")}/>
+                            <a href="#" className="searchIcon" onClick={(event) => this.searchRegistry(event)}>
+                                <i className="fas fa-search"></i>
+                            </a>
+                        </form>
                         {this.renderSearchResults()}
-                    </form>
+                    </div>
                 </div>
             </div>
         )
