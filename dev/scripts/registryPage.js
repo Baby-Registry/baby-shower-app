@@ -18,7 +18,7 @@ class RegistryPage extends React.Component {
             listingaddButton:false,
             selectionArray:[],
             keys:[],
-            categoryClick: false,
+            categoryClick: true,
         }
         
         this.handleChange = this.handleChange.bind(this);
@@ -321,7 +321,7 @@ class RegistryPage extends React.Component {
                             {this.state.searchResults.map((value) => {
                                 return (
                                 <React.Fragment>
-                                    <ProductCard data={value} key={value.listing_id} add={this.addtoRegistry}/>
+                                    <ProductCard data={value} key={`search-${value.listing_id}`} add={this.addtoRegistry}/>
                                 </React.Fragment>
                             )
                             })}
@@ -332,7 +332,7 @@ class RegistryPage extends React.Component {
                             {this.state.selectionArray.map((value) => {
                                 return (
                                 <React.Fragment>
-                                    <RegistryList selection={value} key={value.listing_id} remove={this.removefromRegistry}/>
+                                    <RegistryList selection={value} key={`registry-${value.listing_id}`} remove={this.removefromRegistry}/>
                                 </React.Fragment>
                                 )
                             })}
@@ -352,7 +352,7 @@ class RegistryPage extends React.Component {
 
                             {this.state.selectionArray.map((value) => {
                                 return (
-                                    <RegistryGuest selection={value} key={value.listing_id} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
+                                    <RegistryGuest selection={value} key={`guest-${value.listing_id}`} purchase={this.purchaseItem} taken={value.purchase} unpurchase={this.unpurchaseItem}/>
                                 )
                             })}
                         </React.Fragment>
