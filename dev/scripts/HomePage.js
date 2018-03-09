@@ -9,10 +9,10 @@ import {
 const Homepage = (props) => {
     return (
         <main className="homepage">
-            {  props.loggedIn === true ?
+            {/* {  props.loggedIn === true ?
                 <Link to="/dashboard"><div className="linkToDash"> <h4> Go to My Dashboard </h4> </div></Link>
             : null
-            }
+            } */}
             <section className="hero">
                 <h2 className="heading__hero layout__XYCenter">Make your baby shower extra special with Betsy!</h2>
             </section>
