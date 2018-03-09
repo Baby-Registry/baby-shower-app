@@ -68,7 +68,7 @@ class EventCard extends React.Component {
                             <span className="hide">Save Changes</span>
                         </a>
                         <a href="" onClick={(event) => this.closeEditView(event)}>
-                            <i class="fas fa-times"></i>
+                            <i className="fas fa-times"></i>
                             <span className="hide">Discard Changes</span>
                         </a>
                     </form>
@@ -89,7 +89,7 @@ class EventCard extends React.Component {
                         <p className="hostBadge">Host</p>
                         {this.showForm(this.props.eventName)}
                         <a href="#" className={this.state.isEditing ? 'hide': 'editEvent'} onClick={(e) => this.allowEdit(e)}>
-                            <i class="fas fa-pencil-alt"></i>
+                            <i className="fas fa-pencil-alt"></i>
                         </a>
                         <p className="eventDateLocation"><span className="em">Event:</span> {`${this.props.datetime} at the ${this.props.location}`}</p>
                         <p value={this.state.value}><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`}</p>
