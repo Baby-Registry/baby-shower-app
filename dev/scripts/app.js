@@ -14,7 +14,6 @@ import InviteLandingPage from "./inviteLandingPage";
 import Header from "./Header";
 import Homepage from "./HomePage";
 import Footer from "./Footer";
-import { Redirect } from 'react-router';
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
