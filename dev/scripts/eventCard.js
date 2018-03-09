@@ -4,17 +4,22 @@ import {
     BrowserRouter as Router,
     Route, Link
 } from 'react-router-dom';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 class EventCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isEditing: false,
-            updatedName: this.props.eventName
+            updatedName: this.props.eventName,
+    // Copy-to-clipboard states
+            value: `https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`,
+            copied: false
         }
         this.allowEdit = this.allowEdit.bind(this);
         this.showForm = this.showForm.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.closeEditView = this.closeEditView.bind(this);
     }
 
     allowEdit(e) {
@@ -31,10 +36,13 @@ class EventCard extends React.Component {
     }
 
     updateData(event) {
+        event.preventDefault();
         const updatedEvent = {
             eventName: this.state.updatedName,
             hostName: this.props.hostName,
-            isHost: this.props.isHost
+            isHost: this.props.isHost,
+            eventLocation: this.props.location,
+            eventDate: this.props.datetime
         }
         const dbref = firebase.database().ref(`/Users/${this.props.user.uid}/events/${this.props.eventId}`);
         dbref.set(updatedEvent);
@@ -43,13 +51,27 @@ class EventCard extends React.Component {
         })
     }
 
+    closeEditView(event) {
+        event.preventDefault();
+        this.setState({
+            isEditing:false
+        });
+    }
+
     showForm(eventName) {
         if (this.state.isEditing) {
             return (
-                <form onSubmit={(event) => this.updateData(event)}>
-                    <input type="text" defaultValue={this.props.eventName} onChange={(event) => this.handleChange(event, "updatedName")} />
-                    <button>Save</button>
-                </form>
+                    <form>
+                        <input type="text" defaultValue={this.props.eventName} onChange={(event) => this.handleChange(event, "updatedName")} />
+                        <a href="" onClick={(event) => this.updateData(event)}>
+                            <i className="fas fa-check"></i>
+                            <span className="hide">Save Changes</span>
+                        </a>
+                        <a href="" onClick={(event) => this.closeEditView(event)}>
+                            <i class="fas fa-times"></i>
+                            <span className="hide">Discard Changes</span>
+                        </a>
+                    </form>
             )
         } else {
             return (
@@ -66,9 +88,15 @@ class EventCard extends React.Component {
                     <div className="eventDetails">
                         <p className="hostBadge">Host</p>
                         {this.showForm(this.props.eventName)}
-                        <a href="#" className={this.state.isEditing ? 'hide': 'editEvent'} onClick={(e) => this.allowEdit(e)}>Edit</a>
+                        <a href="#" className={this.state.isEditing ? 'hide': 'editEvent'} onClick={(e) => this.allowEdit(e)}>
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
                         <p className="eventDateLocation"><span className="em">Event:</span> {`${this.props.datetime} at the ${this.props.location}`}</p>
-                        <p><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`}</p>
+                        <p value={this.state.value}><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`}</p>
+                        <CopyToClipboard text={this.state.value} onCopy={() => this.setState({copied: true})}>
+                            <button style={this.state.copied?{backgroundColor: 'green'}: null}>Copy Invite Link</button>
+                        </CopyToClipboard>
+
                     </div>
                     <Link className="eventAction" to={{pathname: `/dashboard/${this.props.eventId}`, eventId: this.props.eventId, userId: this.props.user.uid, isHost: true}}>
                         <button>Edit My Registry</button>
