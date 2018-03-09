@@ -6,7 +6,7 @@ import SignOut from './signOut';
 import Dashboard from './dashboard';
 import { 
   BrowserRouter as Router, 
-  Route, Link } from 'react-router-dom';
+  Route, Link, Redirect } from 'react-router-dom';
 import variables from "./config.js";
 import axios from "axios";
 import RegistryPage from "./registryPage.js";
@@ -125,9 +125,10 @@ class App extends React.Component {
               <SignUp closeModal={this.closeModal} googleSignIn={this.googleSignIn}/>
             : null }
 
+            {this.state.loggedIn ? null : <Redirect to="/"/>}
+
             {/* always show header */}
             <Header user={this.state.user} signOutUser={this.signOutUser} showLogin={this.showLogin} showSignUp={this.showSignUp} closeModal={this.closeModal} googleSignIn={this.googleSignIn} />
-
 
             <Route path="/dashboard/:eventid" exact component={RegistryPage} />
 
