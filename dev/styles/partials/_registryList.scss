@@ -75,7 +75,7 @@ button.btn__filter {
 }
 
 .searchGrid {
-    width: 66.66%;
+    // width: 66.66%;
     float:left;
     border: 1px solid $color-ltgray;
     padding: 20px 10px;
@@ -94,16 +94,16 @@ button.btn__filter {
 
 .selectedItems {
 
-    min-height: 700px;
+    // min-height: 700px;
     @media (max-width: $break-med) {
         min-height: initial;
         width: 100%;
         float: none;
     }
-    width: 33.33%;
-    float:left;
+    width: 100%;
     background: $color-ltgray;
     padding: 20px 10px;
+    min-height:350px;
     
     h2 {
         margin-bottom:20px;
@@ -111,6 +111,7 @@ button.btn__filter {
     button {
         border:1.5px solid transparent;
         margin-bottom:10px;
+        display:block;
     }
     button:hover {
         border:1.5px solid #2d3956;
@@ -135,10 +136,34 @@ button.btn__filter {
 
 .savedRegistryList {
     margin-top:20px;
+    margin-right:20px;
+    float:left;
     box-shadow: 0 1px 8px 0 rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.12);
     border-radius: 5px;
+    width:calc((100% - 80px) / 5);
+    &:nth-of-type(5n + 5) {
+        margin-right:0;
+    }
+    a {
+        margin-left:0;
+        margin-top:5px;
+        text-align: center;
+    }
     button {
-        margin-left:10px;
+        margin:0 auto 10px;
+        padding:5px 10px;
+    }
+    @media(max-width:1100px) {
+        width:calc((100% - 60px) / 4);
+        &:nth-of-type(4n + 4) {
+            margin-right:0;
+        }
+    }
+    @media(max-width:800px) {
+        width:calc((100% - 40px) / 3);
+        &:nth-of-type(3n + 3) {
+            margin-right:0;
+        }
     }
 }
 
