@@ -94,7 +94,11 @@ class EventCard extends React.Component {
                         <p className="eventDateLocation"><span className="em">Event:</span> {`${this.props.datetime} at the ${this.props.location}`}</p>
                         <p value={this.state.value}><span className="em">Invite Link</span>: {`https://baby-registry-b41ed.firebaseapp.com/invite/${this.props.eventId}`}</p>
                         <CopyToClipboard text={this.state.value} onCopy={() => this.setState({copied: true})}>
-                            <button style={this.state.copied?{backgroundColor: 'green'}: null}>Copy Invite Link</button>
+                            {/* <button style={this.state.copied?{backgroundColor: 'green'}: null}>Copy Invite Link</button>
+                         */}
+                            <a href="#" style={this.state.copied?{color: 'purple'}: null}>
+                                <i className="far fa-clone"></i>
+                            </a>
                         </CopyToClipboard>
 
                     </div>
