@@ -302,12 +302,24 @@ class RegistryPage extends React.Component {
                         }
 
                         
-
-                        <div className="searchGrid">
+                        <section className="selectedItems clearfix">
+                            <h2 className="heading__section">Registry List</h2>
+                            <section>
+                                <button onClick={this.saveRegistry}>Save to Registry</button>
+                            </section>
+                            {this.state.selectionArray.map((value) => {
+                                return (
+                                    <React.Fragment>
+                                        <RegistryList selection={value} key={`registry-${value.listing_id}`} remove={this.removefromRegistry} />
+                                    </React.Fragment>
+                                )
+                            })}
+                        </section>
+                        <div className="searchGrid clearfix">
                             <h2 className="heading__section">Search Results</h2>
 
                             {/* Pagination */}
-                            <div className="resultsButtons">
+                            <section className="resultsButtons">
                                 {this.state.pageNumber >= 2
                                     ?
                                     <div className="nextBackButton">
@@ -316,7 +328,7 @@ class RegistryPage extends React.Component {
                                     </div>
                                     :
                                     <button onClick={this.moreResults} className="nextButton">More Results</button>}
-                            </div>
+                            </section>
 
                             {this.state.searchResults.map((value) => {
                                 return (
@@ -324,17 +336,6 @@ class RegistryPage extends React.Component {
                                     <ProductCard data={value} key={`search-${value.listing_id}`} add={this.addtoRegistry}/>
                                 </React.Fragment>
                             )
-                            })}
-                        </div>
-                        <div className="selectedItems">
-                            <h2 className="heading__section">Registry List</h2>
-                            <button onClick={this.saveRegistry}>Save to Registry</button>
-                            {this.state.selectionArray.map((value) => {
-                                return (
-                                <React.Fragment>
-                                    <RegistryList selection={value} key={`registry-${value.listing_id}`} remove={this.removefromRegistry}/>
-                                </React.Fragment>
-                                )
                             })}
                         </div>
                     </div>
