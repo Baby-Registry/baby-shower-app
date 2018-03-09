@@ -12,8 +12,9 @@ import axios from "axios";
 import RegistryPage from "./registryPage.js";
 import InviteLandingPage from "./inviteLandingPage";
 import Header from "./Header";
-import Homepage from "./HomePage"
-import Footer from "./Footer"
+import Homepage from "./HomePage";
+import Footer from "./Footer";
+import { Redirect } from 'react-router';
 
  const config = {
   apiKey: "AIzaSyAqWbiYS8Zx2pFxm9T9Fj_NMC-9YQRRSfg",
@@ -155,7 +156,21 @@ class App extends React.Component {
             />
 
             <Route path="/" exact render={(props) => (
-              <Homepage loggedIn={this.state.loggedIn} />)}
+      
+              this.state.loggedIn===true?
+                // <Dashboard 
+                //     user={this.state.user}
+                //     loggedIn={this.state.loggedIn}
+                //     userHostEvents={this.state.userHostEvents}
+                //     userEvents={this.state.userEvents}
+                //   />
+                <Redirect to={{pathname:`/dashboard`, user:this.state.user,
+                loggedIn:this.state.loggedIn,
+                userHostEvents:this.state.userHostEvents,
+                userEvents:this.state.userEvents}}/>
+                // <Redirect to={{pathname: `/dashboard/${this.state.eventKey}`, eventId: this.state.eventKey, userId: this.props.user.uid, isHost: true}}/>
+              :  <Homepage loggedIn={this.state.loggedIn} />
+            )} 
             />
             
             
