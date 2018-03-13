@@ -45,6 +45,19 @@ button.btn__filter {
     button:nth-of-type(1) {
         margin-right:10px;
     }
+    @media(max-width:400px) {
+        display:flex;
+        flex-direction: column;
+
+        button:nth-of-type(2) {
+            margin-left:0;
+            margin-top:20px;
+        }
+
+        button:nth-of-type(1) {
+            margin-right:0;
+        }
+    }
 }
 
 .categories {
@@ -70,6 +83,13 @@ button.btn__filter {
         min-height: 180px;
         div {
             width:calc((100% - 50px) / 2 );
+        }
+    }
+
+    @media (max-width:400px) {
+        min-height:350px;
+        div {
+            width:100%;
         }
     }
 }
@@ -103,7 +123,6 @@ button.btn__filter {
     width: 100%;
     background: $color-ltgray;
     padding: 20px 10px;
-    min-height:350px;
     
     h2 {
         margin-bottom:20px;
@@ -158,12 +177,37 @@ button.btn__filter {
         &:nth-of-type(4n + 4) {
             margin-right:0;
         }
+        &:nth-of-type(5n + 5) {
+            margin-right:20px;
+        }
     }
     @media(max-width:800px) {
         width:calc((100% - 40px) / 3);
         &:nth-of-type(3n + 3) {
             margin-right:0;
         }
+        &:nth-of-type(5n + 5) {
+            margin-right:20px;
+        }
+        &:nth-of-type(4n + 4) {
+            margin-right:20px;
+        }
+    }
+        @media(max-width:600px) {
+        width:calc((100% - 20px) / 2);
+        &:nth-of-type(3n + 3) {
+            margin-right:20px;
+        }
+        &:nth-of-type(2n + 2) {
+            margin-right:0;
+        }
+        &:nth-of-type(5n + 5) {
+            margin-right:20px;
+        }
+    }
+        @media(max-width:400px) {
+        width:calc(100%);
+        margin-right:0;
     }
 }
 
