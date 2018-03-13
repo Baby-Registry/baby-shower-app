@@ -40,6 +40,10 @@ img {
     &__page {
         @include remCalc(28);
         margin-bottom: 15px;
+        
+        @media (max-width:580px) {
+            text-align: center;
+        }
     }
 
     &__hero {

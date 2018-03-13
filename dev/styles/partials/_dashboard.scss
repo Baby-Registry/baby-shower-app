@@ -13,6 +13,21 @@
     button:hover {
         border:1.5px solid #2d3956;
     }
+
+    @media (max-width:580px) {
+        display:flex;
+        flex-direction:column;
+
+        button {
+            margin:0 50px 25px 50px;
+        }
+    }
+
+    @media (max-width:400px) {
+        button {
+            margin:0 20px 25px 20px;
+        }
+    }
 }
 
 .noEventsMessage {
